@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SP.VisualComponents;
+using Stopiccot.VisualComponents;
 
 namespace counter
 {

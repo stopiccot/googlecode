@@ -40,11 +40,11 @@ namespace counter
             this.label4 = new System.Windows.Forms.Label();
             this.countButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.odometr = new SP.VisualComponents.NumberTextBox();
-            this.categoryChooser = new SP.VisualComponents.Chooser();
-            this.outputGrid = new SP.VisualComponents.OutputGrid();
-            this.myPanel = new SP.VisualComponents.RollPanel();
-            this.infoGrid = new SP.VisualComponents.OutputGrid();
+            this.odometr = new Stopiccot.VisualComponents.NumberTextBox();
+            this.categoryChooser = new Stopiccot.VisualComponents.Chooser();
+            this.outputGrid = new Stopiccot.VisualComponents.OutputGrid();
+            this.myPanel = new Stopiccot.VisualComponents.RollPanel();
+            this.infoGrid = new Stopiccot.VisualComponents.OutputGrid();
             this.myPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -196,7 +196,7 @@ namespace counter
             this.outputGrid.Size = new System.Drawing.Size(378, 177);
             this.outputGrid.TabIndex = 15;
             this.outputGrid.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.outputGrid_ItemCheck);
-            this.outputGrid.ItemChecked += new SP.VisualComponents.OutputGrid.ItemCheckedEventHandler(this.outputGrid_ItemChecked);
+            this.outputGrid.ItemChecked += new Stopiccot.VisualComponents.OutputGrid.ItemCheckedEventHandler(this.outputGrid_ItemChecked);
             // 
             // myPanel
             // 
@@ -271,13 +271,13 @@ namespace counter
         private System.Windows.Forms.DateTimePicker registrationDate;
         private System.Windows.Forms.CheckBox noOutRB;
         private System.Windows.Forms.Label label3;
-        private SP.VisualComponents.Chooser categoryChooser;
+        private Stopiccot.VisualComponents.Chooser categoryChooser;
         private System.Windows.Forms.Label label4;
-        private SP.VisualComponents.NumberTextBox odometr;
+        private Stopiccot.VisualComponents.NumberTextBox odometr;
         private System.Windows.Forms.Button countButton;
         private System.Windows.Forms.Label label5;
-        private SP.VisualComponents.OutputGrid outputGrid;
-        private SP.VisualComponents.OutputGrid infoGrid;
-        private SP.VisualComponents.RollPanel myPanel;
+        private Stopiccot.VisualComponents.OutputGrid outputGrid;
+        private Stopiccot.VisualComponents.OutputGrid infoGrid;
+        private Stopiccot.VisualComponents.RollPanel myPanel;
     }
 }

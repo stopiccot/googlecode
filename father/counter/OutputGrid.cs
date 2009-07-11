@@ -8,7 +8,7 @@ using System.Drawing.Drawing2D;
 using System.ComponentModel;
 using System.Collections.Specialized;
 
-namespace SP.VisualComponents
+namespace Stopiccot.VisualComponents
 {
     public class OutputGridItem
     {

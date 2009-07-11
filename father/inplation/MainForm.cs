@@ -9,13 +9,13 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Net;
-using SP.VisualComponents;
+using Stopiccot.VisualComponents;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 namespace Inplation
 {
-    public partial class MainForm : SP.SavePositionForm
+    public partial class MainForm : Stopiccot.SavePositionForm
     {
         [Serializable]
         public class Rate
@@ -132,7 +132,7 @@ namespace Inplation
             }
             catch
             {
-                //MessageBox.Show("Произошла ошибка при загрузке базы.\nДанные о курсах утеряны", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка при загрузке базы.\nДанные о курсах утеряны, но их можно скачать заново.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             webClient.DownloadStringCompleted +=

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using Microsoft.Win32;
 
-namespace SP
+namespace Stopiccot
 {
     public struct FormPostion
     {

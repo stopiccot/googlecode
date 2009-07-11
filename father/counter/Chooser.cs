@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace SP.VisualComponents
+namespace Stopiccot.VisualComponents
 {
     class Chooser : DoubleBufferControl
     {

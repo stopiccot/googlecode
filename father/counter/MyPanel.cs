@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms.Layout;
 using System.ComponentModel;
 
-namespace SP.VisualComponents
+namespace Stopiccot.VisualComponents
 {
     public class DemoFlowLayout : LayoutEngine
     {

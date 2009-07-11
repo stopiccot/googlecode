@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SP.VisualComponents
+namespace Stopiccot.VisualComponents
 {
     public static class StringFormats
     {

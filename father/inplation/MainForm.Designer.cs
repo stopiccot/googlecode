@@ -31,11 +31,11 @@ namespace Inplation
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.minimizeButton = new SP.VisualComponents.AppleButton();
-            this.nextButton = new SP.VisualComponents.AppleButton();
-            this.closeButton = new SP.VisualComponents.AppleButton();
-            this.prevButton = new SP.VisualComponents.AppleButton();
-            this.reloadButton = new SP.VisualComponents.AppleButton();
+            this.minimizeButton = new Stopiccot.VisualComponents.AppleButton();
+            this.nextButton = new Stopiccot.VisualComponents.AppleButton();
+            this.closeButton = new Stopiccot.VisualComponents.AppleButton();
+            this.prevButton = new Stopiccot.VisualComponents.AppleButton();
+            this.reloadButton = new Stopiccot.VisualComponents.AppleButton();
             this.SuspendLayout();
             // 
             // toolTip
@@ -121,12 +121,12 @@ namespace Inplation
         }
         #endregion
 
-        private SP.VisualComponents.AppleButton reloadButton;
-        private SP.VisualComponents.AppleButton prevButton;
-        private SP.VisualComponents.AppleButton closeButton;
-        private SP.VisualComponents.AppleButton nextButton;
+        private Stopiccot.VisualComponents.AppleButton reloadButton;
+        private Stopiccot.VisualComponents.AppleButton prevButton;
+        private Stopiccot.VisualComponents.AppleButton closeButton;
+        private Stopiccot.VisualComponents.AppleButton nextButton;
         private System.Windows.Forms.ToolTip toolTip;
-        private SP.VisualComponents.AppleButton minimizeButton;
+        private Stopiccot.VisualComponents.AppleButton minimizeButton;
     }
 }
 
