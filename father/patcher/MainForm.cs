@@ -35,12 +35,12 @@ namespace patcher
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            button1.Left = (Width - button1.Width) / 2;
+            okButton.Left = (Width - okButton.Width) / 2;
 
             if (installUpdate())
             {
                 label1.Text = "Обновление до версии 1.02\nуспешно установлено";
-                button1.Enabled = true;
+                okButton.Enabled = true;
             }
             else
                 label1.Text = "Не удалось установить обновление";
