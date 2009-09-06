@@ -20,10 +20,10 @@ namespace Inplation
         [Serializable]
         public class Rate
         {
-            public string Euro, Rub;
-            public Rate(string E, string R)
+            public string EUR, USD, RUR;
+            public Rate(string EUR, string USD, string RUR)
             {
-                Euro = E; Rub = R;
+                this.EUR = EUR; this.USD = USD; this.RUR = RUR;
             }
         }
 
@@ -153,8 +153,8 @@ namespace Inplation
 
                     try
                     {
-                        rate = new Rate(getRate(s, "евро"), getRate(s, "российский рубль"));
-                        double d = Convert.ToDouble(rate.Euro) + Convert.ToDouble(rate.Rub);
+                        rate = new Rate(getRate(s, "евро"), getRate(s, "доллар США"), getRate(s, "российский рубль"));
+                        double d = Convert.ToDouble(rate.EUR) + Convert.ToDouble(rate.USD) + Convert.ToDouble(rate.RUR);
                     }
                     catch
                     {
@@ -163,11 +163,15 @@ namespace Inplation
                         return;
                     }
 
-                    Rates.Add(ReqDateString, new Rate(getRate(s, "евро"), getRate(s, "российский рубль")));
+                    Rates.Add(ReqDateString, rate);
                     OnPaint(null);
 
                     makeRequest();                    
                 };
+
+            closeButton.Left = this.Width - closeButton.Width + 5;
+            minimizeButton.Left = closeButton.Left - minimizeButton.Width + 1;
+            nextButton.Left = minimizeButton.Left - nextButton.Width + 1;
         }
 
         private Image bufferImage;
@@ -218,34 +222,42 @@ namespace Inplation
 
                 if (Rates.TryGetValue(d.ToShortDateString(), out rate))
                 {
-                    Rectangle R = new Rectangle(0, 31 + 16 * i, Width / 3, 16);
+                    Rectangle R = new Rectangle(0, 31 + 16 * i, Width / 4, 16);
 
                     bufferGraphics.DrawString(d.ToString("dd.MM"), Tahoma, FontBrush, R, StringFormats.centeredVH);
-                    R.X = R.X + Width / 3;
+                    R.X = R.X + Width / 4;
 
                     if (mousePos.X >= R.X && mousePos.X < R.X + R.Width &&
                         mousePos.Y >= R.Y && mousePos.Y < R.Y + R.Height)
                         bufferGraphics.DrawRectangle(pen, R);
 
-                    bufferGraphics.DrawString(rate.Euro, Tahoma, FontBrush, R, StringFormats.centeredVH);
-                    R.X = R.X + Width / 3;
+                    bufferGraphics.DrawString(rate.EUR, Tahoma, FontBrush, R, StringFormats.centeredVH);
+                    R.X = R.X + Width / 4;
 
                     if (mousePos.X >= R.X && mousePos.X < R.X + R.Width &&
                         mousePos.Y >= R.Y && mousePos.Y < R.Y + R.Height)
                         bufferGraphics.DrawRectangle(pen, R);
 
-                    bufferGraphics.DrawString(rate.Rub, Tahoma, FontBrush, R, StringFormats.centeredVH);
+                    bufferGraphics.DrawString(rate.USD, Tahoma, FontBrush, R, StringFormats.centeredVH);
+                    R.X = R.X + Width / 4;
+
+                    if (mousePos.X >= R.X && mousePos.X < R.X + R.Width &&
+                        mousePos.Y >= R.Y && mousePos.Y < R.Y + R.Height)
+                        bufferGraphics.DrawRectangle(pen, R);
+
+                    bufferGraphics.DrawString(rate.RUR, Tahoma, FontBrush, R, StringFormats.centeredVH);
                 }
                 else
-                    bufferGraphics.DrawString(d.ToString("dd.MM"), Tahoma, InactiveFontBrush, new Rectangle(0, 31 + 16 * i, Width / 3, 16), StringFormats.centeredVH);
+                    bufferGraphics.DrawString(d.ToString("dd.MM"), Tahoma, InactiveFontBrush, new Rectangle(0, 31 + 16 * i, Width / 4, 16), StringFormats.centeredVH);
 
                 d = d.AddDays(1.0);
             }
 
             bufferGraphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
             bufferGraphics.DrawLine(pen, new Point(1, 31), new Point(this.Width - 1, 31));
-            bufferGraphics.DrawLine(pen, new Point(this.Width / 3, 31), new Point(this.Width / 3, this.Height));
-            bufferGraphics.DrawLine(pen, new Point(2 * this.Width / 3, 31), new Point(2 * this.Width / 3, this.Height));
+            bufferGraphics.DrawLine(pen, new Point(this.Width / 4, 31), new Point(this.Width / 4, this.Height));
+            bufferGraphics.DrawLine(pen, new Point(2 * this.Width / 4, 31), new Point(2 * this.Width / 4, this.Height));
+            bufferGraphics.DrawLine(pen, new Point(3 * this.Width / 4, 31), new Point(3 * this.Width / 4, this.Height));
 
             Graphics.FromHwnd(this.Handle).DrawImage(this.bufferImage, new Point(0, 0));
         }
@@ -331,9 +343,16 @@ namespace Inplation
         private void MainForm_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Rate rate;
-            if (e.Y > 31 && e.X >= Width / 3)
+            if (e.Y > 31 && e.X >= Width / 4)
                 if (Rates.TryGetValue(currentMonth.FirstDay.AddDays((e.Y - 31) / 16).ToShortDateString(), out rate))
-                    Clipboard.SetText(e.X >= 2 * Width / 3 ? rate.Rub : rate.Euro);    
+                {
+                    if (e.X >= 3 * Width / 4)
+                        Clipboard.SetText(rate.RUR);
+                    else if (e.X >= 2 * Width / 4)
+                        Clipboard.SetText(rate.USD);
+                    else
+                        Clipboard.SetText(rate.EUR);
+                }
         }
     }
 }
