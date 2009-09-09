@@ -1,12 +1,15 @@
 #include "DX10Render.h"
 
+//========================================================================
+// The only exported function for creation of DX10Render
+//========================================================================
 AbstractRender *getDX10Render()
 {
 	return new DX10Render();
 }
 
 //========================================================================
-// For specified ID3D10Device returns IDXGIFactory used to create it.
+// For specified ID3D10Device returns IDXGIFactory used to create it
 //========================================================================
 IDXGIFactory *getDeviceFactory(ID3D10Device *device)
 {
@@ -26,6 +29,9 @@ IDXGIFactory *getDeviceFactory(ID3D10Device *device)
 	return dxgiFactory;
 }
 
+//========================================================================
+// Initialize hardware for rendering. Member of AbstractRender
+//========================================================================
 HRESULT DX10Render::initDevice()
 {
 	UINT createDeviceFlags = 0;
@@ -61,6 +67,9 @@ HRESULT DX10Render::initDevice()
 	return S_OK;
 }
 
+//========================================================================
+// Returns default RenderTarget. Member of AbstractRender
+//========================================================================
 RenderTarget *DX10Render::getScreenRenderTarget()
 {
 	DX10RenderTarget *renderTarget = new DX10RenderTarget();
@@ -88,6 +97,9 @@ RenderTarget *DX10Render::getScreenRenderTarget()
 	return renderTarget;
 }
 
+//========================================================================
+// Begin frame. Member of AbstractRender
+//========================================================================
 bool DX10Render::beginRender()
 {
 	float ClearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
@@ -96,12 +108,18 @@ bool DX10Render::beginRender()
 	return true;
 }
 
+//========================================================================
+// End frame. Member of AbstractRender
+//========================================================================
 bool DX10Render::endRender()
 {
 	swapChain->Present(0, 0);
 	return true;
 }
 
+//========================================================================
+// Sets new RenderTarget. Member of AbstractRender
+//========================================================================
 HRESULT DX10Render::setRenderTarget(RenderTarget *target)
 {
 	DX10RenderTarget* renderTarget10 = static_cast<DX10RenderTarget*>(target);
