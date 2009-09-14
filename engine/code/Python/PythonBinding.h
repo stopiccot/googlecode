@@ -9,54 +9,173 @@
 #include <Python.h>
 #include "structmember.h"
 #include <list>
-//#include "log.h"
 
-struct PythonClass
+//========================================================================
+// unroll std::list to array
+//========================================================================
+template <typename T> T* makeArray(std::list<T> &list)
 {
-	PyObject_HEAD
-};
+	int size = (int)list.size() + 1;
+	T *result = new T[size]; memset(result, 0, sizeof(T) * size);
 
+	int i = 0;
+	for (std::list<T>::iterator it = list.begin(); it != list.end(); ++it)
+		result[i++] = *it;
+
+	return result;
+}
+
+//========================================================================
+// class: PythonTypeFactory
+//========================================================================
 class PythonModuleFactory;
 
-#define addTypeMethod(method, name) addMethod((PyCFunction)method, name, name)
-#define addTypeConstructor(constructor) addConstructor((initproc)constructor, "")
-
-class PythonTypeFactory
+template <typename T> class PythonTypeFactory
 {
-		friend class PythonModuleFactory;
-
-		const char *name;
-		PyTypeObject pyTypeObject;
-		PythonModuleFactory &parentModule;
 		std::list<PyMemberDef> members;
 		std::list<PyMethodDef> methods;
+		PythonModuleFactory &module;
+		PyTypeObject pyTypeObject;
 
-		PythonTypeFactory(PythonModuleFactory &parentModule, const char *name, int size, const char *doc);
+		// One instance of T used for copying vfptr data from it;
+		static T cppObject;
+
+		// User-defined constructor
+		static initproc constructor;
+
+		//========================================================================
+		// Built in constructor for T. Because memory is allocated by Python
+		// runtime it does not initialize vfptr table. So we must do it.
+		//========================================================================
+		static int init(PyObject *self, PyObject *args, PyObject *kwds)
+		{
+			// Store python data
+			Py_ssize_t ob_refcnt = self->ob_refcnt;
+			_typeobject *ob_type = self->ob_type;
+
+			// Copy data from C++ created instance of T to initialize vfptr table
+			memcpy(self, &cppObject, sizeof(T));
+
+			// Restore python data as it was overwritten by memcpy
+			self->ob_refcnt = ob_refcnt;
+			self->ob_type   = ob_type;
+
+			// After this call user defined constructor
+			return (constructor != NULL) ? constructor(self, args, kwds) : 0;
+		}
 
 	public:
 
-		PythonTypeFactory& addConstructor(initproc constructor, const char *doc = "");
-		PythonTypeFactory& addMethod(PyCFunction method, const char *methodName, const char *doc = "");
-		PythonTypeFactory& addMember(char *memberName, int type, int offset, char *doc = "");
-		PythonTypeFactory& addFloat(char *name, int offset, char *doc = "");
-		PythonModuleFactory& build();
+		//========================================================================
+		// Starts building new python type
+		//========================================================================
+		PythonTypeFactory<T>(PythonModuleFactory &module, const char *name) : module(module)
+		{
+			PyTypeObject _pyTypeObject = {
+				PyObject_HEAD_INIT(NULL)
+				0,              // ob_size - obsolete 2.x feature 
+				name,           // tp_name
+				sizeof(T),      // tp_basicsize
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, // tp_flags
+				name,           // tp_doc
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			};
+
+			pyTypeObject = _pyTypeObject;
+		}
+
+		PythonTypeFactory<T> &setParentClass(const char *name = "")
+		{
+			for (std::list<PyTypeObject>::iterator it = module.types.begin(); it != module.types.end(); ++it)
+				if (strcmp(name, it->tp_name) == 0)
+				{
+					pyTypeObject.tp_base = &(*it);
+					break;
+				}
+
+			return *this;
+		}
+
+		PythonTypeFactory<T> &addConstructor(initproc constructor)
+		{
+			PythonTypeFactory<T>::constructor = constructor;
+			return *this;
+		}
+
+		PythonTypeFactory<T> &addMethod(const char *name, PyCFunction method, const char *doc = "")
+		{
+			PyMethodDef pyMethodDef = { name, method, METH_VARARGS, doc };
+			methods.push_back(pyMethodDef);
+			return *this;
+		}
+
+		PythonTypeFactory<T> &addMember(const char *name, int type, int offset, char *doc = "")
+		{
+			PyMemberDef pyMemberDef = { const_cast<char*>(name), type, offset, 0, doc };
+			members.push_back(pyMemberDef);
+			return *this;
+		}
+
+		PythonTypeFactory<T> &addFloat(const char *name, int offset, char *doc = "")
+		{
+			return this->addMember(name, T_FLOAT, offset, doc);
+		}
+
+		PythonModuleFactory& build()
+		{
+			pyTypeObject.tp_init = (initproc)PythonTypeFactory<T>::init;
+			
+			if (members.size() > 0)
+				pyTypeObject.tp_members = makeArray(members),
+				members.clear();
+
+			if (methods.size() > 0)
+				pyTypeObject.tp_methods = makeArray(methods),
+				methods.clear();
+
+			if (pyTypeObject.tp_new == 0)
+				pyTypeObject.tp_new = PyType_GenericNew;
+
+			module.types.push_back(pyTypeObject);
+			if (PyType_Ready(&module.types.back()) < 0) {
+				// error
+			}
+
+			// Store pointer to module before deleting factory
+			PythonModuleFactory *module = &this->module;
+			delete this;
+			
+			return *module;
+		}
 };
 
-#define addModuleMethod(method) addMethod((PyCFunction)method, (#method))
-#define addModuleType(type) addType((#type), sizeof(type), (#type))
+template <typename T> T PythonTypeFactory<T>::cppObject;
+template <typename T> initproc PythonTypeFactory<T>::constructor;
+
+#define addModuleType(X) addType<X>(#X)
 
 class PythonModuleFactory
 {
-		const char *moduleName;
+		template <typename T> friend class PythonTypeFactory;
+
+		const char *name;
 		std::list<PyMethodDef> methods;
-		std::list<PythonTypeFactory> types;
+		std::list<PyTypeObject> types;
 
 	public:
 
-		PythonModuleFactory(const char *moduleName);
-		PythonModuleFactory& addMethod(PyCFunction method, const char *methodName, const char *doc = "");
-		PythonTypeFactory& addType(const char *typeName, int size, const char *doc = "");
+		PythonModuleFactory(const char *name);
+		
+		PythonModuleFactory &addFunction(const char *name, PyCFunction function, const char *doc = "");
+
+		template <typename T> PythonTypeFactory<T> &addType(const char *name)
+		{
+			// Because of templated we can't store all TypeFactories in std::vector
+			// so we create it on heap. Now we must to do all memory managment.
+			return *(new PythonTypeFactory<T>(*this, name));
+		}
+
 		void build();
 };
-
 #endif 
