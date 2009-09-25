@@ -87,8 +87,8 @@ float4x4 AbstractRender::getProjectionMatrix2D()
 {
 	float4x4 result;
 
-	result.m[0][0] = 2.0f / (float)resolution.width;
-	result.m[1][1] = 2.0f / (float)resolution.height;
+	result.m[0][0] =  2.0f / (float)resolution.width;
+	result.m[1][1] = -2.0f / (float)resolution.height;
 	result.m[2][2] =  0.0f;
 	result.m[3][0] = -1.0f;
 	result.m[3][1] =  1.0f;

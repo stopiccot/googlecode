@@ -40,7 +40,7 @@ typedef union _float4 {
 	};
 } float4;
 
-typedef struct _float4x4 {
+struct float4x4 {
 	union {
 		struct {
 			float _11, _12, _13, _14;
@@ -52,22 +52,52 @@ typedef struct _float4x4 {
 	};
 
 	// default constructor creates E
-	_float4x4()
+	float4x4()
 	{
 		for (int i = 0; i < 4; ++i)
 			for (int j = 0; j < 4; ++j)
 				m[i][j] = (i == j) ? 1.0f : 0.0f;
 	}
-} float4x4;
 
+	friend float4x4 operator*(const float4x4 &a, const float4x4 &b)
+	{
+		float4x4 result;
+		for (int i = 0; i < 4; ++i)
+			for (int j = 0; j < 4; ++j)
+			{
+				result.m[i][j] = 0.0;
+				for (int k = 0; k < 4; ++k)
+					result.m[i][j] += a.m[i][k] * b.m[k][j];
+			}
+
+		return result;
+	}
+
+	float4x4 &translate(float x, float y, float z)
+	{
+		m[4][0] += x;
+		m[4][1] += y;
+		m[4][2] += z;
+		return *this;
+	}
+
+	float4x4 &scale(float x, float y, float z)
+	{
+		m[0][0] *= x;
+		m[1][1] *= y;
+		m[2][2] *= z;
+		return *this;
+	}
+};
 typedef float4x4 matrix;
 
-typedef struct _VertexType {
+struct VertexType
+{
 	enum
 	{
 		XYZUV,
 	};
-} VertexType;
+};
 
 struct VertexXYZUV
 {

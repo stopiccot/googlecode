@@ -148,7 +148,8 @@ Texture *DX9Render::loadTextureFromFile(const wchar_t *file)
 
 VertexBuffer *DX9Render::createVertexBuffer(int vertexCount, int vertexType, void *data, bool access)
 {
-	DX9VertexBuffer *result = new DX9VertexBuffer;
+	DX9VertexBuffer *result = new DX9VertexBuffer();
+	result->buffer = 0;
 	int byteSize = getVertexSize(vertexType) * vertexCount;
 	
 	HRESULT hr = device->CreateVertexBuffer(byteSize, 0, 0, D3DPOOL_DEFAULT, &result->buffer, NULL);

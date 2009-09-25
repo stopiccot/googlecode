@@ -1,41 +1,10 @@
 #include "PythonBinding.h"
 #include "AbstractRender.h"
-#include <vector>
-#include <map>
 
 __declspec(dllimport) AbstractRender *getDX9Render();
 typedef AbstractRender *GetDX10Render();
 
-class SomeClass;
-
-std::vector<SomeClass*> v;
-
-class SomeClass : public PyObject
-{
-	public:
-
-		float a;
-		float b;
-
-		virtual int init(PyObject *args, PyObject *kwds)
-		{
-			v.push_back(this);
-			return 0;
-		}
-
-		static int Py_init(SomeClass *self, PyObject *args, PyObject *kwds)
-		{
-			return 0;
-		}
-
-		static PyObject *mmethod(PyObject *self, PyObject *args)
-		{
-			int i = 10;
-			Py_RETURN_NONE;
-		}
-};
-
-std::map<char*, Texture*> textures;
+#include "Sprite.h"
 
 PyObject *loadTexture(PyObject *self, PyObject *args)
 {
@@ -50,22 +19,38 @@ PyObject *loadTexture(PyObject *self, PyObject *args)
 
 	if (texture == NULL) return NULL;
 
-	textures[name] = texture;
+	textures[std::string(name)] = texture;
 
 	Py_RETURN_NONE;
 }
 
+std::vector<std::string> console_out;
+
+class Console : public PyObject
+{
+	public:
+		static PyObject *pyWrite(PyObject *self, PyObject *args, PyObject *kwds)
+		{
+			char *text;
+			PyArg_ParseTuple(args, "s", &text);
+			console_out.push_back(std::string(text));
+			Py_RETURN_NONE;
+		}
+};
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-	
 	Py_Initialize();
 
 	PythonModuleFactory pyStopiccotModule("stopiccot");
 
 	pyStopiccotModule
-		.addType<SomeClass>("SomeClass")
-			.addConstructor((initproc)SomeClass::Py_init)
-			.addMethod("mmethod", SomeClass::mmethod)
+		.addModuleType(Console)
+			.addMethod("write", (PyCFunction)Console::pyWrite)
+		.build()
+		.addModuleType(Sprite)
+			.addConstructor((initproc)Sprite::pyInit)
+			.addMethod("method", (PyCFunction)Sprite::pyMethod)
 		.build()
 	.build();
 
@@ -90,14 +75,38 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 	}
 
+	Render->init(800, 600, false);
+
 	if (Render)
 	{
-		Render->init(800, 600, false);
+		effects["fx"] = Render->loadEffectFromFile(L"dx9.fx");
+		Sprite::initVertexBuffer();
 
 		PyRun_SimpleString(
-			"import render\n"
-			"render.loadTexture(\"engine_256\", \"D:\\code\\stopiccot\\engine\\engine.png\")\n"
+			"import sys, stopiccot\n"
+			"sys.stdout = stopiccot.Console()\n"
 		);
+
+		FILE *pyFile = fopen("python.py", "rb");
+		char pyCode[10240];
+		int readed = fread(pyCode, 1, sizeof(pyCode), pyFile);
+		int k = 0;
+		for (int i = 0; i < readed; ++i)
+			if (pyCode[i] != 13)
+				pyCode[k++] = pyCode[i];
+		pyCode[k] = 0;
+
+		fclose(pyFile);
+
+		PyRun_SimpleString(pyCode);
+
+		//float4x4 E;
+
+		//Effect *effect  = Render->loadEffectFromFile(L"dx9.fx");
+		//effect->setTexture("texture0", textures["engine_256"]);
+		//effect->setMatrix("projection", (float*)&E);
+		//effect->setMatrix("world", (float*)&E);
+
 
 		MSG msg = {0};
 		while (WM_QUIT != msg.message)
@@ -110,13 +119,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			{
 				if (Render->beginRender())
 				{
+					//effect->render(Sprite::buffer);
+					Sprite::renderAll();
 					Render->endRender();
 				}
 			}
 	}
 
 	Py_Finalize();
-
 
 	return 0;
 }

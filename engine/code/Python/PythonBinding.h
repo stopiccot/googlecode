@@ -47,7 +47,7 @@ template <typename T> class PythonTypeFactory
 		// Built in constructor for T. Because memory is allocated by Python
 		// runtime it does not initialize vfptr table. So we must do it.
 		//========================================================================
-		static int init(PyObject *self, PyObject *args, PyObject *kwds)
+		static int init(T *self, PyObject *args, PyObject *kwds)
 		{
 			// Store python data
 			Py_ssize_t ob_refcnt = self->ob_refcnt;
@@ -61,7 +61,7 @@ template <typename T> class PythonTypeFactory
 			self->ob_type   = ob_type;
 
 			// After this call user defined constructor
-			return (constructor != NULL) ? constructor(self, args, kwds) : 0;
+			return (constructor != NULL) ? constructor((PyObject*)self, args, kwds) : 0;
 		}
 
 	public:
@@ -85,6 +85,9 @@ template <typename T> class PythonTypeFactory
 			pyTypeObject = _pyTypeObject;
 		}
 
+		//========================================================================
+		// Sets base class by searching throung already created types in this class
+		//========================================================================
 		PythonTypeFactory<T> &setParentClass(const char *name = "")
 		{
 			for (std::list<PyTypeObject>::iterator it = module.types.begin(); it != module.types.end(); ++it)
