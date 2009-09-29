@@ -95,8 +95,14 @@ struct VertexType
 {
 	enum
 	{
+		XYZ,
 		XYZUV,
 	};
+};
+
+struct VertexXYZ
+{
+	float3 Pos;
 };
 
 struct VertexXYZUV
@@ -104,6 +110,5 @@ struct VertexXYZUV
 	float3 Pos;
 	float2 Tex;
 };
-
 
 #endif

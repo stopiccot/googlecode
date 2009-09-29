@@ -10,7 +10,7 @@ std::map<std::string, Effect*> effects;
 class Sprite : public PyObject
 {
 		static std::vector<Sprite*>	sprites;
-	public:	static VertexBuffer *buffer;
+		static VertexBuffer *buffer;
 
 	public:
 
@@ -21,6 +21,7 @@ class Sprite : public PyObject
 		float2 pos;
 		float2 pivot;
 		float2 size;
+		float2 garbage;
 
 		static bool initVertexBuffer()
 		{
@@ -46,7 +47,9 @@ class Sprite : public PyObject
 		{
 			for (std::vector<Sprite*>::iterator s = sprites.begin(); s != sprites.end(); ++s)
 			{
-				(*s)->render();
+				Sprite *sprite = *s;
+				//if (sprite)
+				//	sprite->render();
 			}
 		}
 
@@ -88,7 +91,7 @@ class Sprite : public PyObject
 
 		virtual void render()
 		{
-			angle = (float)GetTickCount() / 1000.0f;
+			angle = (float)GetTickCount() / 10000.0f;
 
 			float4x4 world;
 

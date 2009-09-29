@@ -3,7 +3,6 @@
 
 #include "VertexTypes.h"
 #include <windows.h>
-//#include "log.h"
 
 #ifdef DX9_EXPORTS // AbstractRender API is implemented in dx9.dll
 	#define RENDER_API __declspec(dllexport)
@@ -14,19 +13,27 @@
 class RENDER_API Texture
 {
 	public:
-		virtual ~Texture() {};
+		virtual ~Texture();
 };
 
 class RENDER_API RenderTarget
 {
-	protected:
+	public:
+		// Default render target
+		static RenderTarget *screen;
 		// Texture to which rendering is done. NULL for RenderTarget::screen
 		Texture *texture;
-	public:
 		// Size in pixels
 		int width, height;
-	
-		static RenderTarget *screen;
+
+		virtual ~RenderTarget();
+};
+
+class RENDER_API Font
+{
+	protected:
+	public:
+		virtual HRESULT render(const wchar_t *text) = 0;
 };
 
 class RENDER_API VertexBuffer
@@ -51,6 +58,11 @@ class RENDER_API Effect
 		virtual void setTexture(const char *name, Texture *texture) = 0;
 		virtual void setFloat(const char *name, float value) = 0;
 		virtual void setMatrix(const char *name, float *matrix) = 0;
+		inline  void setMatrix(const char *name, float4x4 &matrix)
+		{
+			setMatrix(name, (float*)&matrix);
+		}
+
 		virtual void render(VertexBuffer *vertexBuffer) = 0;
 };
 
@@ -92,10 +104,12 @@ class RENDER_API AbstractRender
 
 		float4x4 getProjectionMatrix2D();
 
+		virtual RenderTarget *createRenderTarget(int width, int height) = 0;
 		virtual HRESULT setRenderTarget(RenderTarget *target) = 0;
 		virtual Texture *loadTextureFromFile(const wchar_t *file) = 0;
 		virtual VertexBuffer *createVertexBuffer(int vertexCount, int vertexType, void *data, bool access = false) = 0;
 		virtual Effect *loadEffectFromFile(const wchar_t *file) = 0;
+		virtual Font *createFont() = 0;
 };
 
 // Global render variable

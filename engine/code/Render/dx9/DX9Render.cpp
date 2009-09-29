@@ -69,6 +69,31 @@ RenderTarget *DX9Render::getScreenRenderTarget()
 	return renderTarget;
 }
 
+RenderTarget *DX9Render::createRenderTarget(int width, int height)
+{
+	DX9RenderTarget *renderTarget = new DX9RenderTarget();
+	DX9Texture *texture = new DX9Texture();
+
+	if (FAILED( device->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture->texture, NULL) ))
+	{
+		delete texture;
+		delete renderTarget;
+		return NULL;
+	}
+
+	if (FAILED( texture->texture->GetSurfaceLevel(0, &renderTarget->surface) ))
+	{
+		delete texture;
+		delete renderTarget;
+		return NULL;
+	}
+	
+	renderTarget->texture = texture;
+	renderTarget->width  = width;
+	renderTarget->height = height;
+	return renderTarget;
+}
+
 bool DX9Render::beginRender()
 {
 	static bool lost = false;
@@ -138,7 +163,6 @@ Texture *DX9Render::loadTextureFromFile(const wchar_t *file)
 			}
 		}
 
-
 		delete result;
 		return NULL;
 	}
@@ -193,17 +217,21 @@ Effect *DX9Render::loadEffectFromFile(const wchar_t *file)
 	return result;
 }
 
-bool DX9VertexBuffer::lock(void **data)
+Font *DX9Render::createFont()
 {
-	if (!access)
-		return false;
-
-	HRESULT hr = buffer->Lock(0, count * Render->getVertexSize(vertexType), data, 0);
-	return SUCCEEDED(hr);
+	DX9Font *result = new DX9Font();
+	HRESULT hr =D3DXCreateFont(device, 25, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Tahoma", &result->font); 
+	if (FAILED( hr ))
+	{
+		delete result;
+		return NULL;
+	}
+	return result;
 }
 
-bool DX9VertexBuffer::unlock()
+HRESULT DX9Font::render(const wchar_t *text)
 {
-	HRESULT hr = buffer->Unlock();
-	return SUCCEEDED(hr);
+	RECT rc = {0, 0, 200, 200};
+	HRESULT hr = font->DrawText( NULL, text, -1, &rc, DT_TOP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ) );
+	return hr;
 }

@@ -18,17 +18,23 @@ class DX9Render : public AbstractRender
 		
 		virtual bool beginRender();
 		virtual bool endRender();
+		virtual RenderTarget *createRenderTarget(int width, int height);
 		virtual HRESULT setRenderTarget(RenderTarget *target);
 		virtual Texture *loadTextureFromFile(const wchar_t *file);
 		virtual VertexBuffer *createVertexBuffer(int vertexCount, int vertexType, void *data, bool access = false);
 		virtual Effect *loadEffectFromFile(const wchar_t *file);
+		virtual Font *createFont();
 };
 
 class DX9Effect : public Effect
 {
 		friend class DX9Render;
+
+		// DirectX9 interface to effect
 		ID3DXEffect *effect;
-		IDirect3DDevice9 *device; // to avoid global variables and singletons
+		// Pointer to device interface to avoid global variables
+		// we need it in render() method
+		IDirect3DDevice9 *device;
 
 		static IDirect3DVertexDeclaration9 *vertexDeclarationXYZUV;
 
@@ -44,6 +50,8 @@ class DX9Texture : public Texture
 {
 		friend class DX9Render;
 		friend class DX9Effect;
+
+		// DirectX9 interface to texture
 		IDirect3DTexture9 *texture;
 
 	public:
@@ -55,10 +63,23 @@ class DX9Texture : public Texture
 class DX9RenderTarget : public RenderTarget
 {
 		friend class DX9Render;
+
+		// DirectX9 interface to renderTarget's texture surface to which rendering is done
 		IDirect3DSurface9 *surface;
 
 	public:
 
+};
+
+class DX9Font : public Font
+{
+		friend class DX9Render;
+		ID3DXFont *font;
+
+	public:
+
+		virtual HRESULT render(const wchar_t *text);
+		//...
 };
 
 class DX9VertexBuffer : public VertexBuffer

@@ -1,5 +1,7 @@
 #include "PythonBinding.h"
 
+std::map<void*,char*> memory_map;
+
 PythonModuleFactory::PythonModuleFactory(const char *name) : name(name)
 {
 	//...

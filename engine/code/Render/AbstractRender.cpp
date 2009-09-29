@@ -95,3 +95,14 @@ float4x4 AbstractRender::getProjectionMatrix2D()
 
 	return result;
 }
+
+Texture::~Texture()
+{
+	//...
+}
+
+RenderTarget::~RenderTarget()
+{
+	if (texture)
+		delete texture;
+}

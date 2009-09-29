@@ -19,10 +19,12 @@ class DX10Render : public AbstractRender
 
 		virtual bool beginRender();
 		virtual bool endRender();
+		virtual RenderTarget *createRenderTarget(int width, int height);
 		virtual HRESULT setRenderTarget(RenderTarget *target);
 		virtual Texture *loadTextureFromFile(const wchar_t *file);
 		virtual VertexBuffer *createVertexBuffer(int vertexCount, int vertexType, void *data, bool access = false);
 		virtual Effect *loadEffectFromFile(const wchar_t *file);
+		virtual Font *createFont();
 };
 
 class DX10Effect : public Effect
@@ -32,7 +34,7 @@ class DX10Effect : public Effect
 		ID3D10Effect *effect;
 
 		ID3D10EffectTechnique *technique;
-		ID3D10InputLayout *layoutXYZUV;
+		ID3D10InputLayout *layoutXYZ, *layoutXYZUV;
 
 		std::map<std::string, ID3D10EffectVariable*> vars;
 
@@ -62,6 +64,17 @@ class DX10RenderTarget : public RenderTarget
 		ID3D10RenderTargetView *renderTargetView;
 
 	public:
+};
+
+class DX10Font : public Font
+{
+		friend class DX10Render;
+		ID3DX10Font *font;
+
+	public:
+
+		virtual HRESULT render(const wchar_t *text);
+		//...
 };
 
 class DX10VertexBuffer : public VertexBuffer

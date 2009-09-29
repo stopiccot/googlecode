@@ -9,6 +9,9 @@
 #include <Python.h>
 #include "structmember.h"
 #include <list>
+#include <map>
+
+extern std::map<void*, char*> memory_map;
 
 //========================================================================
 // unroll std::list to array
@@ -40,28 +43,54 @@ template <typename T> class PythonTypeFactory
 		// One instance of T used for copying vfptr data from it;
 		static T cppObject;
 
-		// User-defined constructor
-		static initproc constructor;
-
 		//========================================================================
 		// Built in constructor for T. Because memory is allocated by Python
 		// runtime it does not initialize vfptr table. So we must do it.
 		//========================================================================
-		static int init(T *self, PyObject *args, PyObject *kwds)
+		static PyObject *vfptr_new(PyTypeObject *subtype, PyObject *args, PyObject *kwds)
 		{
-			// Store python data
-			Py_ssize_t ob_refcnt = self->ob_refcnt;
-			_typeobject *ob_type = self->ob_type;
+			//subtype->tp_dealloc = (destructor)vfptr_dealloc;
+			subtype->tp_free    = (freefunc)vfptr_free;
 
-			// Copy data from C++ created instance of T to initialize vfptr table
-			memcpy(self, &cppObject, sizeof(T));
+			// we must alloc additional memory before PyObject for
+			// virtual funtion pointer table: [void*][PyObject]
+			// using sizeof(void*) because it has different size on x64 and x86
+			//void *pointer = malloc(subtype->tp_basicsize + sizeof(void*));
+			char *memory  = new char[subtype->tp_basicsize + sizeof(void*)];
+			//char *memory = new char[subtype->tp_basicsize + sizeof(void*)];
+			memset(memory, 0, subtype->tp_basicsize + sizeof(void*));
 
-			// Restore python data as it was overwritten by memcpy
-			self->ob_refcnt = ob_refcnt;
-			self->ob_type   = ob_type;
+			// copy virtual function pointer table from instance of T initialized by
+			// C++ runtime.
+			memcpy(memory, &cppObject, sizeof(void*));
 
-			// After this call user defined constructor
-			return (constructor != NULL) ? constructor((PyObject*)self, args, kwds) : 0;
+			// make some python initialization
+			PyObject *pyObject  = (PyObject*)&memory[sizeof(void*)];
+			pyObject->ob_refcnt = 1;
+			pyObject->ob_type   = subtype;
+			
+#ifdef _DEBUG
+			pyObject->_ob_prev  = pyObject;
+			pyObject->_ob_next  = pyObject;
+#endif
+
+			memory_map[(void*)pyObject] = memory;
+
+			return pyObject;
+		}
+
+		static void vfptr_free(void *pyObject)
+		{
+			char *memory = memory_map[pyObject];
+			delete [] memory;
+		}
+
+		static void vfptr_dealloc(PyObject *pyObject)
+		{
+			char *memory = (char*)pyObject;
+			memory -= sizeof(void*);
+			free((void*)memory);
+			//delete [] memory;
 		}
 
 	public:
@@ -75,7 +104,7 @@ template <typename T> class PythonTypeFactory
 				PyObject_HEAD_INIT(NULL)
 				0,              // ob_size - obsolete 2.x feature 
 				name,           // tp_name
-				sizeof(T),      // tp_basicsize
+				sizeof(T) - offsetof(T, ob_refcnt),      // tp_basicsize
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, // tp_flags
 				name,           // tp_doc
@@ -102,7 +131,7 @@ template <typename T> class PythonTypeFactory
 
 		PythonTypeFactory<T> &addConstructor(initproc constructor)
 		{
-			PythonTypeFactory<T>::constructor = constructor;
+			pyTypeObject.tp_init = constructor;
 			return *this;
 		}
 
@@ -115,7 +144,7 @@ template <typename T> class PythonTypeFactory
 
 		PythonTypeFactory<T> &addMember(const char *name, int type, int offset, char *doc = "")
 		{
-			PyMemberDef pyMemberDef = { const_cast<char*>(name), type, offset, 0, doc };
+			PyMemberDef pyMemberDef = { const_cast<char*>(name), type, offset - offsetof(T, ob_refcnt), 0, doc };
 			members.push_back(pyMemberDef);
 			return *this;
 		}
@@ -127,8 +156,6 @@ template <typename T> class PythonTypeFactory
 
 		PythonModuleFactory& build()
 		{
-			pyTypeObject.tp_init = (initproc)PythonTypeFactory<T>::init;
-			
 			if (members.size() > 0)
 				pyTypeObject.tp_members = makeArray(members),
 				members.clear();
@@ -137,8 +164,17 @@ template <typename T> class PythonTypeFactory
 				pyTypeObject.tp_methods = makeArray(methods),
 				methods.clear();
 
-			if (pyTypeObject.tp_new == 0)
+			if (offsetof(T, ob_refcnt) != offsetof(PyObject, ob_refcnt))
+			{
+				//pyTypeObject.tp_new = PyType_GenericNew;
+				pyTypeObject.tp_new     = (newfunc)vfptr_new;
+				//pyTypeObject.tp_dealloc = (destructor)vfptr_free;
+			}
+			else
+			{
 				pyTypeObject.tp_new = PyType_GenericNew;
+				//pyTypeObject.tp_dealloc = PyType_Ge
+			}
 
 			module.types.push_back(pyTypeObject);
 			if (PyType_Ready(&module.types.back()) < 0) {
@@ -154,7 +190,6 @@ template <typename T> class PythonTypeFactory
 };
 
 template <typename T> T PythonTypeFactory<T>::cppObject;
-template <typename T> initproc PythonTypeFactory<T>::constructor;
 
 #define addModuleType(X) addType<X>(#X)
 

@@ -247,6 +247,22 @@ Effect *DX10Render::loadEffectFromFile(const wchar_t *file)
 	}
 
 	{
+		static D3D10_INPUT_ELEMENT_DESC layoutXYZ[] = 
+		{
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		};
+
+		int numElements = sizeof(layoutXYZ) / sizeof(D3D10_INPUT_ELEMENT_DESC);
+		hr = device->CreateInputLayout(layoutXYZ, numElements,
+			passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &result->layoutXYZ);
+		/*if (FAILED(hr))
+		{
+			delete result;
+			return NULL;
+		}*/
+	}
+
+	{
 		static D3D10_INPUT_ELEMENT_DESC layoutXYZUV[] = 
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
@@ -256,11 +272,11 @@ Effect *DX10Render::loadEffectFromFile(const wchar_t *file)
 		int numElements = sizeof(layoutXYZUV) / sizeof(D3D10_INPUT_ELEMENT_DESC);
 		hr = device->CreateInputLayout(layoutXYZUV, numElements,
 			passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &result->layoutXYZUV);
-		if (FAILED(hr))
+		/*if (FAILED(hr))
 		{
 			delete result;
 			return NULL;
-		}
+		}*/
 	}
 
 	return result;
@@ -310,8 +326,14 @@ void DX10Effect::render(VertexBuffer *vertexBuffer)
 	
 	switch (vertexBuffer10->vertexType)
 	{
+		case VertexType::XYZ:
+			if (this->layoutXYZ == NULL) return;
+			device->IASetInputLayout(this->layoutXYZ); break;
+
 		case VertexType::XYZUV:
+			if (this->layoutXYZUV == NULL) return;
 			device->IASetInputLayout(this->layoutXYZUV); break;
+
 		default:
 			//log() << "Unknown vertex type\n";
 			return;
@@ -340,4 +362,28 @@ bool DX10VertexBuffer::unlock()
 	// но директиксовский Unmap возвращает void. А свой флажок пока делать не будем
 	buffer->Unmap();
 	return true;
+}
+
+Font *DX10Render::createFont()
+{
+	DX10Font *result = new DX10Font();
+	HRESULT hr = D3DX10CreateFont(device, 25, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Tahoma", &result->font);
+	if (FAILED(hr))
+	{
+		delete result;
+		return NULL;
+	}
+	return result;
+}
+
+RenderTarget *DX10Render::createRenderTarget(int width, int height)
+{
+	return NULL;
+}
+
+HRESULT DX10Font::render(const wchar_t *text)
+{
+	RECT rc = {0, 0, 200, 200};
+	HRESULT hr = font->DrawText( NULL, text, -1, &rc, DT_TOP, D3DXCOLOR( 0.0f, 0.0f, 1.0f, 1.0f ) );
+	return hr;
 }
