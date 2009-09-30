@@ -246,6 +246,7 @@ Effect *DX10Render::loadEffectFromFile(const wchar_t *file)
 		return NULL;
 	}
 
+	// VertexType::XYZ
 	{
 		static D3D10_INPUT_ELEMENT_DESC layoutXYZ[] = 
 		{
@@ -255,13 +256,9 @@ Effect *DX10Render::loadEffectFromFile(const wchar_t *file)
 		int numElements = sizeof(layoutXYZ) / sizeof(D3D10_INPUT_ELEMENT_DESC);
 		hr = device->CreateInputLayout(layoutXYZ, numElements,
 			passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &result->layoutXYZ);
-		/*if (FAILED(hr))
-		{
-			delete result;
-			return NULL;
-		}*/
 	}
 
+	// VertexType::XYZUV
 	{
 		static D3D10_INPUT_ELEMENT_DESC layoutXYZUV[] = 
 		{
@@ -272,11 +269,6 @@ Effect *DX10Render::loadEffectFromFile(const wchar_t *file)
 		int numElements = sizeof(layoutXYZUV) / sizeof(D3D10_INPUT_ELEMENT_DESC);
 		hr = device->CreateInputLayout(layoutXYZUV, numElements,
 			passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &result->layoutXYZUV);
-		/*if (FAILED(hr))
-		{
-			delete result;
-			return NULL;
-		}*/
 	}
 
 	return result;

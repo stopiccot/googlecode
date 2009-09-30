@@ -5,6 +5,7 @@ AbstractRender *getDX9Render()
 	return new DX9Render();
 }
 
+IDirect3DVertexDeclaration9 *DX9Effect::vertexDeclarationXYZ;
 IDirect3DVertexDeclaration9 *DX9Effect::vertexDeclarationXYZUV;
 
 HRESULT DX9Render::initDevice()
@@ -38,18 +39,32 @@ HRESULT DX9Render::initDevice()
 		return E_FAIL;
 	}
 
-	D3DVERTEXELEMENT9 declarationXYZUV[] = {
-		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-		{0, 12, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
-		D3DDECL_END()
-	};
-
-	hr = device->CreateVertexDeclaration(declarationXYZUV, &DX9Effect::vertexDeclarationXYZUV);
-	if (FAILED(hr))
+	// VertexType::XYZ
 	{
-		//log() << "Failed to create vertex declaration XYZUV\n";
-		return hr;
+		D3DVERTEXELEMENT9 declarationXYZ[] = {
+			{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+			D3DDECL_END()
+		};
+
+		hr = device->CreateVertexDeclaration(declarationXYZ, &DX9Effect::vertexDeclarationXYZ);
 	}
+
+	// VertexType::XYZUV
+	{
+		D3DVERTEXELEMENT9 declarationXYZUV[] = {
+			{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+			{0, 12, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+			D3DDECL_END()
+		};
+
+		hr = device->CreateVertexDeclaration(declarationXYZUV, &DX9Effect::vertexDeclarationXYZUV);
+	}
+
+	//if (FAILED(hr))
+	//{
+	//	//log() << "Failed to create vertex declaration XYZUV\n";
+	//	return hr;
+	//}
 
 	return S_OK;
 }

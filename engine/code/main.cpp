@@ -72,7 +72,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		.addFunction("loadTexture", loadTexture)
 	.build();
 
-	if (false)
+	if (true)
 	{
 		Render = getDX9Render();
 	}
@@ -91,6 +91,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	Sprite::initVertexBuffer();
 
+	/*
 	Sprite sprite;
 	sprite.texture = Render->loadTextureFromFile(L"engine.png");
 	sprite.effect  = Render->loadEffectFromFile(L"dx10.fx");
@@ -103,19 +104,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	sprite.pivot.y = 100.0;
 	sprite.size.x  = 256.0;
 	sprite.size.y  = 256.0;
+	*/
 
-	//RenderTarget *target = Render->createRenderTarget(800, 600);
 	Font *font = Render->createFont();
-	//Render->setRenderTarget(target);
-	//Render->beginRender();
-	//Render->endRender();
-	//Render->setRenderTarget(RenderTarget::screen);
 
 	if (Render)
 	{
-		//effects["fx"] = Render->loadEffectFromFile(L"dx9.fx");
+		effects["fx"] = Render->loadEffectFromFile(L"dx9.fx");
 		
-	/*	PyRun_SimpleString(
+		PyRun_SimpleString(
 			"import sys, stopiccot\n"
 			"sys.stdout = stopiccot.Console()\n"
 		);
@@ -129,9 +126,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 				pyCode[k++] = pyCode[i];
 		pyCode[k] = 0;
 
-		fclose(pyFile);*/
+		fclose(pyFile);
 
-		//PyRun_SimpleString(pyCode);
+		PyRun_SimpleString(pyCode);
 
 		MSG msg = {0};
 		while (WM_QUIT != msg.message)
@@ -144,8 +141,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			{
 				if (Render->beginRender())
 				{
-					sprite.render();
-					//Sprite::renderAll();
+					//sprite.render();
+					Sprite::renderAll();
 					font->render(L"engine 2.0");
 					Render->endRender();
 				}

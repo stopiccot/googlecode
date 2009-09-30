@@ -21,7 +21,6 @@ class Sprite : public PyObject
 		float2 pos;
 		float2 pivot;
 		float2 size;
-		float2 garbage;
 
 		static bool initVertexBuffer()
 		{
@@ -48,8 +47,8 @@ class Sprite : public PyObject
 			for (std::vector<Sprite*>::iterator s = sprites.begin(); s != sprites.end(); ++s)
 			{
 				Sprite *sprite = *s;
-				//if (sprite)
-				//	sprite->render();
+				if (sprite)
+					sprite->render();
 			}
 		}
 
@@ -68,7 +67,6 @@ class Sprite : public PyObject
 				self->texture = textures[texture_name];
 
 			self->effect = effects["fx"];
-			self->effect->setTexture("texture0", self->texture);
 			
 			self->effect->setMatrix("projection", (float*)&Render->getProjectionMatrix2D());
 
@@ -84,7 +82,6 @@ class Sprite : public PyObject
 			self->size.y = 256.0f;
 
 			sprites.push_back(self);
-
 
 			return 0;
 		}
@@ -104,6 +101,7 @@ class Sprite : public PyObject
 			world.m[3][1] =  pivot.x * sin_angle - pivot.y * cos_angle + pos.y;
 
 			effect->setMatrix("world", (float*)&world);
+			effect->setTexture("texture0", texture);
 
 			effect->render(buffer);
 		}

@@ -36,7 +36,7 @@ class DX9Effect : public Effect
 		// we need it in render() method
 		IDirect3DDevice9 *device;
 
-		static IDirect3DVertexDeclaration9 *vertexDeclarationXYZUV;
+		static IDirect3DVertexDeclaration9 *vertexDeclarationXYZ, *vertexDeclarationXYZUV;
 
 	public:
 
