@@ -29,12 +29,6 @@ namespace Invoice
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileMenuButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.newMenuButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.closeMenuButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsMenuButton = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -51,58 +45,8 @@ namespace Invoice
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileMenuButton,
-            this.settingsMenuButton});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(879, 24);
-            this.menuStrip1.TabIndex = 3;
-            this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.Visible = false;
-            // 
-            // fileMenuButton
-            // 
-            this.fileMenuButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newMenuButton,
-            this.toolStripMenuItem1,
-            this.closeMenuButton});
-            this.fileMenuButton.Name = "fileMenuButton";
-            this.fileMenuButton.Size = new System.Drawing.Size(45, 20);
-            this.fileMenuButton.Text = "Файл";
-            // 
-            // newMenuButton
-            // 
-            this.newMenuButton.Image = global::Invoice.Properties.Resources._new;
-            this.newMenuButton.Name = "newMenuButton";
-            this.newMenuButton.Size = new System.Drawing.Size(190, 22);
-            this.newMenuButton.Text = "Новая счёт-фактура";
-            this.newMenuButton.Click += new System.EventHandler(this.newBill);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(187, 6);
-            // 
-            // closeMenuButton
-            // 
-            this.closeMenuButton.Name = "closeMenuButton";
-            this.closeMenuButton.Size = new System.Drawing.Size(190, 22);
-            this.closeMenuButton.Text = "Выход";
-            this.closeMenuButton.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
-            // 
-            // settingsMenuButton
-            // 
-            this.settingsMenuButton.Name = "settingsMenuButton";
-            this.settingsMenuButton.Size = new System.Drawing.Size(73, 20);
-            this.settingsMenuButton.Text = "Настройки";
-            this.settingsMenuButton.Click += new System.EventHandler(this.settingsMenuButton_Click);
             // 
             // toolStrip1
             // 
@@ -242,9 +186,9 @@ namespace Invoice
             this.listView.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listView_ColumnWidthChanged);
             this.listView.DoubleClick += new System.EventHandler(this.listView_DoubleClick);
             this.listView.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView_ItemCheck);
-            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
             this.listView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
             this.listView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewSelectionChanged);
+            this.listView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_KeyDown);
             // 
             // columnHeader1
             // 
@@ -267,16 +211,13 @@ namespace Invoice
             this.ClientSize = new System.Drawing.Size(879, 479);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Cчёт-фактуры 1.0.5";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -287,11 +228,6 @@ namespace Invoice
         #endregion
 
         private MyListView listView;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileMenuButton;
-        private System.Windows.Forms.ToolStripMenuItem newMenuButton;
-        private System.Windows.Forms.ToolStripMenuItem closeMenuButton;
-        private System.Windows.Forms.ToolStripMenuItem settingsMenuButton;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
@@ -304,7 +240,6 @@ namespace Invoice
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toggleToolButton;
         private System.Windows.Forms.ToolStripButton deletePayedToolButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButton1;

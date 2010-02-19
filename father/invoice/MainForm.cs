@@ -18,6 +18,14 @@ namespace Invoice
         {
             InitializeComponent();
 
+            // Версия в названии главной формы
+            Version currentVersion = new Version(Application.ProductVersion);
+            this.Text = "Cчёт-фактуры " + currentVersion.Major + "." + currentVersion.Minor + "." + currentVersion.Build;
+
+            // Проверяем обновление
+            Update.Updater updater = new Update.Updater("http://stopiccot.googlecode.com/files/invoice-version.xml");
+            updater.checkForUpdates();
+
             listView.ListViewItemSorter = columnSorter = new ColumnSorter();
 
             Base.Load();
@@ -295,6 +303,11 @@ namespace Invoice
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             (new SettingsForm()).ShowDialog();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            //...
         }
     }
 }

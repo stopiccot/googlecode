@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A12E837E-D3DD-464E-BE3D-7814C82C7255}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -49,6 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bill.cs" />
+    <Compile Include="code\updater\UpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="code\updater\UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="code\updater\Updater.cs" />
     <Compile Include="ColumnSorter.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="EditBillForm.cs">
@@ -81,6 +88,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="code\updater\UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditBillForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EditBillForm.cs</DependentUpon>
@@ -148,8 +158,10 @@
     <None Include="png\deldone.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="coin32.ico" />
     <None Include="png\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="coin32.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
