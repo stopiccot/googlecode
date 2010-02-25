@@ -60,12 +60,14 @@ namespace Invoice
             }
         }
 
-        public void Show(int index, bool edit)
+        private bool apply = false;
+
+        public bool EditBill(int index, bool edit)
         {
             editIndex = index;
 
-            applyBill = edit ? (Bill)Base.billList[editIndex] : null;
-            selectedBill = ((Bill)Base.billList[editIndex]).Copy();
+            applyBill = Base.billList[editIndex];
+            selectedBill = applyBill.Copy();
             
             UpdateCompanies(); 
 
@@ -92,6 +94,8 @@ namespace Invoice
             this.Text = (edit ? "Редактирование" : "Создание") + " счёт-фактуры";
 
             ShowDialog();
+
+            return apply;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -102,15 +106,14 @@ namespace Invoice
         private void applyButton_Click(object sender, EventArgs e)
         {
             applyBill = selectedBill;
+            apply = true;
+
             Close();
         }
 
         private void EditBillForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (applyBill != null)
-                Base.billList[editIndex] = applyBill;
-            else
-                Base.billList.RemoveAt(editIndex);
+            Base.billList[editIndex] = applyBill;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -151,11 +154,6 @@ namespace Invoice
             if (priceComboBox.Text != "")
                 selectedBill.Price = priceComboBox.Value;
             validate();
-        }
-
-        private void priceComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
      }
 }

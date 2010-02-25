@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SP.VisualComponents
+namespace Stopiccot.VisualComponents
 {
+    //================================================================================
+    // NumberComboBox
+    //    Комбобокс только для чисел
+    //================================================================================
     public class NumberComboBox : ComboBox
     {
         private string oldText;

@@ -13,49 +13,59 @@ namespace Invoice
     public partial class MainForm : SavePositionForm
     {
         private ColumnSorter columnSorter;
+        private EditBillForm editBillForm;
+        private SelectDateForm selectDateForm;
 
+        //================================================================================
+        // MainForm
+        //================================================================================
         public MainForm()
         {
             InitializeComponent();
 
             // Версия в названии главной формы
-            Version currentVersion = new Version(Application.ProductVersion);
-            this.Text = "Cчёт-фактуры " + currentVersion.Major + "." + currentVersion.Minor + "." + currentVersion.Build;
+            this.Text = "Счёт-фактуры " + Utils.ToStringWithoutZeroes(new Version(Application.ProductVersion));
 
+            // Сортировка колонок
+            listView.ListViewItemSorter = columnSorter = new ColumnSorter();
+
+            // Загружаем базу и запихиваем счёт-фактуры в listView
+            Base.Load();
+            buildBillList();
+
+            // Выставляем запомненную позицию формы
+            this.Position = Base.FormPosition;
+
+            // Выставляем запомненную ширину для каждой колонки
+            foreach (ColumnHeader column in listView.Columns)
+                column.Width = Base.columnWidth[column.Index];
+
+            toggleToolButton.Checked = Base.showPayed;
+
+            // Создаём все вспомогательные формы
+            editBillForm = new EditBillForm();
+            selectDateForm = new SelectDateForm();
+
+            // Код апдейтера юзает WebClient.DownloadStringAsync, который хоть
+            // и Async, но порядочно тормозит (4-5 с.) Поэтому делаем ему
+            // "принудительный Async".
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        //================================================================================
+        // backgroundWorker_DoWork
+        //================================================================================
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
             // Проверяем обновление
             Update.Updater updater = new Update.Updater("http://stopiccot.googlecode.com/files/invoice-version.xml");
             updater.checkForUpdates();
-
-            listView.ListViewItemSorter = columnSorter = new ColumnSorter();
-
-            Base.Load();
-
-            this.Position = Base.FormPosition;
-            toggleToolButton.Checked = Base.showPayed;
-
-            foreach (ColumnHeader column in listView.Columns)
-                column.Width = Base.columnWidth[column.Index];
         }
 
-        private void newBill(object sender, EventArgs e)
-        {
-            (new Bill()).Add();
-            (new EditBillForm()).Show(Base.billList.Count - 1, false);
-            RebuildList();
-            listView.SelectedIndex = listView.Items.Count - 1;
-        }
-
-        private void listView_DoubleClick(object sender, EventArgs e)
-        {
-            int index = listView.SelectedIndex;
-            if ( index >= 0 )
-            {
-                (new EditBillForm()).Show(listView.TranslatedIndex, true);
-                RebuildList();
-                listView.SelectedIndex = index;
-            }
-        }
-
+        //================================================================================
+        // MainForm_FormClosed
+        //    Закрытие формы - всё сохраняем и закрываемся
+        //================================================================================
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Base.FormPosition = this.Position;
@@ -63,29 +73,81 @@ namespace Invoice
             Word.Close();
         }
 
-        private bool updatingList = false;
-
-        private void RebuildList()
+        //================================================================================
+        // buildBillList
+        //    Строит список всех счёт-фактур.
+        //================================================================================
+        private void buildBillList()
         {
-            if (updatingList) return; updatingList = true;
-
             listView.Items.Clear();
 
-            int i = -1;
+            // Добавляем элементы сначала во временный список, т.к. если напрямую
+            // добавлять каждый элемент по-отдельности используя listView.Items.Add
+            // будет неимоверно пиделить т.к. оно перерисовывает каждый раз после добавления
+            List<BillListViewItem> items = new List<BillListViewItem>();
 
-            foreach (Bill bill in Base.billList)
-                if ( ++i >= 0 && (Base.showPayed || !bill.Payed) )
-                    listView.Items.Add(new MyListViewItem(new string[] 
-                        { bill.Number.ToString() + '/' + bill.Date.Month.ToString(),
-                        bill.Date.ToString("dd.MM.yy"),
-                        bill.Company.ShortName, bill.Price.ToString() },
-                        bill.Payed, i));
+            for (int i = 0; i < Base.billList.Count - 1; i++)
+            {
+                Bill bill = Base.billList[i];
 
-            updatingList = false;
+                // Оплаченные счёт-фактуры показываем только если стоит соотвествующий флажок
+                if (Base.showPayed || !bill.Payed)
+                    items.Add(new BillListViewItem(bill, i));
+            }
+
+            // За один раз добавляем все счёт-фактуры
+            listView.Items.AddRange(items.ToArray());
 
             listViewSelectionChanged(null, null);
         }
 
+        //================================================================================
+        // createNewBill
+        //    Создание новой счёт-фактуры
+        //================================================================================
+        private void createNewBill(object sender, EventArgs e)
+        {
+            Bill newBill = new Bill();
+            newBill.Add();
+
+            if (editBillForm.EditBill(Base.billList.Count - 1, false))
+            {
+                // Добавляем в список и выделяем
+                listView.Items.Add(new BillListViewItem(newBill, Base.billList.Count - 1));
+                listView.SelectedIndex = listView.Items.Count - 1;
+            }
+            else
+            {
+                Base.billList.RemoveAt(Base.billList.Count - 1);
+            }
+        }
+
+        //================================================================================
+        // listView_DoubleClick
+        //    Даблтык на элемент списка
+        //================================================================================
+        private void listView_DoubleClick(object sender, EventArgs e)
+        {
+            // Если какая-то счёт-фактура выделена - редактируем её
+            int index = listView.TranslatedSelectedIndex;
+            if (index != -1)
+            {
+                if (editBillForm.EditBill(index, true))
+                {
+                    int selectedIndex = listView.SelectedIndex;
+
+                    // Апдейтим один айтем листа, а не целый лист
+                    listView.Items[listView.SelectedIndex] = new BillListViewItem(Base.billList[index], index);
+
+                    listView.SelectedIndex = selectedIndex;
+                }
+            }
+        }
+
+        //================================================================================
+        // listView_ColumnWidthChanged
+        //    Апдейтим минимальные размеры формы при изменении размеров колонок listView
+        //================================================================================
         private void listView_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
             int minWidth = 12;
@@ -96,45 +158,33 @@ namespace Invoice
             this.MinimumSize = new Size(minWidth, 209);
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void settingsMenuButton_Click(object sender, EventArgs e)
-        {
-            (new SettingsForm()).ShowDialog();
-        }
-
+        //================================================================================
+        // DeleteInvoices
+        //    Удаление счёт-фактур
+        //================================================================================
         delegate bool FilterFunction<T>(T item);
 
-        private List<T> Filter<T>(List<T> list, FilterFunction<T> f)
-        {
-            List<T> newList = new List<T>();
-
-            foreach (T t in list)
-                if (!f(t))
-                    newList.Add(t);
-
-            return newList;
-        }
-
-        private void DeleteInvoices(string confirmText, FilterFunction<MyListViewItem> filterFunction)
+        private void DeleteInvoices(string confirmText, FilterFunction<BillListViewItem> filterFunction)
         {
             if (!Base.confirmDelete ||
                 MessageBox.Show(confirmText, "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                List<int> indexes = new List<int>();
+                List<int> indicesToDelete = new List<int>();
 
-                foreach (MyListViewItem item in listView.Items)
+                foreach (BillListViewItem item in listView.Items)
                     if (filterFunction(item))
-                        indexes.Add(item.Index);
+                        indicesToDelete.Add(item.Index);
+
+                indicesToDelete.Sort();
 
                 int i = 0;
-                foreach (int index in indexes)
+                foreach (int index in indicesToDelete)
                 {
-                    Base.billList.RemoveAt(((MyListViewItem)listView.Items[index - i]).translatedIndex - i);
+                    BillListViewItem item = (BillListViewItem)listView.Items[index - i];
+                    
+                    Base.billList.RemoveAt(item.translatedIndex - i);
                     listView.Items.RemoveAt(index - i);
+
                     i++;
                 }
 
@@ -142,105 +192,190 @@ namespace Invoice
             }
         }
 
-        private void toolStripButton4_Click(object sender, EventArgs e)
-        {
-            DeleteInvoices("Удалить данные счёт-фактуры?", delegate(MyListViewItem item)
-            {
-                return listView.SelectedItems.Contains(item);
-            });
-        }
-
-        private void deletePayedToolButton_Click(object sender, EventArgs e)
-        {
-            if ( listView.SelectedItems.Count > 1 )
-            {
-                DeleteInvoices("Вы уверены, что хотите удалить оплаченные счёт-фактуры?", delegate(MyListViewItem item)
-                {
-                    return item.Checked && listView.SelectedItems.Contains(item);
-                });
-            }
-            else
-            {
-                Base.billList = Filter<Bill>(Base.billList, delegate(Bill invoice)
-                {
-                    return invoice.Payed;
-                });
-
-                RebuildList();
-            }
-        }
-
+        //================================================================================
+        // listViewSelectionChanged
+        //    Чтоб дизэйблить кнопки в тулбаре, когда ничего не выделено.
+        //================================================================================
         private void listViewSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             wordToolButton.Enabled = deleteToolButton.Enabled = printToolButton.Enabled = (listView.SelectedItems.Count != 0);
         }
 
+        //================================================================================
+        // listView_ColumnClick
+        //    Клик по колонке listView. Сортировка списка.
+        //================================================================================
         private void listView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == columnSorter.SortColumn)
+            {
+                // Если список уже отсортирован по этой колонке, то меняем порядок сортировке
                 columnSorter.Order = columnSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+            }
             else
             {
-                columnSorter.SortColumn = e.Column;
+                // Если выбрали другую колонку, то сортируем по возрастанию
+                columnSorter.SortColumn = e.Column; // Передаём сортеру номер колонки
                 columnSorter.Order = SortOrder.Ascending;
             }
+
             listView.Sort();
         }
 
+        //================================================================================
+        // listView_ItemCheck
+        //    Клик на чекбокс айтема в listView
+        //================================================================================
         private void listView_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            // Если пытаемся снять галочку и в настройках выставлена проверка, то лишний
+            // раз переспрашиваем
             if (e.CurrentValue == CheckState.Checked)
-                if (Base.confirmUnpay && MessageBox.Show("Вы уверены, что данная счёт-фактура не оплачена?", "Подтверждение", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (Base.confirmUnpay && MessageBox.Show("Эта счёт-фактура точно не оплачена?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     e.NewValue = CheckState.Checked;
 
-            ((Bill)Base.billList[listView.Translate(e.Index)]).Payed = e.NewValue == CheckState.Checked;
+            Base.billList[listView.Translate(e.Index)].Payed = e.NewValue == CheckState.Checked;
         }
 
-        private void toggleToolButton_Click(object sender, EventArgs e)
-        {
-            Base.showPayed = toggleToolButton.Checked;
-            RebuildList();
-        }
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            RebuildList();
-        }
-
+        //================================================================================
+        // wordToolButton_Click
+        //    Открыть doc-файл для выбранной счёт-фактуры в Microsoft Word
+        //================================================================================
         private void wordToolButton_Click(object sender, EventArgs e)
         {
-            string s = CreateWordDocument((Bill)Base.billList[listView.TranslatedIndex]);
+            // Создаём doc-файл
+            string filename = CreateWordDocument(Base.billList[listView.TranslatedSelectedIndex]);
 
-            if (s != null)
+            // И если всё прошло успешно, то открываем его
+            if (filename != null)
             {
-                System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(s);
+                System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(filename);
                 info.UseShellExecute = true;
                 info.Verb = "open";
                 System.Diagnostics.Process.Start(info);
             }
         }
 
+        //================================================================================
+        // printToolButton_Click
+        //    Печать doc-файла для выбранной счёт-факутуры
+        //================================================================================
         private void printToolButton_Click(object sender, EventArgs e)
         {
-            string s = CreateWordDocument((Bill)Base.billList[listView.TranslatedIndex]);
+            // Создаём doc-файл
+            string filename = CreateWordDocument(Base.billList[listView.TranslatedSelectedIndex]);
 
-            if (s != null)
+            // И если всё прошло успешно, то печатаем его
+            if (filename != null)
             {
-                Word.OpenDocument(s, true);
+                Word.OpenDocument(filename, true);
                 Word.PrintDocument();
                 Word.CloseDocument();
             }
         }
 
+        //================================================================================
+        // deleteToolButton_Click
+        //    Удаляет выделенные счёт-фактуры
+        //================================================================================
+        private void deleteToolButton_Click(object sender, EventArgs e)
+        {
+            DeleteInvoices("Удалить эти счёт-фактуры?", delegate(BillListViewItem item)
+            {
+                return listView.SelectedItems.Contains(item);
+            });
+        }
+
+        //================================================================================
+        // toggleToolButton_Click
+        //================================================================================
+        private void toggleToolButton_Click(object sender, EventArgs e)
+        {
+            Base.showPayed = toggleToolButton.Checked;
+
+            // Запоминаем выделенный элемент
+            int index = listView.TranslatedSelectedIndex;
+
+            // и полностью перестраиваем список
+            buildBillList();
+
+            // Пытаемся восстановить выделение, но это не всегда возможно т.к. данная счёт-фактура
+            // могла быть оплачена, а мы как раз спрятали все оплаченные счёт-фактуры
+            if (index != -1)
+            {
+                listView.TranslatedSelectedIndex = index;
+                if (listView.SelectedIndex != -1)
+                    listView.Items[listView.SelectedIndex].EnsureVisible();
+            }
+        }
+
+        //================================================================================
+        // deletePayedToolButton_Click
+        //    Массовое удаление оплаченных счёт-фактур
+        //================================================================================
+        private void deletePayedToolButton_Click(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.Now;
+            if (selectDateForm.PickDate(ref date))
+            {
+                List<int> indicesToRemove = new List<int>();
+
+                for (int i = 0; i < Base.billList.Count; i++)
+                {
+                    Bill bill = Base.billList[i];
+                    if (bill.Payed && bill.Date < date)
+                        indicesToRemove.Add(i);
+                }
+
+                indicesToRemove.Sort();
+                for (int i = 0; i < indicesToRemove.Count; i++)
+                    Base.billList.RemoveAt(indicesToRemove[i] - i);
+
+                buildBillList();
+            }
+        }
+
+        //================================================================================
+        // settingsToolButton_Click
+        //    Показывает диалог настроек
+        //================================================================================
+        private void settingsToolButton_Click(object sender, EventArgs e)
+        {
+            (new SettingsForm()).ShowDialog();
+        }
+
+        //================================================================================
+        // CreateWordDocument
+        //    Создаёт doc-файл для данной счёт-фактуры
+        //================================================================================
         private string CreateWordDocument(Bill bill)
         {
+            // Проверяем задан ли файл-шаблон
             if (!File.Exists(Base.templateDoc))
             {
-                MessageBox.Show("Файл шаблон не обнаружен", "Ошибка");
+                MessageBox.Show("Файл шаблон не обнаружен.\n\rЗадайте к нему путь в настройках программы.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return null;
             }
 
-            string FileName = Path.GetDirectoryName(Base.templateDoc) + "\\сч-ф" + bill.Company.ShortName + bill.Number.ToString() + '-' + bill.Date.Month.ToString("00") + ".doc";
+            int year = bill.Date.Year;
+            string filename = null;
+
+            try
+            {
+                string workingDirectory = Path.GetDirectoryName(Base.workingDirectory[year - SettingsForm.beginYear]);
+
+                // Проверяем задана ли папка в которую нужно сохранять счёт-фактуры этого года
+                if (!Directory.Exists(workingDirectory))
+                    throw new Exception();
+
+                // Полный путь к создаваемому doc-файлу
+                filename = workingDirectory + "\\сч-ф" + bill.Company.ShortName + bill.Number.ToString() + '-' + bill.Date.Month.ToString("00") + ".doc";
+            }
+            catch
+            {
+                MessageBox.Show("Не задана папка для счёт-фактур " + year.ToString() + " года.\n\rВыберите папку в настройках программы.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return null;
+            }
 
             Word.OpenDocument(Base.templateDoc, true);
 
@@ -283,31 +418,22 @@ namespace Invoice
                 s += "cocтавление заключения о размере вреда, ";
 
             if (s.Length > 0)
-                s = Utils.UpFirstLetter(s).Substring(0, s.Length - 2);
+                s = Utils.Capitalize(s).Substring(0, s.Length - 2);
 
             Word.Replace("%workDoneString%", s);
 
-            Word.SaveAs(FileName);
+            Word.SaveAs(filename);
 
             Word.CloseDocument();
 
-            return FileName;
+            return filename;
         }
 
         private void listView_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == 46)
-                MessageBox.Show("Delete!");
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            (new SettingsForm()).ShowDialog();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
             //...
         }
+
+        
     }
 }

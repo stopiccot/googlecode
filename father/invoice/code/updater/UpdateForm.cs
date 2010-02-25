@@ -81,15 +81,30 @@ namespace Invoice.Update
             webClient.DownloadProgressChanged +=
                 delegate(object senderObject, DownloadProgressChangedEventArgs eventArgs)
                 {
-                    // Почему-то евент на 100% приходит дважды
-                    if (updateComplete)
-                        return;
-
-                    setDownloadProgress(eventArgs.BytesReceived, eventArgs.TotalBytesToReceive);
-
-                    if (eventArgs.ProgressPercentage == 100)
+                    try
                     {
-                        // Всё, скачали!
+                        // Почему-то евент на 100% приходит дважды
+                        if (!updateComplete)
+                            setDownloadProgress(eventArgs.BytesReceived, eventArgs.TotalBytesToReceive);
+                    }
+                    catch
+                    {
+                        webClient.CancelAsync();
+
+                        statusLabel.ForeColor = Color.Red;
+                        statusLabel.Text = "Произошла ошибка во время обновления.";
+                        cancelButton.Text = "Жаль";
+                    }
+                };
+
+            webClient.DownloadFileCompleted +=
+                delegate(object senderObject, AsyncCompletedEventArgs eventArgs)
+                {
+                    try
+                    {
+                        if (eventArgs.Error != null)
+                            throw new Exception();
+                        
                         updateComplete = true;
 
                         statusLabel.Text = "Обновление скачано.\r\nТеперь осталось только перезапустить программу.";
@@ -102,8 +117,17 @@ namespace Invoice.Update
                         if (File.Exists(backupExe))
                             File.Delete(backupExe);
 
+                        // Бэкапим текущую версию и заменяем её новой
                         File.Move(currentExe, backupExe);
                         File.Move(newExe, currentExe);
+                    }
+                    catch
+                    {
+                        webClient.CancelAsync();
+
+                        statusLabel.ForeColor = Color.Red;
+                        statusLabel.Text = "Произошла ошибка во время обновления.";
+                        cancelButton.Text = "Жаль";
                     }
                 };
 

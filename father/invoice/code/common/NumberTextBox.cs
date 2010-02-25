@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SP.VisualComponents
+namespace Stopiccot.VisualComponents
 {
+    //================================================================================
+    // TextBox
+    //    Текстбокс только для чисел
+    //================================================================================
     class NumberTextBox : TextBox
     {
         protected override void OnKeyPress(KeyPressEventArgs e)

@@ -29,7 +29,7 @@ namespace Invoice
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.newToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.wordToolButton = new System.Windows.Forms.ToolStripButton();
@@ -39,18 +39,19 @@ namespace Invoice
             this.toggleToolButton = new System.Windows.Forms.ToolStripButton();
             this.deletePayedToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.listView = new Invoice.MyListView();
+            this.settingsToolButton = new System.Windows.Forms.ToolStripButton();
+            this.listView = new Invoice.BillListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.toolStrip1.SuspendLayout();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolButton,
             this.toolStripSeparator1,
             this.wordToolButton,
@@ -60,12 +61,12 @@ namespace Invoice
             this.toggleToolButton,
             this.deletePayedToolButton,
             this.toolStripSeparator3,
-            this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(879, 25);
-            this.toolStrip1.TabIndex = 4;
-            this.toolStrip1.Text = "toolStrip1";
+            this.settingsToolButton});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(312, 25);
+            this.toolStrip.TabIndex = 4;
+            this.toolStrip.Text = "toolStrip";
             // 
             // newToolButton
             // 
@@ -76,7 +77,7 @@ namespace Invoice
             this.newToolButton.Size = new System.Drawing.Size(23, 22);
             this.newToolButton.Text = "toolStripButton1";
             this.newToolButton.ToolTipText = "Новая счёт-фактура";
-            this.newToolButton.Click += new System.EventHandler(this.newBill);
+            this.newToolButton.Click += new System.EventHandler(this.createNewBill);
             // 
             // toolStripSeparator1
             // 
@@ -117,7 +118,7 @@ namespace Invoice
             this.deleteToolButton.Size = new System.Drawing.Size(23, 22);
             this.deleteToolButton.Text = "toolStripButton4";
             this.deleteToolButton.ToolTipText = "Удалить";
-            this.deleteToolButton.Click += new System.EventHandler(this.toolStripButton4_Click);
+            this.deleteToolButton.Click += new System.EventHandler(this.deleteToolButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -154,15 +155,15 @@ namespace Invoice
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton1
+            // settingsToolButton
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::Invoice.Properties.Resources.settings;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "Настройки";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.settingsToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.settingsToolButton.Image = global::Invoice.Properties.Resources.settings;
+            this.settingsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsToolButton.Name = "settingsToolButton";
+            this.settingsToolButton.Size = new System.Drawing.Size(23, 22);
+            this.settingsToolButton.Text = "Настройки";
+            this.settingsToolButton.Click += new System.EventHandler(this.settingsToolButton_Click);
             // 
             // listView
             // 
@@ -179,8 +180,9 @@ namespace Invoice
             this.listView.Location = new System.Drawing.Point(0, 25);
             this.listView.Name = "listView";
             this.listView.SelectedIndex = -1;
-            this.listView.Size = new System.Drawing.Size(879, 454);
+            this.listView.Size = new System.Drawing.Size(312, 651);
             this.listView.TabIndex = 5;
+            this.listView.TranslatedSelectedIndex = -1;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
             this.listView.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listView_ColumnWidthChanged);
@@ -206,20 +208,22 @@ namespace Invoice
             // 
             this.columnHeader4.Text = "Сумма";
             // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+            // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(879, 479);
+            this.ClientSize = new System.Drawing.Size(312, 676);
             this.Controls.Add(this.listView);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Cчёт-фактуры 1.0.5";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,8 +231,8 @@ namespace Invoice
 
         #endregion
 
-        private MyListView listView;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private BillListView listView;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
@@ -242,7 +246,8 @@ namespace Invoice
         private System.Windows.Forms.ToolStripButton deletePayedToolButton;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton settingsToolButton;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
 
     }
 }

@@ -37,14 +37,14 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(15, 49);
+            this.progressBar.Location = new System.Drawing.Point(15, 44);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(342, 23);
             this.progressBar.TabIndex = 0;
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(293, 88);
+            this.cancelButton.Location = new System.Drawing.Point(293, 84);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(64, 23);
             this.cancelButton.TabIndex = 1;
@@ -54,7 +54,7 @@
             // 
             // nextnextnextButton
             // 
-            this.nextnextnextButton.Location = new System.Drawing.Point(173, 88);
+            this.nextnextnextButton.Location = new System.Drawing.Point(173, 84);
             this.nextnextnextButton.Name = "nextnextnextButton";
             this.nextnextnextButton.Size = new System.Drawing.Size(114, 23);
             this.nextnextnextButton.TabIndex = 2;
@@ -76,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 123);
+            this.ClientSize = new System.Drawing.Size(369, 118);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.nextnextnextButton);
             this.Controls.Add(this.cancelButton);

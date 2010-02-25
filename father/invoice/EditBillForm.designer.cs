@@ -44,7 +44,7 @@ namespace Invoice
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.car = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.priceComboBox = new SP.VisualComponents.NumberComboBox();
+            this.priceComboBox = new Stopiccot.VisualComponents.NumberComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -232,7 +232,6 @@ namespace Invoice
             this.priceComboBox.TabIndex = 5;
             this.priceComboBox.Text = "0";
             this.priceComboBox.Value = 0;
-            this.priceComboBox.SelectedIndexChanged += new System.EventHandler(this.priceComboBox_SelectedIndexChanged);
             this.priceComboBox.TextChanged += new System.EventHandler(this.priceComboBox_TextChanged);
             // 
             // EditBillForm
@@ -279,7 +278,7 @@ namespace Invoice
         private System.Windows.Forms.ComboBox billCompany;
         private System.Windows.Forms.Label label3;
         //private System.Windows.Forms.ComboBox priceComboBox;
-        private SP.VisualComponents.NumberComboBox priceComboBox;
+        private Stopiccot.VisualComponents.NumberComboBox priceComboBox;
         private System.Windows.Forms.Button applyButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button button3;

@@ -4,11 +4,44 @@ using System.Text;
 
 namespace Invoice
 {
+    //================================================================================
+    // Utils
+    //    Класс, содержащий всевозможные утилитные функции
+    //================================================================================
     static class Utils
     {
-        public static string UpFirstLetter(string s)
+        //================================================================================
+        // ToStringWithoutZeroes
+        //    Конвертит Version в строку добавляя Build и Revision только если они не ноль
+        //================================================================================
+        public static string ToStringWithoutZeroes(Version version)
+        {
+            StringBuilder builder = new StringBuilder(version.Major.ToString() + "." + version.Minor.ToString());
+
+            if (version.Build != 0)
+                builder.Append("." + version.Build.ToString());
+
+            if (version.Revision != 0)
+                builder.Append("." + version.Revision.ToString());
+
+            return builder.ToString();
+        }
+
+        //================================================================================
+        // Capitalize
+        //    Делает первую букву в строке заглавной   
+        //================================================================================
+        public static string Capitalize(string s)
         {
             return s.Length > 1 ? (Char.ToUpper(s[0]) + s).Remove(1, 1) : s;
+        }
+
+        //================================================================================
+        // IsUpper
+        //================================================================================
+        public static bool IsUpper(Char c)
+        {
+            return c == Char.ToUpper(c);
         }
 
         private static string[] rub = { "рублей", "рубль", "рубля", "рублей" };
@@ -42,15 +75,10 @@ namespace Invoice
         
         public static string ConvertToString(long number)
         {
-            return UpFirstLetter(
-                convert(number / 1000000, million, true) +
-                convert((number / 1000) % 1000, thousand, false) +
-                convert(number % 1000, rub, true));
-        }
-
-        private static bool IsUpper(char c)
-        {
-            return c == Char.ToUpper(c);
+            return Capitalize(
+                    convert(number / 1000000, million, true) +
+                    convert((number / 1000) % 1000, thousand, false) +
+                    convert(number % 1000, rub, true));
         }
 
         public static string ExtractDirectorName(string s)

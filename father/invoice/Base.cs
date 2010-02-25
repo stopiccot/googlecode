@@ -16,6 +16,7 @@ namespace Invoice
         public bool confirmUnpay;
         public bool showPayed;
         public string templateDoc;
+        public string[] workingDirectory;
         public FormPostion FormPosition;
         public string[] prices;
         public int[] columnWidth;
@@ -38,7 +39,8 @@ namespace Invoice
         public static FormPostion FormPosition = new FormPostion(100, 100, 800, 600, false);
 
         public static int[] columnWidth = { 100, 100, 100, 100 };
-        public static string[] prices = {};
+        public static string[] prices;
+        public static string[] workingDirectory;
 
         public static List<Bill> billList = new List<Bill>();
         public static List<Company> companyList = new List<Company>();
@@ -59,6 +61,9 @@ namespace Invoice
             _base.prices = Base.prices;
             _base.bills = (Bill[])Base.billList.ToArray();
             _base.companies = (Company[])Base.companyList.ToArray();
+
+            // Добавлено в 1.0.7
+            _base.workingDirectory = Base.workingDirectory;
             
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
@@ -89,25 +94,44 @@ namespace Invoice
 
         public static void Load()
         {
-            if (!File.Exists(baseFile))
+            try
             {
-                MessageBox.Show("База не обнаружена!");
-                return;
+                if (!File.Exists(baseFile))
+                {
+                    MessageBox.Show("База не обнаружена!");
+                    throw new Exception();
+                }
+
+                XmlReader xml = XmlReader.Create(baseFile);
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(SerializableBase));
+                _base = (SerializableBase)xmlSerializer.Deserialize(xml);
+                xml.Close();
+
+                Base.prices = _base.prices;
+                Base.confirmDelete = _base.confirmDelete;
+                Base.confirmUnpay = _base.confirmUnpay;
+                Base.showPayed = _base.showPayed;
+                Base.templateDoc = _base.templateDoc;
+                Base.FormPosition = _base.FormPosition;
+                Array.Copy(_base.columnWidth, Base.columnWidth, _base.columnWidth.Length);
+                Base.billList.AddRange(_base.bills);
+                Base.companyList.AddRange(_base.companies);
+
+                // Добавлено в 1.0.7 поэтому в старых базах может отсутствовать
+                Base.workingDirectory = _base.workingDirectory;
+            }
+            catch
+            {
+                //...
             }
 
-            XmlReader xml = XmlReader.Create(baseFile);
-            _base = (SerializableBase)(new XmlSerializer(typeof(SerializableBase))).Deserialize(xml);
-            xml.Close();
-
-            Base.prices = _base.prices;
-            Base.confirmDelete = _base.confirmDelete;
-            Base.confirmUnpay = _base.confirmUnpay;
-            Base.showPayed = _base.showPayed;
-            Base.templateDoc = _base.templateDoc;
-            Base.FormPosition = _base.FormPosition;
-            Array.Copy(_base.columnWidth, Base.columnWidth, _base.columnWidth.Length);
-            Base.billList.AddRange(_base.bills);
-            Base.companyList.AddRange(_base.companies);
+            // Добавлено в 1.0.7 поэтому в старых базах может отсутствовать
+            if (Base.workingDirectory == null)
+            {
+                Base.workingDirectory = new string[20];
+                for (int i = 0; i < 20; i++)
+                    Base.workingDirectory[i] = "";
+            }
         }
     }
 }

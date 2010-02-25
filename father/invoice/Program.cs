@@ -3,6 +3,20 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.0.7
+// [+] Update is made in BackgroundWorker due to high lag of
+//     WebClient.DownloadStringAsync
+// [*] Utls.cs refactored
+//     UpFirstLetter -> Capitalize
+//     new ToStringWithoutZeroes function
+// [+] prevYear and currYear fields in SettingsForm
+// [+] Deleting invoices rewritten once again with new SelectDateForm
+// [*] Total MainForm.cs refactor with adding a lot of comments
+// [*] MyListView is now BillListView
+//
+// 1.0.6
+// [+] Updater added
+//
 // 1.0.5
 // [+] Deleting invoices rewritten from scratch
 // [*] SettingsForm design slightly changed
