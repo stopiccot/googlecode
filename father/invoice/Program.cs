@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.0.8
+// [*] Small fix in new invoice creation
+//
 // 1.0.7
 // [+] Update is made in BackgroundWorker due to high lag of
 //     WebClient.DownloadStringAsync

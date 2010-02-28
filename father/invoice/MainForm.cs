@@ -113,7 +113,7 @@ namespace Invoice
             if (editBillForm.EditBill(Base.billList.Count - 1, false))
             {
                 // Добавляем в список и выделяем
-                listView.Items.Add(new BillListViewItem(newBill, Base.billList.Count - 1));
+                listView.Items.Add(new BillListViewItem(Base.billList[Base.billList.Count - 1], Base.billList.Count - 1));
                 listView.SelectedIndex = listView.Items.Count - 1;
             }
             else
