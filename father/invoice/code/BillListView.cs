@@ -53,6 +53,8 @@ namespace Invoice
             {
                 if (value >= 0)
                 {
+                    this.SelectedItems.Clear();
+
                     this.Items[value].Selected = true;
                     this.Items[value].EnsureVisible();
                     this.Items[value].Focused = true;

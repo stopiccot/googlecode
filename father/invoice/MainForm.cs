@@ -86,7 +86,7 @@ namespace Invoice
             // будет неимоверно пиделить т.к. оно перерисовывает каждый раз после добавления
             List<BillListViewItem> items = new List<BillListViewItem>();
 
-            for (int i = 0; i < Base.billList.Count - 1; i++)
+            for (int i = 0; i < Base.billList.Count; i++)
             {
                 Bill bill = Base.billList[i];
 
@@ -180,9 +180,16 @@ namespace Invoice
                 int i = 0;
                 foreach (int index in indicesToDelete)
                 {
-                    BillListViewItem item = (BillListViewItem)listView.Items[index - i];
-                    
-                    Base.billList.RemoveAt(item.translatedIndex - i);
+                    BillListViewItem deletingItem = (BillListViewItem)listView.Items[index - i];
+
+                    for (int j = index - i + 1; j < listView.Items.Count; j++)
+                    {
+                        BillListViewItem item = (BillListViewItem)listView.Items[j];
+                        if (item.translatedIndex > deletingItem.translatedIndex)
+                            item.translatedIndex--;
+                    }
+
+                    Base.billList.RemoveAt(deletingItem.translatedIndex);
                     listView.Items.RemoveAt(index - i);
 
                     i++;
@@ -280,7 +287,9 @@ namespace Invoice
         //================================================================================
         private void deleteToolButton_Click(object sender, EventArgs e)
         {
-            DeleteInvoices("Удалить эти счёт-фактуры?", delegate(BillListViewItem item)
+            string confirmText = listView.SelectedItems.Count == 1 ? "Удалить эту счёт-фактуру?" : "Удалить эти счёт-фактуры?";
+
+            DeleteInvoices(confirmText, delegate(BillListViewItem item)
             {
                 return listView.SelectedItems.Contains(item);
             });
@@ -362,14 +371,14 @@ namespace Invoice
 
             try
             {
-                string workingDirectory = Path.GetDirectoryName(Base.workingDirectory[year - SettingsForm.beginYear]);
+                string workingDirectory = Base.workingDirectory[year - SettingsForm.beginYear];
 
                 // Проверяем задана ли папка в которую нужно сохранять счёт-фактуры этого года
                 if (!Directory.Exists(workingDirectory))
                     throw new Exception();
 
                 // Полный путь к создаваемому doc-файлу
-                filename = workingDirectory + "\\сч-ф" + bill.Company.ShortName + bill.Number.ToString() + '-' + bill.Date.Month.ToString("00") + ".doc";
+                filename = Path.Combine(workingDirectory, "сч-ф" + bill.Company.ShortName + bill.Number.ToString() + '-' + bill.Date.Month.ToString("00") + ".doc");
             }
             catch
             {

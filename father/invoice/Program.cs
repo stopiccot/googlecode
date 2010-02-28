@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.1
+// [*] Another fix in deletion. When I'll eventually write it without bugs?
+// [*] Little fix with doc creation path
+//
 // 1.0.8
 // [*] Small fix in new invoice creation
 //
