@@ -12,6 +12,7 @@ using System.Net;
 using Stopiccot.VisualComponents;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Globalization;
 
 namespace Inplation
 {
@@ -27,8 +28,6 @@ namespace Inplation
             }
         }
 
-        #region [ XmlRequestCode ]
-        /*
         public struct Currency
         {
             [XmlAttribute]
@@ -47,8 +46,6 @@ namespace Inplation
             [XmlElement]
             public Currency[] Currency;
         }
-        */
-        #endregion
 
         private Month currentMonth = Month.LastMonth();
         private Dictionary<string, Rate> Rates = new Dictionary<string, Rate>();
@@ -61,65 +58,18 @@ namespace Inplation
             get { return requestDate.ToShortDateString(); }
         }
 
-        private string getRate(string s, string keyStr)
-        {
-            keyStr += "</td><td align=right>";
-            int i = s.IndexOf(keyStr); i += keyStr.Length;
-            return s.Substring(i, s.IndexOf('<', i) - i).Replace('.',',');
-        }
-
         private void makeRequest()
         {
             if (q.Count == 0) return;
 
             requestDate = q.Dequeue();
 
-            string url = "http://www.nbrb.by/statistics/rates/RatesDaily.asp?fromDate=" +
-                requestDate.Year.ToString() + '-' + requestDate.Month.ToString("00") + '-' + requestDate.Day.ToString("00");
+            string url = "http://www.nbrb.by/Services/XmlExRates.aspx?ondate=" +
+                requestDate.ToString("yyyy-MM-dd");
 
             webClient.DownloadStringAsync(new Uri(url));
-
-            #region [ XmlRequestCode ]
-            /*
-             * Нифига не пашет так как сайт нацбанка runtime error кидает часто, если запросить xmlку
-             * 
-            
-            string url = "http://www.nbrb.by/Services/XmlExRates.aspx?ondate=" +
-                date.Month.ToString() + '/' + date.Day.ToString() + '/' + date.Year.ToString();
-
-            webClient.DownloadFileAsync(new Uri(url), date.ToShortDateString() + ".xml");
-
-            webClient.DownloadProgressChanged +=
-                delegate(object sender, DownloadProgressChangedEventArgs e)
-                {
-                    if (e.ProgressPercentage == 100)
-                    {
-                        XmlReader xml = XmlReader.Create(date.ToShortDateString() + ".xml");
-                        DailyExRates dailyExRates = (DailyExRates)(new XmlSerializer(typeof(DailyExRates))).Deserialize(xml);
-                        xml.Close();
-
-                        string Euro = "Ошибка", Rub = "Ошибка";
-
-                        foreach (Currency c in dailyExRates.Currency)
-                            if (c.CharCode == "EUR") Euro = c.Rate;
-                            else
-                                if (c.CharCode == "RUB") Rub = c.Rate;
-
-                        dictionary.Add(date.ToShortDateString(), new DailyRate(Euro, Rub));
-
-                        File.Delete(date.ToShortDateString() + ".xml");
-
-                        OnPaint(null);
-
-                        if (q.Count != 0)
-                            makeRequest();
-                    }
-                };
-             */
-            #endregion
         }
-
-            
+                    
         public MainForm()
         {
             InitializeComponent();
@@ -138,35 +88,52 @@ namespace Inplation
             webClient.DownloadStringCompleted +=
                 delegate(object sender, DownloadStringCompletedEventArgs e)
                 {
-                    string s; Rate rate;
+                    DailyExRates dailyExRates;
 
                     try
                     {
-                        s = e.Result.Replace("\r\n", "").Replace("\t", "");
+                        XmlReader xml = XmlReader.Create(new StringReader(e.Result));
+                        dailyExRates = (DailyExRates)(new XmlSerializer(typeof(DailyExRates))).Deserialize(xml);
+                        xml.Close();
                     }
                     catch
                     {
-                        MessageBox.Show("Произошла ошибка в процессе обновления.\nВозможно отсутствует подключение к интернету", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Не удалось получить xml-данные в процессе обновления. Надо срочно позвонить Лёше.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         q.Clear();
                         return;
                     }
 
                     try
                     {
-                        rate = new Rate(getRate(s, "евро"), getRate(s, "доллар США"), getRate(s, "российский рубль"));
-                        double d = Convert.ToDouble(rate.EUR) + Convert.ToDouble(rate.USD) + Convert.ToDouble(rate.RUR);
+                        string EUR = "Ошибка", USD = "Ошибика", RUR = "Ошибка";
+
+                        foreach (Currency currency in dailyExRates.Currency)
+                        {
+                            if (currency.CharCode == "EUR") EUR = currency.Rate;
+                            if (currency.CharCode == "USD") USD = currency.Rate;
+                            if (currency.CharCode == "RUB") RUR = currency.Rate;
+                        }
+
+                        // Проверям, что это были на самом деле числа. 
+                        // CultureInfo.InvariantCulture.NumberFormat - чтоб игнорировать точка или 
+                        // запятая используется в качестве разделителя
+                        double d = Convert.ToDouble(EUR, CultureInfo.InvariantCulture.NumberFormat)
+                                 + Convert.ToDouble(USD, CultureInfo.InvariantCulture.NumberFormat)
+                                 + Convert.ToDouble(RUR, CultureInfo.InvariantCulture.NumberFormat);
+
+                        // Добавляем в список
+                        Rates.Add(ReqDateString, new Rate(EUR, USD, RUR));
                     }
                     catch
                     {
-                        MessageBox.Show("Произошла ошибка в процессе обновления.\nВозможно изменилась структура сайта нацбанка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Не удалось прочитать xml-данные в процессе обновления. Надо срочно позвонить Лёше.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         q.Clear();
                         return;
                     }
 
-                    Rates.Add(ReqDateString, rate);
                     OnPaint(null);
 
-                    makeRequest();                    
+                    makeRequest();
                 };
 
             closeButton.Left = this.Width - closeButton.Width + 5;
