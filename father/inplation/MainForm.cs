@@ -24,7 +24,10 @@ namespace Inplation
             public string EUR, USD, RUR;
             public Rate(string EUR, string USD, string RUR)
             {
-                this.EUR = EUR; this.USD = USD; this.RUR = RUR;
+                // Автоверт понимает только запятую
+                this.EUR = EUR.Replace('.', ',');
+                this.USD = USD.Replace('.', ',');
+                this.RUR = RUR.Replace('.', ',');
             }
         }
 
@@ -83,6 +86,14 @@ namespace Inplation
             catch
             {
                 MessageBox.Show("Произошла ошибка при загрузке базы.\nДанные о курсах утеряны, но их можно скачать заново.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Автоверту нужна запятая
+            foreach (KeyValuePair<string, Rate> rate in Rates)
+            {
+                rate.Value.EUR = rate.Value.EUR.Replace('.', ',');
+                rate.Value.USD = rate.Value.USD.Replace('.', ',');
+                rate.Value.RUR = rate.Value.RUR.Replace('.', ',');
             }
 
             webClient.DownloadStringCompleted +=
