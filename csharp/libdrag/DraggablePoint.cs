@@ -9,53 +9,92 @@ namespace libdrag
 {
     public class DraggablePoint
     {
-        // Pen to draw all DraggablePoints
+        // Pen and brush to draw all DraggablePoints
         private static Pen pen = new Pen(Color.Gray, 2.0f);
+        private static Brush brush = new SolidBrush(Color.FromArgb(0xCC, 0xCC, 0xCC));
 
         // Point position
         private PointF position;
 
+        // True if point is being dragged
+        bool drag = false;
+
         // Radius of DraggablePoint
-        private const float PointRadius = 8.0f;
+        private const float PointRadius = 7.0f;
+        private float PointRadiusCoeff = 1.0f;
 
-        private static Brush brush = new SolidBrush(Color.FromArgb(0xCC, 0xCC, 0xCC));
+        // Grid variables
+        public static bool snapToGrid = false;
+        public static float gridSize = 0.0f;
 
-        public DraggablePoint(PointF pos)
+        // user data
+        public object userData = null;
+        
+        // Constructors
+        public DraggablePoint(PointF position)
         {
-            this.position = pos;
+            this.position = position;
+            snap();
+        }
+
+        public DraggablePoint(PointF position, object userData)
+        {
+            this.position = position;
+            this.userData = userData;
+            snap();
         }
 
         // Checks if cursor is over DraggablePoint
         private bool mouseHit(int x, int y)
         {
             double distance = Math.Sqrt((x - position.X) * (x - position.X) + (y - position.Y) * (y - position.Y));
-            return distance < PointRadius;
+            return distance < PointRadiusCoeff * PointRadius;
         }
-
-        bool drag = false;
 
         public void Paint(PaintEventArgs e)
         {
-            RectangleF rect = new RectangleF(position.X - PointRadius, position.Y - PointRadius, 2 * PointRadius, 2 * PointRadius);
+            float R = PointRadiusCoeff * PointRadius;
+            RectangleF rect = new RectangleF(position.X - R, position.Y - R, 2 * R, 2 * R);
             e.Graphics.FillEllipse(brush, rect);
             e.Graphics.DrawArc(pen, rect, 0.0f, 360.0f);
         }
 
-        public void MouseDown(MouseEventArgs e)
+        public bool MouseDown(MouseEventArgs e)
         {
             if (mouseHit(e.X, e.Y))
             {
                 drag = true;
+                return true;
             }
+
+            return false;
         }
 
-        public void MouseMove(MouseEventArgs e)
+        private void snap()
+        {
+            if (!snapToGrid) return;
+
+            this.position.X = gridSize * (float)Math.Round(this.position.X / gridSize);
+            this.position.Y = gridSize * (float)Math.Round(this.position.Y / gridSize);
+        }
+
+        public bool MouseMove(MouseEventArgs e)
         {
             if (drag)
             {
                 this.position.X = e.X;
                 this.position.Y = e.Y;
+                snap();
             }
+
+            if (drag || mouseHit(e.X, e.Y))
+            {
+                this.PointRadiusCoeff = 1.2f;
+                return true;
+            }
+
+            this.PointRadiusCoeff = 1.0f;
+            return false;
         }
 
         public void MouseUp(MouseEventArgs e)
@@ -64,6 +103,14 @@ namespace libdrag
         }
 
         public PointF Position
+        {
+            get
+            {
+                return this.position;
+            }
+        }
+
+        public PointF RealPosition
         {
             get
             {
