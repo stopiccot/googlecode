@@ -30,6 +30,14 @@ namespace libdrag
             set { DraggablePoint.snapToGrid = snapToGrid = value; }
         }
 
+        private PointF origin = new PointF(0.0f, 0.0f);
+
+        public PointF Origin
+        {
+            get { return origin; }
+            set { DraggablePoint.origin = origin = value; }
+        }
+
         // Constructor
         public DragForm()
         {
@@ -47,15 +55,22 @@ namespace libdrag
 
         public event DraggablePointEventHandler DraggablePointMouseDown;
 
+        private static Pen BoldLightGray = new Pen(Color.LightGray, 2.0f);
+
         private void PaintGrid(PaintEventArgs e)
         {
             if (gridSize > 0.0f)
             {
-                for (int i = 0; i < 100; i++)
+                const float bigNum = 10000.0f;
+
+                for (int i = -200; i < 200; i++)
                 {
-                    e.Graphics.DrawLine(Pens.LightGray, new PointF(0.0f, gridSize * i), new PointF(10000.0f, gridSize * i));
-                    e.Graphics.DrawLine(Pens.LightGray, new PointF(gridSize * i, 0.0f), new PointF(gridSize * i, 10000.0f));
+                    e.Graphics.DrawLine(Pens.LightGray, new PointF(origin.X - bigNum, origin.Y + gridSize * i), new PointF(origin.X + bigNum, origin.Y + gridSize * i));
+                    e.Graphics.DrawLine(Pens.LightGray, new PointF(origin.X + gridSize * i, origin.Y - bigNum), new PointF(origin.X + gridSize * i, origin.Y + bigNum));
                 }
+
+                e.Graphics.DrawLine(Pens.Gray, new PointF(origin.X - bigNum, origin.Y), new PointF(origin.X + bigNum, origin.Y));
+                e.Graphics.DrawLine(Pens.Gray, new PointF(origin.X, origin.Y - bigNum), new PointF(origin.X, origin.Y + bigNum));
             }
         }
 
@@ -80,17 +95,32 @@ namespace libdrag
                 AfterPointsPaint(sender, e);
         }
 
+        private int mouseDownX = 0, mouseDownY = 0;
+        private bool gridDrag = false;
+        private PointF oldOrigin = new PointF(0.0f, 0.0f);
+
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            foreach (DraggablePoint dpoint in this.dpoints)
+            if (e.Button == MouseButtons.Left)
             {
-                if (dpoint.MouseDown(e))
+                foreach (DraggablePoint dpoint in this.dpoints)
                 {
-                    if (DraggablePointMouseDown != null)
-                        DraggablePointMouseDown(dpoint);
+                    if (dpoint.MouseDown(e))
+                    {
+                        if (DraggablePointMouseDown != null)
+                            DraggablePointMouseDown(dpoint);
 
-                    break;
+                        break;
+                    }
                 }
+            }
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                gridDrag = true;
+                mouseDownX = e.X;
+                mouseDownY = e.Y;
+                oldOrigin = this.origin;
             }
 
             Invalidate();
@@ -99,16 +129,32 @@ namespace libdrag
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             foreach (DraggablePoint dpoint in this.dpoints)
+            {
                 if (dpoint.MouseMove(e))
                     break;
+            }
+
+            if (gridDrag)
+            {
+                this.Origin = new PointF(oldOrigin.X + e.X - mouseDownX, oldOrigin.Y + e.Y - mouseDownY);
+            }
 
             Invalidate();
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
-            foreach (DraggablePoint dpoint in this.dpoints)
-                dpoint.MouseUp(e);
+            if (e.Button == MouseButtons.Left)
+            {
+                foreach (DraggablePoint dpoint in this.dpoints)
+                    dpoint.MouseUp(e);
+            }
+
+            // Stop drag grid
+            if (e.Button == MouseButtons.Middle)
+            {
+                gridDrag = false;
+            }
 
             Invalidate();
         }

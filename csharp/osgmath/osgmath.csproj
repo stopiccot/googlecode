@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="osgMath.cs" />
     <Compile Include="Vec3d.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

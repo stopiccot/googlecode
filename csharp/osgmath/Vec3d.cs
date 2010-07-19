@@ -11,13 +11,6 @@ namespace osg
         public double x, y, z;
 
         // Constructors
-        public Vec3d()
-        {
-            this.x = 0.0;
-            this.y = 0.0;
-            this.z = 0.0;
-        }
-
         public Vec3d(double x, double y, double z)
         {
             this.x = x;
@@ -96,6 +89,17 @@ namespace osg
         public static Vec3d operator /(Vec3d a, double d)
         {
             return a * (1.0 / d);
+        }
+
+        // validation methods
+        public bool valid()
+        {
+            return !this.isNaN();
+        }
+
+        public bool isNaN()
+        {
+            return double.IsNaN(this.x) || double.IsNaN(this.y) || double.IsNaN(this.z);
         }
     }
 }

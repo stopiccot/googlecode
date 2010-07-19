@@ -26,6 +26,7 @@ namespace libdrag
         // Grid variables
         public static bool snapToGrid = false;
         public static float gridSize = 0.0f;
+        public static PointF origin = new PointF(0.0f, 0.0f);
 
         // user data
         public object userData = null;
@@ -47,14 +48,14 @@ namespace libdrag
         // Checks if cursor is over DraggablePoint
         private bool mouseHit(int x, int y)
         {
-            double distance = Math.Sqrt((x - position.X) * (x - position.X) + (y - position.Y) * (y - position.Y));
+            double distance = Math.Sqrt(Math.Pow(x - position.X - origin.X, 2.0) + Math.Pow(y - position.Y - origin.Y, 2.0));
             return distance < PointRadiusCoeff * PointRadius;
         }
 
         public void Paint(PaintEventArgs e)
         {
             float R = PointRadiusCoeff * PointRadius;
-            RectangleF rect = new RectangleF(position.X - R, position.Y - R, 2 * R, 2 * R);
+            RectangleF rect = new RectangleF(position.X + origin.X - R, position.Y + origin.Y - R, 2 * R, 2 * R);
             e.Graphics.FillEllipse(brush, rect);
             e.Graphics.DrawArc(pen, rect, 0.0f, 360.0f);
         }
@@ -82,8 +83,8 @@ namespace libdrag
         {
             if (drag)
             {
-                this.position.X = e.X;
-                this.position.Y = e.Y;
+                this.position.X = e.X - origin.X;
+                this.position.Y = e.Y - origin.Y;
                 snap();
             }
 
@@ -106,7 +107,7 @@ namespace libdrag
         {
             get
             {
-                return this.position;
+                return new PointF(this.position.X + origin.X, this.position.Y + origin.Y);
             }
         }
 
