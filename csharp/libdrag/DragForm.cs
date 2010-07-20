@@ -13,71 +13,83 @@ namespace libdrag
     {
         protected List<DraggablePoint> dpoints = new List<DraggablePoint>();
 
-        // Properties
-        private float gridSize = 0.0f;
-
-        public float GridSize
-        {
-            get { return gridSize; }
-            set { DraggablePoint.gridSize = gridSize = value; }
-        }
-
-        private bool snapToGrid = false;
-
-        public bool SnapToGrid
-        {
-            get { return snapToGrid; }
-            set { DraggablePoint.snapToGrid = snapToGrid = value; }
-        }
-
-        private PointF origin = new PointF(0.0f, 0.0f);
-
-        public PointF Origin
-        {
-            get { return origin; }
-            set { DraggablePoint.origin = origin = value; }
-        }
-
+        public FieldSettings FieldSettings { get; set; }
+        
         // Constructor
         public DragForm()
         {
+            this.FieldSettings = new FieldSettings(this);
+
             if (!this.DesignMode)
             {
                 this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
                 this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
                 this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
                 this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
+                this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.OnMouseWheel);
+                this.Resize += new System.EventHandler(this.OnResize);
             }
         }
 
+        // Methods for adding new draggable points. AVOID ADDING DIRECTLY
+        public void AddDraggablePointWS(PointF point, object userData)
+        {
+            DraggablePoint dpoint = new DraggablePoint(point, userData);
+            dpoint.ownerForm = this;
+            dpoint.Snap();
+            this.dpoints.Add(dpoint);
+        }
+
+        public void AddDraggablePointFS(PointF point, object userData)
+        {
+            AddDraggablePointWS(TransformToWorldSpace(point), userData);
+        }
+        
+        // Methods for transformation between two spaces
+        public PointF TransformToFormSpace(PointF point)
+        {
+            return new PointF(this.FieldSettings.Scale * point.X + this.FieldSettings.Origin.X + this.Width / 2.0f, this.FieldSettings.Scale * point.Y + this.FieldSettings.Origin.Y + this.Height / 2.0f);
+        }
+
+        public PointF TransformToWorldSpace(PointF point)
+        {
+            return new PointF((point.X - this.FieldSettings.Origin.X - this.Width / 2.0f) / this.FieldSettings.Scale, (point.Y - this.FieldSettings.Origin.Y - this.Height / 2.0f) / this.FieldSettings.Scale);
+        }
+        
+        // Handing events
         public event PaintEventHandler BeforePointsPaint;
         public event PaintEventHandler AfterPointsPaint;
 
         public event DraggablePointEventHandler DraggablePointMouseDown;
 
         private static Pen BoldLightGray = new Pen(Color.LightGray, 2.0f);
+        private static Pen BoldBlack = new Pen(Color.Black, 2.0f);
 
         private void PaintGrid(PaintEventArgs e)
         {
-            if (gridSize > 0.0f)
+            if (this.FieldSettings.GridSize > 0.0f)
             {
-                const float bigNum = 10000.0f;
+                const float bigNum = 100.0f;
 
-                for (int i = -200; i < 200; i++)
+                for (int i = -500; i < 500; i++)
                 {
-                    e.Graphics.DrawLine(Pens.LightGray, new PointF(origin.X - bigNum, origin.Y + gridSize * i), new PointF(origin.X + bigNum, origin.Y + gridSize * i));
-                    e.Graphics.DrawLine(Pens.LightGray, new PointF(origin.X + gridSize * i, origin.Y - bigNum), new PointF(origin.X + gridSize * i, origin.Y + bigNum));
+                    e.Graphics.DrawLine(Pens.LightGray, TransformToFormSpace(new PointF(-bigNum, this.FieldSettings.GridSize * i)), TransformToFormSpace(new PointF(bigNum, this.FieldSettings.GridSize * i)));
+                    e.Graphics.DrawLine(Pens.LightGray, TransformToFormSpace(new PointF(this.FieldSettings.GridSize * i, -bigNum)), TransformToFormSpace(new PointF(this.FieldSettings.GridSize * i, bigNum)));
                 }
 
-                e.Graphics.DrawLine(Pens.Gray, new PointF(origin.X - bigNum, origin.Y), new PointF(origin.X + bigNum, origin.Y));
-                e.Graphics.DrawLine(Pens.Gray, new PointF(origin.X, origin.Y - bigNum), new PointF(origin.X, origin.Y + bigNum));
+                // OX and OY axises
+                e.Graphics.DrawLine(Pens.Black, TransformToFormSpace(new PointF(-bigNum, 0.0f)), TransformToFormSpace(new PointF(bigNum, 0.0f)));
+                e.Graphics.DrawLine(Pens.Black, TransformToFormSpace(new PointF(0.0f, -bigNum)), TransformToFormSpace(new PointF(0.0f, bigNum)));
             }
         }
 
         private void PaintDraggablePoints(PaintEventArgs e)
         {
             foreach (DraggablePoint dpoint in this.dpoints)
+            {
+                dpoint.ownerForm = this;
                 dpoint.Paint(e);
+            }
         }
 
         private void OnPaint(object sender, PaintEventArgs e)
@@ -120,7 +132,7 @@ namespace libdrag
                 gridDrag = true;
                 mouseDownX = e.X;
                 mouseDownY = e.Y;
-                oldOrigin = this.origin;
+                oldOrigin = this.FieldSettings.Origin;
             }
 
             Invalidate();
@@ -136,7 +148,7 @@ namespace libdrag
 
             if (gridDrag)
             {
-                this.Origin = new PointF(oldOrigin.X + e.X - mouseDownX, oldOrigin.Y + e.Y - mouseDownY);
+                this.FieldSettings.Origin = new PointF(oldOrigin.X + e.X - mouseDownX, oldOrigin.Y + e.Y - mouseDownY);
             }
 
             Invalidate();
@@ -156,6 +168,25 @@ namespace libdrag
                 gridDrag = false;
             }
 
+            Invalidate();
+        }
+
+        private void OnMouseWheel(object sender, MouseEventArgs e)
+        {
+            // Чтоб зумить относительно центра камеры
+            PointF center = TransformToWorldSpace(new PointF(this.Width / 2.0f, this.Height / 2.0f));
+            
+            this.FieldSettings.Scale *= 1.0f + e.Delta / 600.0f;
+            this.FieldSettings.Scale = Math.Min(this.FieldSettings.MaxScale, Math.Max(this.FieldSettings.MinScale, this.FieldSettings.Scale));
+
+            center = TransformToFormSpace(center);
+            this.FieldSettings.Origin = new PointF(this.FieldSettings.Origin.X + this.Width / 2.0f - center.X, this.FieldSettings.Origin.Y + this.Height / 2.0f - center.Y);
+
+            Invalidate();
+        }
+
+        private void OnResize(object sender, EventArgs e)
+        {
             Invalidate();
         }
     }

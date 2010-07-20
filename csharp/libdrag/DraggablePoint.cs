@@ -23,39 +23,37 @@ namespace libdrag
         private const float PointRadius = 7.0f;
         private float PointRadiusCoeff = 1.0f;
 
-        // Grid variables
-        public static bool snapToGrid = false;
-        public static float gridSize = 0.0f;
-        public static PointF origin = new PointF(0.0f, 0.0f);
-
-        // user data
+        public DragForm ownerForm = null;
         public object userData = null;
         
         // Constructors
         public DraggablePoint(PointF position)
         {
             this.position = position;
-            snap();
         }
 
         public DraggablePoint(PointF position, object userData)
         {
             this.position = position;
             this.userData = userData;
-            snap();
         }
 
         // Checks if cursor is over DraggablePoint
         private bool mouseHit(int x, int y)
         {
-            double distance = Math.Sqrt(Math.Pow(x - position.X - origin.X, 2.0) + Math.Pow(y - position.Y - origin.Y, 2.0));
+            PointF posFS = this.ownerForm.TransformToFormSpace(this.position);
+
+            double distance = Math.Sqrt(Math.Pow(x - posFS.X, 2.0) + Math.Pow(y - posFS.Y, 2.0));
             return distance < PointRadiusCoeff * PointRadius;
         }
 
         public void Paint(PaintEventArgs e)
         {
             float R = PointRadiusCoeff * PointRadius;
-            RectangleF rect = new RectangleF(position.X + origin.X - R, position.Y + origin.Y - R, 2 * R, 2 * R);
+            PointF posFS = this.ownerForm.TransformToFormSpace(this.position);
+
+            // Draw point
+            RectangleF rect = new RectangleF(posFS.X - R, posFS.Y - R, 2 * R, 2 * R);
             e.Graphics.FillEllipse(brush, rect);
             e.Graphics.DrawArc(pen, rect, 0.0f, 360.0f);
         }
@@ -71,10 +69,13 @@ namespace libdrag
             return false;
         }
 
-        private void snap()
+        internal void Snap()
         {
-            if (!snapToGrid) return;
+            if (!this.ownerForm.FieldSettings.SnapToGrid) 
+                return;
 
+            // Snaps are made in World Space
+            float gridSize = this.ownerForm.FieldSettings.GridSize;
             this.position.X = gridSize * (float)Math.Round(this.position.X / gridSize);
             this.position.Y = gridSize * (float)Math.Round(this.position.Y / gridSize);
         }
@@ -83,9 +84,8 @@ namespace libdrag
         {
             if (drag)
             {
-                this.position.X = e.X - origin.X;
-                this.position.Y = e.Y - origin.Y;
-                snap();
+                this.PositionFS = new PointF(e.X, e.Y);
+                Snap();
             }
 
             if (drag || mouseHit(e.X, e.Y))
@@ -103,19 +103,27 @@ namespace libdrag
             drag = false;
         }
 
-        public PointF Position
+        public PointF PositionFS
         {
             get
             {
-                return new PointF(this.position.X + origin.X, this.position.Y + origin.Y);
+                return this.ownerForm.TransformToFormSpace(this.position);
+            }
+            set
+            {
+                this.position = this.ownerForm.TransformToWorldSpace(value);
             }
         }
 
-        public PointF RealPosition
+        public PointF PositionWS
         {
             get
             {
                 return this.position;
+            }
+            set
+            {
+                this.position = value;
             }
         }
     }
