@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "invoice", "invoice\invoice.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exponent", "exponent\exponent.csproj", "{1C649159-FB7B-4128-9288-9C821EB8153C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tyres", "tyres\tyres.csproj", "{C99F707A-F01C-447C-81F8-C4D9701B218E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{1C649159-FB7B-4128-9288-9C821EB8153C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C649159-FB7B-4128-9288-9C821EB8153C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C649159-FB7B-4128-9288-9C821EB8153C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99F707A-F01C-447C-81F8-C4D9701B218E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99F707A-F01C-447C-81F8-C4D9701B218E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99F707A-F01C-447C-81F8-C4D9701B218E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99F707A-F01C-447C-81F8-C4D9701B218E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
