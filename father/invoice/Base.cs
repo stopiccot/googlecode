@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.IO;
+using Stopiccot;
 
 namespace Invoice
 {
@@ -17,7 +18,7 @@ namespace Invoice
         public bool showPayed;
         public string templateDoc;
         public string[] workingDirectory;
-        public FormPostion FormPosition;
+        public FormPosition FormPosition;
         public string[] prices;
         public int[] columnWidth;
         public Bill[] bills;
@@ -36,7 +37,7 @@ namespace Invoice
 
         public static string templateDoc = "";
 
-        public static FormPostion FormPosition = new FormPostion(100, 100, 800, 600, false);
+        public static FormPosition FormPosition = new FormPosition(100, 100, 800, 600, false);
 
         public static int[] columnWidth = { 100, 100, 100, 100 };
         public static string[] prices;

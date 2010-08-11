@@ -4,12 +4,13 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
+using Stopiccot;
 
 namespace counter
 {
     public class SerializableBase
     {
-        public FormPostion formPosition;
+        public FormPosition formPosition;
         public bool panelMinimized;
         public string[][] partsWear;
     }
@@ -18,7 +19,7 @@ namespace counter
     {
         private static SerializableBase _base = new SerializableBase();
         private static string baseFile = System.Environment.CurrentDirectory + "\\base.xml";
-        public static FormPostion formPosition = new FormPostion(100, 100, 583, 100, false);
+        public static FormPosition formPosition = new FormPosition(100, 100, 583, 100, false);
         public static bool panelMinimized = true;
         public static string[][] partsWear = new string[][] { 
             new string[] { "1", "2", "3" },

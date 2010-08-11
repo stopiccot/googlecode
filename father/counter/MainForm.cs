@@ -9,7 +9,7 @@ using Stopiccot.VisualComponents;
 
 namespace counter
 {
-    public partial class MainForm : SavePositionForm
+    public partial class MainForm : Stopiccot.SavePositionForm
     {
         public MainForm()
         {

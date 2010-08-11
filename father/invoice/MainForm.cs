@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Invoice
 {
-    public partial class MainForm : SavePositionForm
+    public partial class MainForm : Stopiccot.SavePositionForm
     {
         private ColumnSorter columnSorter;
         private EditBillForm editBillForm;
