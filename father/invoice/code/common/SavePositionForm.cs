@@ -47,8 +47,12 @@ namespace Stopiccot
             set 
             {
                 Location = value.Location;
-                Size = value.Size;
                 WindowState = value.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
+                // ≈сли размеры окна нельз€ изменить, то нефиг читать значени€ из конфига
+                // т.к. от версии к версии размеры окна могут мен€тьс€
+                if (this.FormBorderStyle != FormBorderStyle.FixedDialog)
+                    Size = value.Size;
+
                 position = value;
             }
         }
