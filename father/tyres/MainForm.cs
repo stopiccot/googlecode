@@ -41,7 +41,7 @@ namespace tyres
                 result += (rightRearTyre.Value - minTread.Value) / delta;
 
                 result -= 4 * 0.5m;
-                result *= 2 * decimal.Parse(tуrePrice.Text);
+                result *= decimal.Parse(tуrePrice.Text);
                 resultLabel.Text = result.ToString("0.00");
 
                 if (result > 0.0m)
