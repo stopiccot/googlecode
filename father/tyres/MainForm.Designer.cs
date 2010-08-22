@@ -39,6 +39,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.minTread = new System.Windows.Forms.NumericUpDown();
             this.resultLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.leftFrontTyre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightFrontTyre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightRearTyre)).BeginInit();
@@ -61,6 +63,7 @@
             this.leftFrontTyre.Size = new System.Drawing.Size(75, 26);
             this.leftFrontTyre.TabIndex = 0;
             this.leftFrontTyre.ValueChanged += new System.EventHandler(this.updatePrice);
+            this.leftFrontTyre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             // 
             // rightFrontTyre
             // 
@@ -76,6 +79,7 @@
             this.rightFrontTyre.Size = new System.Drawing.Size(75, 26);
             this.rightFrontTyre.TabIndex = 1;
             this.rightFrontTyre.ValueChanged += new System.EventHandler(this.updatePrice);
+            this.rightFrontTyre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             // 
             // rightRearTyre
             // 
@@ -91,6 +95,7 @@
             this.rightRearTyre.Size = new System.Drawing.Size(75, 26);
             this.rightRearTyre.TabIndex = 3;
             this.rightRearTyre.ValueChanged += new System.EventHandler(this.updatePrice);
+            this.rightRearTyre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             // 
             // leftRearTyre
             // 
@@ -106,6 +111,7 @@
             this.leftRearTyre.Size = new System.Drawing.Size(75, 26);
             this.leftRearTyre.TabIndex = 2;
             this.leftRearTyre.ValueChanged += new System.EventHandler(this.updatePrice);
+            this.leftRearTyre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             // 
             // maxTread
             // 
@@ -116,7 +122,7 @@
             0,
             0,
             65536});
-            this.maxTread.Location = new System.Drawing.Point(205, 28);
+            this.maxTread.Location = new System.Drawing.Point(214, 28);
             this.maxTread.Name = "maxTread";
             this.maxTread.Size = new System.Drawing.Size(75, 26);
             this.maxTread.TabIndex = 4;
@@ -164,7 +170,7 @@
             0,
             0,
             65536});
-            this.minTread.Location = new System.Drawing.Point(205, 60);
+            this.minTread.Location = new System.Drawing.Point(214, 60);
             this.minTread.Name = "minTread";
             this.minTread.Size = new System.Drawing.Size(75, 26);
             this.minTread.TabIndex = 8;
@@ -179,17 +185,37 @@
             // 
             this.resultLabel.AutoSize = true;
             this.resultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.resultLabel.Location = new System.Drawing.Point(201, 121);
+            this.resultLabel.Location = new System.Drawing.Point(200, 121);
             this.resultLabel.Name = "resultLabel";
             this.resultLabel.Size = new System.Drawing.Size(57, 20);
             this.resultLabel.TabIndex = 9;
             this.resultLabel.Text = "label3";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(182, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(26, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "max";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(185, 67);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "min";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 162);
+            this.ClientSize = new System.Drawing.Size(300, 162);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.resultLabel);
             this.Controls.Add(this.minTread);
             this.Controls.Add(this.label2);
@@ -203,7 +229,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Рассчет стоимости колес";
@@ -231,6 +256,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown minTread;
         private System.Windows.Forms.Label resultLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
 
 
     }

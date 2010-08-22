@@ -41,7 +41,7 @@ namespace tyres
                 result += (rightRearTyre.Value - minTread.Value) / delta;
 
                 result -= 4 * 0.5m;
-                result *= 4 * decimal.Parse(tуrePrice.Text);
+                result *= 2 * decimal.Parse(tуrePrice.Text);
                 resultLabel.Text = result.ToString("0.00");
 
                 if (result > 0.0m)
@@ -56,6 +56,11 @@ namespace tyres
                 resultLabel.Text = "Ошибка";
                 resultLabel.ForeColor = Color.Red;
             }
+        }
+
+        private void onKeyPress(object sender, KeyPressEventArgs e)
+        {
+            //updatePrice(null, null);
         }
     }
 }
