@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.1.2
+// [*] Update url changed because of google code's cache too long update
+//
 // 1.1.1
 // [*] Small fix when Cancel button haven't worked in new bill dialog
 //     when it was called second+ time
