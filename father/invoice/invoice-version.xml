@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUpdateInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UpdateInfo>
+    <version>1.0.5.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.0.5.0.exe</uri>
+    <description>Версия 1.0.5.0</description>
+  </UpdateInfo>
+  <UpdateInfo>
+    <version>1.0.6.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.0.6.0.exe</uri>
+    <description>Версия 1.0.6.0</description>
+  </UpdateInfo>
+  <UpdateInfo>
+    <version>1.0.7.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.0.7.0.exe</uri>
+    <description>Версия 1.0.7.0</description>
+  </UpdateInfo>
+  <UpdateInfo>
+    <version>1.0.8.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.0.8.0.exe</uri>
+    <description>Версия 1.0.8.0</description>
+  </UpdateInfo>
+  <UpdateInfo>
+    <version>1.1.0.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.1.0.0.exe</uri>
+    <description>Версия 1.1.0.0</description>
+  </UpdateInfo>
+  <UpdateInfo>
+    <version>1.1.1.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.1.1.0.exe</uri>
+    <description>Версия 1.1.1.0</description>
+  </UpdateInfo>
+  <UpdateInfo>
+    <version>1.1.2.0</version>
+    <uri>http://stopiccot.googlecode.com/files/invoice-1.1.2.0.exe</uri>
+    <description>Версия 1.1.2.0</description>
+  </UpdateInfo>
+</ArrayOfUpdateInfo>
