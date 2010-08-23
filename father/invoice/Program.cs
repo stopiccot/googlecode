@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.1.1
+// [*] Small fix when Cancel button haven't worked in new bill dialog
+//     when it was called second+ time
+// [*] Fixed bug when priceComboBox in EditBillForm haven't updated it's
+//     value for second+ time
+//
 // 1.1
 // [*] Another fix in deletion. When I'll eventually write it without bugs?
 // [*] Little fix with doc creation path

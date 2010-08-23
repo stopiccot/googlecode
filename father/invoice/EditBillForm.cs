@@ -64,6 +64,8 @@ namespace Invoice
 
         public bool EditBill(int index, bool edit)
         {
+            apply = false;
+
             editIndex = index;
 
             applyBill = Base.billList[editIndex];
@@ -98,8 +100,16 @@ namespace Invoice
             return apply;
         }
 
+        private void EditBillForm_Shown(object sender, EventArgs e)
+        {
+            // Не знаю почему, но в методе EditBill эта строчка не всегда работает
+            priceComboBox.Value = selectedBill.Price;
+        }
+
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            apply = false;
+
             Close();
         }
 

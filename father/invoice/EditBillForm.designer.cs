@@ -263,6 +263,7 @@ namespace Invoice
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Редактирование счёт-фактуры";
+            this.Shown += new System.EventHandler(this.EditBillForm_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditBillForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).EndInit();
             this.ResumeLayout(false);
