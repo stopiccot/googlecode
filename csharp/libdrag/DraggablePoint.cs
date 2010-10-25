@@ -9,33 +9,45 @@ namespace libdrag
 {
     public class DraggablePoint
     {
+        // owner form and owner draggable point group
+        private DragForm ownerForm = null;
+        private DraggablePointGroup ownerGroup = null;
+
         // Pen and brush to draw all DraggablePoints
-        private static Pen pen = new Pen(Color.Gray, 2.0f);
-        private static Brush brush = new SolidBrush(Color.FromArgb(0xCC, 0xCC, 0xCC));
+        private static Pen pen = new Pen(Color.FromArgb(0x77, 0x77, 0x77), 2.0f);
+        private static Brush brush = new SolidBrush(Color.FromArgb(0xBB, 0xBB, 0xBB));
+
+        // Pen and brush to draw draggable point that are currently active
+        private static Pen activePen = new Pen(Color.FromArgb(0x77, 0x77, 0x77), 2.0f);
+        private static Brush activeBrush = new SolidBrush(Color.FromArgb(0xF0, 0xF0, 0xF0));
 
         // Point position
         private PointF position;
 
-        // True if point is being dragged
-        bool drag = false;
+        // is point being dragged?
+        private bool drag = false;
+
+        // is point active/selected?
+        public bool active = false;
 
         // Radius of DraggablePoint
         private const float PointRadius = 7.0f;
         private float PointRadiusCoeff = 1.0f;
 
-        public DragForm ownerForm = null;
         public object userData = null;
-        
+                
         // Constructors
-        public DraggablePoint(PointF position)
+        public DraggablePoint(PointF position, DragForm ownerForm)
         {
-            this.position = position;
+            this.position  = position;
+            this.ownerForm = ownerForm;
         }
 
-        public DraggablePoint(PointF position, object userData)
+        public DraggablePoint(PointF position, object userData, DragForm ownerForm)
         {
-            this.position = position;
-            this.userData = userData;
+            this.position  = position;
+            this.userData  = userData;
+            this.ownerForm = ownerForm;
         }
 
         // Checks if cursor is over DraggablePoint
@@ -54,8 +66,8 @@ namespace libdrag
 
             // Draw point
             RectangleF rect = new RectangleF(posFS.X - R, posFS.Y - R, 2 * R, 2 * R);
-            e.Graphics.FillEllipse(brush, rect);
-            e.Graphics.DrawArc(pen, rect, 0.0f, 360.0f);
+            e.Graphics.FillEllipse(active ? activeBrush : brush, rect);
+            e.Graphics.DrawArc(active ? activePen :  pen, rect, 0.0f, 360.0f);
         }
 
         public bool MouseDown(MouseEventArgs e)
