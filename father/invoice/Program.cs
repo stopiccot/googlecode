@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.1.3
+// [*] Two new checkboxes in EditBillForm
+//
 // 1.1.2
 // [*] Update url changed because of google code's cache too long update
 //

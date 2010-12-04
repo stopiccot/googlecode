@@ -83,10 +83,12 @@ namespace Invoice
 
             int workDone = selectedBill.WorkDone;
 
-            checkBox1.Checked = (selectedBill.WorkDone & 1) == 1; checkBox1.Tag = "1";
-            checkBox2.Checked = (selectedBill.WorkDone & 2) == 2; checkBox2.Tag = "2";
-            checkBox3.Checked = (selectedBill.WorkDone & 4) == 4; checkBox3.Tag = "4";
-            checkBox4.Checked = (selectedBill.WorkDone & 8) == 8; checkBox4.Tag = "8";
+            checkBox1.Checked = (selectedBill.WorkDone &  1) ==  1; checkBox1.Tag = "1";
+            checkBox2.Checked = (selectedBill.WorkDone &  2) ==  2; checkBox2.Tag = "2";
+            checkBox3.Checked = (selectedBill.WorkDone &  4) ==  4; checkBox3.Tag = "4";
+            checkBox4.Checked = (selectedBill.WorkDone &  8) ==  8; checkBox4.Tag = "8";
+            checkBox5.Checked = (selectedBill.WorkDone & 16) == 16; checkBox5.Tag = "16";
+            checkBox6.Checked = (selectedBill.WorkDone & 32) == 32; checkBox6.Tag = "32";
 
             selectedBill.WorkDone = workDone;
 

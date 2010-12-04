@@ -416,6 +416,12 @@ namespace Invoice
             if ((bill.WorkDone & 8) == 8)
                 s += (++n).ToString() + ".Расчёт вреда в случае гибели ТС.\r";
 
+            if ((bill.WorkDone & 16) == 16)
+                s += (++n).ToString() + ".Расчёт деф. эксплуатации ТС.\r";
+
+            if ((bill.WorkDone & 32) == 32)
+                s += (++n).ToString() + ".Расчёт стоимости ТС.\r";
+
             Word.Replace("%workDone%", s);
 
             s = "";

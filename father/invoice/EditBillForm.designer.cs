@@ -45,6 +45,8 @@ namespace Invoice
             this.car = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.priceComboBox = new Stopiccot.VisualComponents.NumberComboBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,7 +95,7 @@ namespace Invoice
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(9, 238);
+            this.label3.Location = new System.Drawing.Point(9, 288);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 4;
@@ -102,7 +104,7 @@ namespace Invoice
             // applyButton
             // 
             this.applyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.applyButton.Location = new System.Drawing.Point(181, 281);
+            this.applyButton.Location = new System.Drawing.Point(181, 331);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(100, 23);
             this.applyButton.TabIndex = 6;
@@ -112,7 +114,7 @@ namespace Invoice
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(12, 281);
+            this.cancelButton.Location = new System.Drawing.Point(12, 331);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(100, 23);
             this.cancelButton.TabIndex = 7;
@@ -225,7 +227,7 @@ namespace Invoice
             // priceComboBox
             // 
             this.priceComboBox.FormatString = "N0";
-            this.priceComboBox.Location = new System.Drawing.Point(12, 254);
+            this.priceComboBox.Location = new System.Drawing.Point(12, 304);
             this.priceComboBox.MaxDropDownItems = 20;
             this.priceComboBox.Name = "priceComboBox";
             this.priceComboBox.Size = new System.Drawing.Size(269, 21);
@@ -234,11 +236,39 @@ namespace Invoice
             this.priceComboBox.Value = 0;
             this.priceComboBox.TextChanged += new System.EventHandler(this.priceComboBox_TextChanged);
             // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox5.Location = new System.Drawing.Point(12, 241);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(172, 17);
+            this.checkBox5.TabIndex = 28;
+            this.checkBox5.Tag = "8";
+            this.checkBox5.Text = "Расчёт деф. эксплуатции ТС";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox6.Location = new System.Drawing.Point(12, 264);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(135, 17);
+            this.checkBox6.TabIndex = 29;
+            this.checkBox6.Tag = "8";
+            this.checkBox6.Text = "Расчёт стоимости ТС ";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
             // EditBillForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 315);
+            this.ClientSize = new System.Drawing.Size(290, 365);
+            this.Controls.Add(this.checkBox6);
+            this.Controls.Add(this.checkBox5);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.car);
             this.Controls.Add(this.checkBox4);
@@ -291,5 +321,7 @@ namespace Invoice
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.TextBox car;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox6;
     }
 }
