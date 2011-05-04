@@ -42,25 +42,25 @@ namespace libdrag
 			return group;
 		}
 
-		// Methods for adding new draggable points. AVOID ADDING DIRECTLY
-		public void AddDraggablePointWS(PointF point, object userData)
+		// Methods for adding new draggable points into default group. AVOID ADDING DIRECTLY
+		public DraggablePoint AddDraggablePointWS(PointF point, object userData)
 		{
-			this.defaultPointGroup.AddDraggablePointWS(point, userData);
+			return this.defaultPointGroup.AddDraggablePointWS(point, userData);
 		}
 
-		public void AddDraggablePointWS(float x, float y, object userData)
+		public DraggablePoint AddDraggablePointWS(float x, float y, object userData)
 		{
-			this.defaultPointGroup.AddDraggablePointWS(x, y, userData);
+			return this.defaultPointGroup.AddDraggablePointWS(x, y, userData);
 		}
 
-		public void AddDraggablePointFS(PointF point, object userData)
+		public DraggablePoint AddDraggablePointFS(PointF point, object userData)
 		{
-			this.defaultPointGroup.AddDraggablePointFS(point, userData);
+			return this.defaultPointGroup.AddDraggablePointFS(point, userData);
 		}
 
-		public void AddDraggablePointFS(float x, float y, object userData)
+		public DraggablePoint AddDraggablePointFS(float x, float y, object userData)
 		{
-			this.defaultPointGroup.AddDraggablePointFS(x, y, userData);
+			return this.defaultPointGroup.AddDraggablePointFS(x, y, userData);
 		}
 
 		// Methods for transformation between two spaces

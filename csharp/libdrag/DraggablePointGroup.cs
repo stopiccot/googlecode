@@ -22,26 +22,27 @@ namespace libdrag
         }
 
         // Methods for adding new draggable points. AVOID ADDING DIRECTLY
-        public void AddDraggablePointWS(PointF point, object userData)
+        public DraggablePoint AddDraggablePointWS(PointF point, object userData)
         {
             DraggablePoint dpoint = new DraggablePoint(point, userData, this.ownerForm);
             dpoint.Snap();
             this.dpoints.Add(dpoint);
+			return dpoint;
         }
 
-		public void AddDraggablePointWS(float x, float y, object userData)
+		public DraggablePoint AddDraggablePointWS(float x, float y, object userData)
 		{
-			this.AddDraggablePointWS(new PointF(x, y), userData);
+			return this.AddDraggablePointWS(new PointF(x, y), userData);
 		}
 
-        public void AddDraggablePointFS(PointF point, object userData)
+		public DraggablePoint AddDraggablePointFS(PointF point, object userData)
         {
-            AddDraggablePointWS(ownerForm.TransformToWorldSpace(point), userData);
+            return this.AddDraggablePointWS(ownerForm.TransformToWorldSpace(point), userData);
         }
 
-		public void AddDraggablePointFS(float x, float y, object userData)
+		public DraggablePoint AddDraggablePointFS(float x, float y, object userData)
 		{
-			this.AddDraggablePointFS(new PointF(x, y), userData);
+			return this.AddDraggablePointFS(new PointF(x, y), userData);
 		}
 
         public void Paint(PaintEventArgs e)
