@@ -14,10 +14,11 @@ namespace libdrag
         public List<DraggablePoint> dpoints = new List<DraggablePoint>();
         
         public bool Visible { get; set; }
-
+		
         internal DraggablePointGroup(DragForm ownerForm)
         {
             this.ownerForm = ownerForm;
+			this.Visible = true;
         }
 
         // Methods for adding new draggable points. AVOID ADDING DIRECTLY
@@ -28,10 +29,20 @@ namespace libdrag
             this.dpoints.Add(dpoint);
         }
 
+		public void AddDraggablePointWS(float x, float y, object userData)
+		{
+			this.AddDraggablePointWS(new PointF(x, y), userData);
+		}
+
         public void AddDraggablePointFS(PointF point, object userData)
         {
             AddDraggablePointWS(ownerForm.TransformToWorldSpace(point), userData);
         }
+
+		public void AddDraggablePointFS(float x, float y, object userData)
+		{
+			this.AddDraggablePointFS(new PointF(x, y), userData);
+		}
 
         public void Paint(PaintEventArgs e)
         {

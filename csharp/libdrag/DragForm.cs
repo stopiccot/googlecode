@@ -11,6 +11,7 @@ namespace libdrag
 
 	public class DragForm : Form
 	{
+		protected DraggablePointGroup defaultPointGroup = null;
 		protected List<DraggablePointGroup> groups = new List<DraggablePointGroup>();
 
 		public FieldSettings FieldSettings { get; set; }
@@ -19,6 +20,8 @@ namespace libdrag
 		public DragForm()
 		{
 			this.FieldSettings = new FieldSettings(this);
+			this.defaultPointGroup = CreateDraggablePointGroup();
+			this.DoubleBuffered = true;
 
 			if (!this.DesignMode)
 			{
@@ -31,11 +34,33 @@ namespace libdrag
 			}
 		}
 
-		public DraggablePointGroup createPointGroup()
+		// Method to add new point group. AVOID ADDING DIRECTLY
+		public DraggablePointGroup CreateDraggablePointGroup()
 		{
 			DraggablePointGroup group = new DraggablePointGroup(this);
 			groups.Add(group);
 			return group;
+		}
+
+		// Methods for adding new draggable points. AVOID ADDING DIRECTLY
+		public void AddDraggablePointWS(PointF point, object userData)
+		{
+			this.defaultPointGroup.AddDraggablePointWS(point, userData);
+		}
+
+		public void AddDraggablePointWS(float x, float y, object userData)
+		{
+			this.defaultPointGroup.AddDraggablePointWS(x, y, userData);
+		}
+
+		public void AddDraggablePointFS(PointF point, object userData)
+		{
+			this.defaultPointGroup.AddDraggablePointFS(point, userData);
+		}
+
+		public void AddDraggablePointFS(float x, float y, object userData)
+		{
+			this.defaultPointGroup.AddDraggablePointFS(x, y, userData);
 		}
 
 		// Methods for transformation between two spaces
