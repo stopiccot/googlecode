@@ -11,16 +11,24 @@ namespace libdrag
 
 	public class DragForm : Form
 	{
-		protected DraggablePointGroup defaultPointGroup = null;
-		protected List<DraggablePointGroup> groups = new List<DraggablePointGroup>();
-
 		public FieldSettings FieldSettings { get; set; }
-		
+
+		private List<DraggablePointGroup> groups = new List<DraggablePointGroup>();
+		public ICollection<DraggablePointGroup> Groups
+		{
+			get
+			{
+				return this.groups.AsReadOnly();
+			}
+		}
+
+		public DraggablePointGroup DefaultPointGroup { get; private set; }
+
 		// Constructor
 		public DragForm()
 		{
 			this.FieldSettings = new FieldSettings(this);
-			this.defaultPointGroup = CreateDraggablePointGroup();
+			this.DefaultPointGroup = CreateDraggablePointGroup("Default");
 			this.DoubleBuffered = true;
 
 			if (!this.DesignMode)
@@ -34,33 +42,31 @@ namespace libdrag
 			}
 		}
 
-		// Method to add new point group. AVOID ADDING DIRECTLY
-		public DraggablePointGroup CreateDraggablePointGroup()
+		public DraggablePointGroup CreateDraggablePointGroup(string name)
 		{
-			DraggablePointGroup group = new DraggablePointGroup(this);
+			DraggablePointGroup group = new DraggablePointGroup(name, this);
 			groups.Add(group);
 			return group;
 		}
 
-		// Methods for adding new draggable points into default group. AVOID ADDING DIRECTLY
 		public DraggablePoint AddDraggablePointWS(PointF point, object userData)
 		{
-			return this.defaultPointGroup.AddDraggablePointWS(point, userData);
+			return this.DefaultPointGroup.AddDraggablePointWS(point, userData);
 		}
 
 		public DraggablePoint AddDraggablePointWS(float x, float y, object userData)
 		{
-			return this.defaultPointGroup.AddDraggablePointWS(x, y, userData);
+			return this.DefaultPointGroup.AddDraggablePointWS(x, y, userData);
 		}
 
 		public DraggablePoint AddDraggablePointFS(PointF point, object userData)
 		{
-			return this.defaultPointGroup.AddDraggablePointFS(point, userData);
+			return this.DefaultPointGroup.AddDraggablePointFS(point, userData);
 		}
 
 		public DraggablePoint AddDraggablePointFS(float x, float y, object userData)
 		{
-			return this.defaultPointGroup.AddDraggablePointFS(x, y, userData);
+			return this.DefaultPointGroup.AddDraggablePointFS(x, y, userData);
 		}
 
 		// Methods for transformation between two spaces
@@ -134,7 +140,7 @@ namespace libdrag
 			{
 				foreach (DraggablePointGroup group in this.groups)
 				{
-					foreach (DraggablePoint point in group.dpoints)
+					foreach (DraggablePoint point in group.Points)
 					{
 						point.active = false;
 					}
@@ -147,7 +153,7 @@ namespace libdrag
 
 					DraggablePoint dpoint = null;
 
-					foreach (DraggablePoint point in group.dpoints)
+					foreach (DraggablePoint point in group.Points)
 					{
 						if (point.MouseDown(e))
 						{
@@ -186,7 +192,7 @@ namespace libdrag
 				if (!group.Visible)
 					continue;
 
-				foreach (DraggablePoint point in group.dpoints)
+				foreach (DraggablePoint point in group.Points)
 				{
 					if (point.MouseMove(e))
 						break;
@@ -207,7 +213,7 @@ namespace libdrag
 			{
 				foreach (DraggablePointGroup group in this.groups)
 				{
-					foreach (DraggablePoint dpoint in group.dpoints)
+					foreach (DraggablePoint dpoint in group.Points)
 					{
 						dpoint.MouseUp(e);
 					}
