@@ -28,8 +28,8 @@ namespace libdrag
 			this.owner = owner;
 			this.Origin = new PointF(0.0f, 0.0f);
 			this.Scale = 100.0f;
-			this.MinScale = 2000.0f;
-			this.MaxScale = 1.0f;
+			this.MaxScale = 2000.0f;
+			this.MinScale = 1.0f;
 			this.SnapToGrid = false;
 			this.GridSize = 0.0f;
 			this.PointCanBeSelected = false;

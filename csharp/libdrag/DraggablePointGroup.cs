@@ -11,7 +11,7 @@ namespace libdrag
 		private DragForm ownerForm = null;
 
 		private List<DraggablePoint> dpoints = new List<DraggablePoint>();
-		public ICollection<DraggablePoint> Points
+		public IList<DraggablePoint> Points
 		{
 			get
 			{

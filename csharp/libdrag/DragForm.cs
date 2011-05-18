@@ -27,7 +27,7 @@ namespace libdrag
 		public DragForm()
 		{
 			this.FieldSettings = new FieldSettings(this);
-			this.DefaultPointGroup = CreateDraggablePointGroup("Default");
+			this.DefaultPointGroup = AddDraggablePointGroup("Default");
 			this.DoubleBuffered = true;
 
 			if (!this.DesignMode)
@@ -44,7 +44,7 @@ namespace libdrag
 		/// <summary>Create new group of draggable points. Group is added automatically to list of all point groups</summary>
 		/// <param name="name">A string name for this group</param>
 		/// <returns>Returns new point group object</returns>
-		public DraggablePointGroup CreateDraggablePointGroup(string name)
+		public DraggablePointGroup AddDraggablePointGroup(string name)
 		{
 			DraggablePointGroup group = new DraggablePointGroup(name, this);
 			groups.Add(group);
