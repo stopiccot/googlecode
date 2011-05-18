@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
@@ -42,6 +41,9 @@ namespace libdrag
 			}
 		}
 
+		/// <summary>Create new group of draggable points. Group is added automatically to list of all point groups</summary>
+		/// <param name="name">A string name for this group</param>
+		/// <returns>Returns new point group object</returns>
 		public DraggablePointGroup CreateDraggablePointGroup(string name)
 		{
 			DraggablePointGroup group = new DraggablePointGroup(name, this);
@@ -49,9 +51,19 @@ namespace libdrag
 			return group;
 		}
 
+		public DraggablePoint AddDraggablePointWS(PointF point)
+		{
+			return this.DefaultPointGroup.AddDraggablePointWS(point, null);
+		}
+
 		public DraggablePoint AddDraggablePointWS(PointF point, object userData)
 		{
 			return this.DefaultPointGroup.AddDraggablePointWS(point, userData);
+		}
+
+		public DraggablePoint AddDraggablePointWS(float x, float y)
+		{
+			return this.DefaultPointGroup.AddDraggablePointWS(x, y, null);
 		}
 
 		public DraggablePoint AddDraggablePointWS(float x, float y, object userData)
@@ -59,9 +71,19 @@ namespace libdrag
 			return this.DefaultPointGroup.AddDraggablePointWS(x, y, userData);
 		}
 
+		public DraggablePoint AddDraggablePointFS(PointF point)
+		{
+			return this.DefaultPointGroup.AddDraggablePointFS(point, null);
+		}
+
 		public DraggablePoint AddDraggablePointFS(PointF point, object userData)
 		{
 			return this.DefaultPointGroup.AddDraggablePointFS(point, userData);
+		}
+
+		public DraggablePoint AddDraggablePointFS(float x, float y)
+		{
+			return this.DefaultPointGroup.AddDraggablePointFS(x, y, null);
 		}
 
 		public DraggablePoint AddDraggablePointFS(float x, float y, object userData)
@@ -107,14 +129,6 @@ namespace libdrag
 			}
 		}
 
-		private void PaintDraggablePoints(PaintEventArgs e)
-		{
-			foreach (DraggablePointGroup group in this.groups)
-			{
-				group.Paint(e);
-			}
-		}
-
 		private void OnPaint(object sender, PaintEventArgs e)
 		{
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -124,7 +138,10 @@ namespace libdrag
 			if (BeforePointsPaint != null)
 				BeforePointsPaint(sender, e);
 
-			PaintDraggablePoints(e);
+			foreach (DraggablePointGroup group in this.Groups)
+			{
+				group.Paint(e);
+			}
 
 			if (AfterPointsPaint != null)
 				AfterPointsPaint(sender, e);
@@ -164,7 +181,8 @@ namespace libdrag
 
 					if (dpoint != null)
 					{
-						dpoint.active = true;
+						if (this.FieldSettings.PointCanBeSelected)
+							dpoint.active = true;
 
 						if (DraggablePointMouseDown != null)
 							DraggablePointMouseDown(dpoint);
