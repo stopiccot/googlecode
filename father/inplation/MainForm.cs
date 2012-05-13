@@ -103,7 +103,7 @@ namespace Inplation
 
                     try
                     {
-                        XmlReader xml = XmlReader.Create(new StringReader(e.Result));
+                        XmlReader xml = XmlReader.Create(new StringReader(e.Result.Substring(3)));
                         dailyExRates = (DailyExRates)(new XmlSerializer(typeof(DailyExRates))).Deserialize(xml);
                         xml.Close();
                     }
