@@ -147,7 +147,7 @@ namespace Inplation
                     makeRequest();
                 };
 
-            closeButton.Left = this.Width - closeButton.Width + 5;
+            closeButton.Left = this.Width - closeButton.Width - 5;
             minimizeButton.Left = closeButton.Left - minimizeButton.Width + 1;
             nextButton.Left = minimizeButton.Left - nextButton.Width + 1;
         }

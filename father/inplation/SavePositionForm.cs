@@ -62,11 +62,14 @@ namespace Stopiccot
             base.OnResizeEnd(e);
             position.Location = Location;
             position.Size = Size;
+            position.Maximized = WindowState == FormWindowState.Maximized;
         }
 
         protected override void OnMove(EventArgs e)
         {
  	        base.OnMove(e);
+            position.Location = Location;
+            position.Size = Size;
             position.Maximized = WindowState == FormWindowState.Maximized;
         }
 
