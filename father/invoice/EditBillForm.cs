@@ -16,7 +16,10 @@ namespace Invoice
         {
             InitializeComponent();
 
-            priceComboBox.Items.AddRange(Base.prices);
+            if (Base.prices != null)
+            {
+                priceComboBox.Items.AddRange(Base.prices);
+            }
         }
 
         private void UpdateCompanies()

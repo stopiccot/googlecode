@@ -58,7 +58,7 @@ namespace Invoice
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             // Проверяем обновление
-            Update.Updater updater = new Update.Updater("http://stopiccot.googlecode.com/svn/trunk/father/invoice/invoice-version.xml");
+            Update.Updater updater = new Update.Updater("https://raw.githubusercontent.com/stopiccot/googlecode/master/father/invoice/invoice-version.xml");
             updater.checkForUpdates();
         }
 
