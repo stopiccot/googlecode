@@ -45,4 +45,9 @@
     <uri>https://dl.dropboxusercontent.com/u/1777581/father/invoice/invoice-1.1.4.0.exe</uri>
     <description>Версия 1.1.4.0</description>
   </UpdateInfo>
+  <UpdateInfo>
+    <version>1.1.5.0</version>
+    <uri>https://github.com/stopiccot/googlecode/blob/master/father/releases/invoice/invoice-1.1.5.0.exe</uri>
+    <description>Версия 1.1.5.0</description>
+  </UpdateInfo>
 </ArrayOfUpdateInfo>
