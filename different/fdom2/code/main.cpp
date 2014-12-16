@@ -144,7 +144,7 @@ void callback(UINT message, WPARAM wParam, LPARAM lParam)
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
-	D3D10.init(1280, 800, true, true);
+	D3D10.init(1980, 1200, true, !true);
 	D3D10.setCallback(callback);
 
 	init2D();

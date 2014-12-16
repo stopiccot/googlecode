@@ -11,4 +11,8 @@ father/patcher/bin
 father/patcher/obj
 father/tyres/bin
 father/tyres/obj
+different/fdom2/Debug
 *.suo
+*.sdf
+*.opensdf
+*.ilk
