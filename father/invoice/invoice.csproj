@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Invoice</RootNamespace>
     <AssemblyName>invoice</AssemblyName>
-    <ApplicationIcon>coin32.ico</ApplicationIcon>
+    <ApplicationIcon>coin.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -190,7 +190,7 @@
     <None Include="png\settings.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="coin32.ico" />
+    <Content Include="coin.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
