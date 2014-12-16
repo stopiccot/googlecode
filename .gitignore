@@ -1,0 +1,14 @@
+father/build
+father/exponent/bin
+father/exponent/obj
+father/counter/bin
+father/counter/obj
+father/inplation/bin
+father/inplation/obj
+father/invoice/bin
+father/invoice/obj
+father/patcher/bin
+father/patcher/obj
+father/tyres/bin
+father/tyres/obj
+*.suo
