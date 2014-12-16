@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.1.5 - 16.12.2014
+// [+] New highres icon
+//
 // 1.1.4 - 15.12.2014
 // [*] New github update URL
 //
