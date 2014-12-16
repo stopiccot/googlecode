@@ -16,7 +16,7 @@ namespace Invoice
         public static Company NewCompany()
         {
             Company Result;
-            Result.ShortName = "Компания"; 
+            Result.ShortName = "РљРѕРјРїР°РЅРёСЏ"; 
             Result.FullName  = Result.Director = Result.ContractNumber = "";
             Result.ContractDate = DateTime.Now;
             Base.companyList.Add(Result);

@@ -59,7 +59,7 @@ namespace Invoice
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(86, 23);
             this.addButton.TabIndex = 1;
-            this.addButton.Text = "Добавить";
+            this.addButton.Text = "Р”РѕР±Р°РІРёС‚СЊ";
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
@@ -98,7 +98,7 @@ namespace Invoice
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 20;
-            this.label5.Text = "Директор";
+            this.label5.Text = "Р”РёСЂРµРєС‚РѕСЂ";
             // 
             // contractString
             // 
@@ -115,7 +115,7 @@ namespace Invoice
             this.contractNumber.Enabled = false;
             this.contractNumber.FormattingEnabled = true;
             this.contractNumber.Items.AddRange(new object[] {
-            "б\\н"});
+            "Р±\\РЅ"});
             this.contractNumber.Location = new System.Drawing.Point(134, 94);
             this.contractNumber.Name = "contractNumber";
             this.contractNumber.Size = new System.Drawing.Size(123, 21);
@@ -140,7 +140,7 @@ namespace Invoice
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 16;
-            this.label6.Text = "Договор";
+            this.label6.Text = "Р”РѕРіРѕРІРѕСЂ";
             // 
             // label7
             // 
@@ -150,7 +150,7 @@ namespace Invoice
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(94, 13);
             this.label7.TabIndex = 15;
-            this.label7.Text = "Полное название";
+            this.label7.Text = "РџРѕР»РЅРѕРµ РЅР°Р·РІР°РЅРёРµ";
             // 
             // label8
             // 
@@ -160,7 +160,7 @@ namespace Invoice
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(127, 13);
             this.label8.TabIndex = 14;
-            this.label8.Text = "Сокращенное название";
+            this.label8.Text = "РЎРѕРєСЂР°С‰РµРЅРЅРѕРµ РЅР°Р·РІР°РЅРёРµ";
             // 
             // fullName
             // 
@@ -195,7 +195,7 @@ namespace Invoice
             this.Name = "EditCompanyForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Редактирование компаний";
+            this.Text = "Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РєРѕРјРїР°РЅРёР№";
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.ResumeLayout(false);

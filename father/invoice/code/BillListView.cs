@@ -14,13 +14,13 @@ namespace Invoice
 
         public BillListViewItem(Bill bill, int index)
         {
-            // Первая колонка - номер / месяц
+            // РџРµСЂРІР°СЏ РєРѕР»РѕРЅРєР° - РЅРѕРјРµСЂ / РјРµСЃСЏС†
             this.Text = bill.Number.ToString() + '/' + bill.Date.Month.ToString();
-            // Вторая колонка - дата
+            // Р’С‚РѕСЂР°СЏ РєРѕР»РѕРЅРєР° - РґР°С‚Р°
             this.SubItems.Add(bill.Date.ToString("dd.MM.yy"));
-            // Третья колонка - краткое название компании
+            // РўСЂРµС‚СЊСЏ РєРѕР»РѕРЅРєР° - РєСЂР°С‚РєРѕРµ РЅР°Р·РІР°РЅРёРµ РєРѕРјРїР°РЅРёРё
             this.SubItems.Add(bill.Company.ShortName);
-            // Четвёртая колонка - цена
+            // Р§РµС‚РІС‘СЂС‚Р°СЏ РєРѕР»РѕРЅРєР° - С†РµРЅР°
             this.SubItems.Add(bill.Price.ToString());
 
             this.Checked = bill.Payed;

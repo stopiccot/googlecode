@@ -53,21 +53,21 @@ namespace counter
 
             outputGrid.Items.AddRange(new OutputGridItem[] {
                 new OutputGridItem( 
-                    new string[] { "Ñðîê ýêñïëóàòàöèè", "" }),
+                    new string[] { "Ð¡Ñ€Ð¾Ðº ÑÐºÑÐ¿Ð»ÑƒÐ°Ñ‚Ð°Ñ†Ð¸Ð¸", "" }),
                 new OutputGridItem(
-                    new string[] { "Ñðîê ýêñïëóàòàöèè çàðóáåæîì", "" }),
+                    new string[] { "Ð¡Ñ€Ð¾Ðº ÑÐºÑÐ¿Ð»ÑƒÐ°Ñ‚Ð°Ñ†Ð¸Ð¸ Ð·Ð°Ñ€ÑƒÐ±ÐµÐ¶Ð¾Ð¼", "" }),
                 new OutputGridItem(
-                    new string[] { "Ñðîê ýêñïëóàòàöèè â ÐÁ", "" }),
+                    new string[] { "Ð¡Ñ€Ð¾Ðº ÑÐºÑÐ¿Ð»ÑƒÐ°Ñ‚Ð°Ñ†Ð¸Ð¸ Ð² Ð Ð‘", "" }),
                 new OutputGridItem(
-                    new string[] { "Ðàñ÷¸òíûé ïðîáåã", "" }, false),
+                    new string[] { "Ð Ð°ÑÑ‡Ñ‘Ñ‚Ð½Ñ‹Ð¹ Ð¿Ñ€Ð¾Ð±ÐµÐ³", "" }, false),
                 new OutputGridItem(
-                    new string[] { "Ñðåäíåñòàòè÷åñêèé ïðîáåã", "" }),
+                    new string[] { "Ð¡Ñ€ÐµÐ´Ð½ÐµÑÑ‚Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ñ€Ð¾Ð±ÐµÐ³", "" }),
                 new OutputGridItem(
-                    new string[] { "Ïåðåïðîáåã\\Íåäîïðîáåã", "" }),
+                    new string[] { "ÐŸÐµÑ€ÐµÐ¿Ñ€Ð¾Ð±ÐµÐ³\\ÐÐµÐ´Ð¾Ð¿Ñ€Ð¾Ð±ÐµÐ³", "" }),
                 new OutputGridItem(
-                    new string[] { "Ñêîððåêòèðîâàííûé ïðîáåã", "" }, true),
+                    new string[] { "Ð¡ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð¿Ñ€Ð¾Ð±ÐµÐ³", "" }, true),
                 new OutputGridItem(
-                    new string[] { "Èçíîñ ÷àñòåé", "" }) });
+                    new string[] { "Ð˜Ð·Ð½Ð¾Ñ Ñ‡Ð°ÑÑ‚ÐµÐ¹", "" }) });
 
             outputGrid.Items[0].Font = 
             outputGrid.Items[3].Font =
@@ -81,7 +81,7 @@ namespace counter
 
             infoGrid.Items.AddRange(new OutputGridItem[] {
                 new OutputGridItem(
-                    new string[] {"Ìàðêà","×àñòè, %","Ñèñ. áåç., %","Äâèãàòåëü, %","ÊÏÏ, %"} ),
+                    new string[] {"ÐœÐ°Ñ€ÐºÐ°","Ð§Ð°ÑÑ‚Ð¸, %","Ð¡Ð¸Ñ. Ð±ÐµÐ·., %","Ð”Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ, %","ÐšÐŸÐŸ, %"} ),
                 new OutputGridItem(
                     new string[] {"Volkswagen", "27", "30", "30", "30" } ),
                 new OutputGridItem(
@@ -101,7 +101,7 @@ namespace counter
                 new OutputGridItem(
                     new string[] {"Honda", "6", "10", "30", "30" } ),
                 new OutputGridItem(
-                    new string[] {"Äðóãèå", "30", "30", "30", "30" } )
+                    new string[] {"Ð”Ñ€ÑƒÐ³Ð¸Ðµ", "30", "30", "30", "30" } )
             });
 
             #endregion
@@ -152,14 +152,14 @@ namespace counter
             correctedRun = yearsInt * 13500 + overRun;
 
             #region outputGrid
-            outputGrid.Items[0].SubItems[1] = yearsDouble.ToString("0.000") + " ëåò";
-            outputGrid.Items[1].SubItems[1] = yearsOutRB.ToString("0.000") + " ëåò";
-            outputGrid.Items[2].SubItems[1] = yearsInRB.ToString("0.000") + " ëåò";
-            outputGrid.Items[3].SubItems[1] = Run.ToString() + " êì";      
-            outputGrid.Items[4].SubItems[1] = staticRun.ToString() + " êì";
-            outputGrid.Items[5].SubItems[0] = overRun >= 0 ? "Ïåðåïðîáåã" : "Íåäîïðîáåã";
-            outputGrid.Items[5].SubItems[1] = Math.Abs(overRun).ToString() + " êì";
-            outputGrid.Items[6].SubItems[1] = correctedRun.ToString() + " êì";
+            outputGrid.Items[0].SubItems[1] = yearsDouble.ToString("0.000") + " Ð»ÐµÑ‚";
+            outputGrid.Items[1].SubItems[1] = yearsOutRB.ToString("0.000") + " Ð»ÐµÑ‚";
+            outputGrid.Items[2].SubItems[1] = yearsInRB.ToString("0.000") + " Ð»ÐµÑ‚";
+            outputGrid.Items[3].SubItems[1] = Run.ToString() + " ÐºÐ¼";      
+            outputGrid.Items[4].SubItems[1] = staticRun.ToString() + " ÐºÐ¼";
+            outputGrid.Items[5].SubItems[0] = overRun >= 0 ? "ÐŸÐµÑ€ÐµÐ¿Ñ€Ð¾Ð±ÐµÐ³" : "ÐÐµÐ´Ð¾Ð¿Ñ€Ð¾Ð±ÐµÐ³";
+            outputGrid.Items[5].SubItems[1] = Math.Abs(overRun).ToString() + " ÐºÐ¼";
+            outputGrid.Items[6].SubItems[1] = correctedRun.ToString() + " ÐºÐ¼";
             #endregion
 
             outputGrid.Items[3].Checked = !(outputGrid.Items[6].Checked = correctedRun >= Run);

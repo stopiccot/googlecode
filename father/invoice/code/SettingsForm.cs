@@ -10,7 +10,7 @@ namespace Invoice
 {
     public partial class SettingsForm : Form
     {
-        public static int beginYear = 2008; // Первый путь в Base.workingDirectory соответствует 2008 году
+        public static int beginYear = 2008; // РџРµСЂРІС‹Р№ РїСѓС‚СЊ РІ Base.workingDirectory СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ 2008 РіРѕРґСѓ
         private int prevYear, currYear;
 
         //================================================================================
@@ -23,21 +23,21 @@ namespace Invoice
 
         //================================================================================
         // SettingsForm_Shown
-        //    Инициализация проводимая при загрузке формы
+        //    РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРѕРІРѕРґРёРјР°СЏ РїСЂРё Р·Р°РіСЂСѓР·РєРµ С„РѕСЂРјС‹
         //================================================================================
         private void SettingsForm_Shown(object sender, EventArgs e)
         {
             DateTime dateTime = DateTime.Now;
 
-            // С декабря уже начинаем перещёлкиваться на следующий год
+            // РЎ РґРµРєР°Р±СЂСЏ СѓР¶Рµ РЅР°С‡РёРЅР°РµРј РїРµСЂРµС‰С‘Р»РєРёРІР°С‚СЊСЃСЏ РЅР° СЃР»РµРґСѓСЋС‰РёР№ РіРѕРґ
             currYear = dateTime.Month > 11 ? dateTime.Year + 1 : dateTime.Year;
             prevYear = currYear - 1;
 
-            // Выставляем имена для лэблов
-            prevYearDirLabel.Text = "Папка для счёт-фактур " + prevYear.ToString() + " года";
-            currYearDirLabel.Text = "Папка для счёт-фактур " + currYear.ToString() + " года";
+            // Р’С‹СЃС‚Р°РІР»СЏРµРј РёРјРµРЅР° РґР»СЏ Р»СЌР±Р»РѕРІ
+            prevYearDirLabel.Text = "РџР°РїРєР° РґР»СЏ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂ " + prevYear.ToString() + " РіРѕРґР°";
+            currYearDirLabel.Text = "РџР°РїРєР° РґР»СЏ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂ " + currYear.ToString() + " РіРѕРґР°";
 
-            // Загрузка данных из базы
+            // Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С… РёР· Р±Р°Р·С‹
             templatePath.Text      = Base.templateDoc;
             prices.Lines           = Base.prices;
             deleteCheckBox.Checked = Base.confirmDelete;
@@ -48,7 +48,7 @@ namespace Invoice
 
         //================================================================================
         // editCompaniesButton_Click
-        //    Показываем форму редактирования компаний
+        //    РџРѕРєР°Р·С‹РІР°РµРј С„РѕСЂРјСѓ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ РєРѕРјРїР°РЅРёР№
         //================================================================================
         private void editCompaniesButton_Click(object sender, EventArgs e)
         {
@@ -57,12 +57,12 @@ namespace Invoice
 
         //================================================================================
         // changeTemplate_Click
-        //    Выбор файла-шаблона
+        //    Р’С‹Р±РѕСЂ С„Р°Р№Р»Р°-С€Р°Р±Р»РѕРЅР°
         //================================================================================
         private void changeTemplate_Click(object sender, EventArgs e)
         {
             openFileDialog.FileName = "";
-            openFileDialog.Filter = "Документ Word|*.doc";
+            openFileDialog.Filter = "Р”РѕРєСѓРјРµРЅС‚ Word|*.doc";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
                 templatePath.Text = openFileDialog.FileName;
@@ -70,7 +70,7 @@ namespace Invoice
 
         //================================================================================
         // changePrevYearDir_Click
-        //    Выбор папки для prevYear
+        //    Р’С‹Р±РѕСЂ РїР°РїРєРё РґР»СЏ prevYear
         //================================================================================
         private void changePrevYearDir_Click(object sender, EventArgs e)
         {
@@ -80,7 +80,7 @@ namespace Invoice
 
         //================================================================================
         // changeCurrYearDir_Click
-        //    Выбор папки для currYear
+        //    Р’С‹Р±РѕСЂ РїР°РїРєРё РґР»СЏ currYear
         //================================================================================
         private void changeCurrYearDir_Click(object sender, EventArgs e)
         {
@@ -90,11 +90,11 @@ namespace Invoice
 
         //================================================================================
         // applyButtonClick
-        //    Закрытие формы кнопкой apply
+        //    Р—Р°РєСЂС‹С‚РёРµ С„РѕСЂРјС‹ РєРЅРѕРїРєРѕР№ apply
         //================================================================================
         private void applyButtonClick(object sender, EventArgs e)
         {
-            // Сохраняем в базу всё, что наменяли
+            // РЎРѕС…СЂР°РЅСЏРµРј РІ Р±Р°Р·Сѓ РІСЃС‘, С‡С‚Рѕ РЅР°РјРµРЅСЏР»Рё
             Base.prices        = prices.Lines;
             Base.templateDoc   = templatePath.Text;
             Base.confirmDelete = deleteCheckBox.Checked;
@@ -108,11 +108,11 @@ namespace Invoice
 
         //================================================================================
         // cancelButtonClick
-        //    Закрытие формы кнопкой cancel
+        //    Р—Р°РєСЂС‹С‚РёРµ С„РѕСЂРјС‹ РєРЅРѕРїРєРѕР№ cancel
         //================================================================================
         private void cancelButtonClick(object sender, EventArgs e)
         {
-            Close(); // Просто закрываем ничего не сохраняя
+            Close(); // РџСЂРѕСЃС‚Рѕ Р·Р°РєСЂС‹РІР°РµРј РЅРёС‡РµРіРѕ РЅРµ СЃРѕС…СЂР°РЅСЏСЏ
         }
     }
 }

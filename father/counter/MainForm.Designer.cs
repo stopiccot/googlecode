@@ -56,7 +56,7 @@ namespace counter
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Дата ДТП";
+            this.label1.Text = "Р”Р°С‚Р° Р”РўРџ";
             // 
             // crashDate
             // 
@@ -74,7 +74,7 @@ namespace counter
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(92, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Дата выпуска";
+            this.label2.Text = "Р”Р°С‚Р° РІС‹РїСѓСЃРєР°";
             // 
             // createDate
             // 
@@ -112,7 +112,7 @@ namespace counter
             this.noOutRB.Name = "noOutRB";
             this.noOutRB.Size = new System.Drawing.Size(174, 17);
             this.noOutRB.TabIndex = 6;
-            this.noOutRB.Text = "Не имеет пробега зарубежом";
+            this.noOutRB.Text = "РќРµ РёРјРµРµС‚ РїСЂРѕР±РµРіР° Р·Р°СЂСѓР±РµР¶РѕРј";
             this.noOutRB.UseVisualStyleBackColor = true;
             this.noOutRB.CheckedChanged += new System.EventHandler(this.noOutRB_CheckedChanged);
             // 
@@ -124,7 +124,7 @@ namespace counter
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(119, 13);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Категория пробега";
+            this.label3.Text = "РљР°С‚РµРіРѕСЂРёСЏ РїСЂРѕР±РµРіР°";
             // 
             // label4
             // 
@@ -134,7 +134,7 @@ namespace counter
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(131, 13);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Показания одометра";
+            this.label4.Text = "РџРѕРєР°Р·Р°РЅРёСЏ РѕРґРѕРјРµС‚СЂР°";
             // 
             // countButton
             // 
@@ -142,7 +142,7 @@ namespace counter
             this.countButton.Name = "countButton";
             this.countButton.Size = new System.Drawing.Size(170, 23);
             this.countButton.TabIndex = 11;
-            this.countButton.Text = "Посчитать";
+            this.countButton.Text = "РџРѕСЃС‡РёС‚Р°С‚СЊ";
             this.countButton.UseVisualStyleBackColor = true;
             this.countButton.Click += new System.EventHandler(this.countButton_Click);
             // 
@@ -154,7 +154,7 @@ namespace counter
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(108, 13);
             this.label5.TabIndex = 14;
-            this.label5.Text = "Регистрация в РБ";
+            this.label5.Text = "Р РµРіРёСЃС‚СЂР°С†РёСЏ РІ Р Р‘";
             // 
             // odometr
             // 
@@ -207,7 +207,7 @@ namespace counter
             this.myPanel.Name = "myPanel";
             this.myPanel.Size = new System.Drawing.Size(378, 238);
             this.myPanel.TabIndex = 17;
-            this.myPanel.Text = "Таблица";
+            this.myPanel.Text = "РўР°Р±Р»РёС†Р°";
             this.myPanel.Resize += new System.EventHandler(this.myPanel_Resize);
             // 
             // infoGrid
@@ -252,7 +252,7 @@ namespace counter
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Счётчик пробега";
+            this.Text = "РЎС‡С‘С‚С‡РёРє РїСЂРѕР±РµРіР°";
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.myPanel.ResumeLayout(false);

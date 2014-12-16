@@ -23,32 +23,32 @@ namespace Invoice
         {
             InitializeComponent();
 
-            // Версия в названии главной формы
-            this.Text = "Счёт-фактуры " + Utils.ToStringWithoutZeroes(new Version(Application.ProductVersion));
+            // Р’РµСЂСЃРёСЏ РІ РЅР°Р·РІР°РЅРёРё РіР»Р°РІРЅРѕР№ С„РѕСЂРјС‹
+            this.Text = "РЎС‡С‘С‚-С„Р°РєС‚СѓСЂС‹ " + Utils.ToStringWithoutZeroes(new Version(Application.ProductVersion));
 
-            // Сортировка колонок
+            // РЎРѕСЂС‚РёСЂРѕРІРєР° РєРѕР»РѕРЅРѕРє
             listView.ListViewItemSorter = columnSorter = new ColumnSorter();
 
-            // Загружаем базу и запихиваем счёт-фактуры в listView
+            // Р—Р°РіСЂСѓР¶Р°РµРј Р±Р°Р·Сѓ Рё Р·Р°РїРёС…РёРІР°РµРј СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹ РІ listView
             Base.Load();
             buildBillList();
 
-            // Выставляем запомненную позицию формы
+            // Р’С‹СЃС‚Р°РІР»СЏРµРј Р·Р°РїРѕРјРЅРµРЅРЅСѓСЋ РїРѕР·РёС†РёСЋ С„РѕСЂРјС‹
             this.Position = Base.FormPosition;
 
-            // Выставляем запомненную ширину для каждой колонки
+            // Р’С‹СЃС‚Р°РІР»СЏРµРј Р·Р°РїРѕРјРЅРµРЅРЅСѓСЋ С€РёСЂРёРЅСѓ РґР»СЏ РєР°Р¶РґРѕР№ РєРѕР»РѕРЅРєРё
             foreach (ColumnHeader column in listView.Columns)
                 column.Width = Base.columnWidth[column.Index];
 
             toggleToolButton.Checked = Base.showPayed;
 
-            // Создаём все вспомогательные формы
+            // РЎРѕР·РґР°С‘Рј РІСЃРµ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„РѕСЂРјС‹
             editBillForm = new EditBillForm();
             selectDateForm = new SelectDateForm();
 
-            // Код апдейтера юзает WebClient.DownloadStringAsync, который хоть
-            // и Async, но порядочно тормозит (4-5 с.) Поэтому делаем ему
-            // "принудительный Async".
+            // РљРѕРґ Р°РїРґРµР№С‚РµСЂР° СЋР·Р°РµС‚ WebClient.DownloadStringAsync, РєРѕС‚РѕСЂС‹Р№ С…РѕС‚СЊ
+            // Рё Async, РЅРѕ РїРѕСЂСЏРґРѕС‡РЅРѕ С‚РѕСЂРјРѕР·РёС‚ (4-5 СЃ.) РџРѕСЌС‚РѕРјСѓ РґРµР»Р°РµРј РµРјСѓ
+            // "РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅС‹Р№ Async".
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -57,14 +57,14 @@ namespace Invoice
         //================================================================================
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Проверяем обновление
+            // РџСЂРѕРІРµСЂСЏРµРј РѕР±РЅРѕРІР»РµРЅРёРµ
             Update.Updater updater = new Update.Updater("https://raw.githubusercontent.com/stopiccot/googlecode/master/father/invoice/invoice-version.xml");
             updater.checkForUpdates();
         }
 
         //================================================================================
         // MainForm_FormClosed
-        //    Закрытие формы - всё сохраняем и закрываемся
+        //    Р—Р°РєСЂС‹С‚РёРµ С„РѕСЂРјС‹ - РІСЃС‘ СЃРѕС…СЂР°РЅСЏРµРј Рё Р·Р°РєСЂС‹РІР°РµРјСЃСЏ
         //================================================================================
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -75,27 +75,27 @@ namespace Invoice
 
         //================================================================================
         // buildBillList
-        //    Строит список всех счёт-фактур.
+        //    РЎС‚СЂРѕРёС‚ СЃРїРёСЃРѕРє РІСЃРµС… СЃС‡С‘С‚-С„Р°РєС‚СѓСЂ.
         //================================================================================
         private void buildBillList()
         {
             listView.Items.Clear();
 
-            // Добавляем элементы сначала во временный список, т.к. если напрямую
-            // добавлять каждый элемент по-отдельности используя listView.Items.Add
-            // будет неимоверно пиделить т.к. оно перерисовывает каждый раз после добавления
+            // Р”РѕР±Р°РІР»СЏРµРј СЌР»РµРјРµРЅС‚С‹ СЃРЅР°С‡Р°Р»Р° РІРѕ РІСЂРµРјРµРЅРЅС‹Р№ СЃРїРёСЃРѕРє, С‚.Рє. РµСЃР»Рё РЅР°РїСЂСЏРјСѓСЋ
+            // РґРѕР±Р°РІР»СЏС‚СЊ РєР°Р¶РґС‹Р№ СЌР»РµРјРµРЅС‚ РїРѕ-РѕС‚РґРµР»СЊРЅРѕСЃС‚Рё РёСЃРїРѕР»СЊР·СѓСЏ listView.Items.Add
+            // Р±СѓРґРµС‚ РЅРµРёРјРѕРІРµСЂРЅРѕ РїРёРґРµР»РёС‚СЊ С‚.Рє. РѕРЅРѕ РїРµСЂРµСЂРёСЃРѕРІС‹РІР°РµС‚ РєР°Р¶РґС‹Р№ СЂР°Р· РїРѕСЃР»Рµ РґРѕР±Р°РІР»РµРЅРёСЏ
             List<BillListViewItem> items = new List<BillListViewItem>();
 
             for (int i = 0; i < Base.billList.Count; i++)
             {
                 Bill bill = Base.billList[i];
 
-                // Оплаченные счёт-фактуры показываем только если стоит соотвествующий флажок
+                // РћРїР»Р°С‡РµРЅРЅС‹Рµ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹ РїРѕРєР°Р·С‹РІР°РµРј С‚РѕР»СЊРєРѕ РµСЃР»Рё СЃС‚РѕРёС‚ СЃРѕРѕС‚РІРµСЃС‚РІСѓСЋС‰РёР№ С„Р»Р°Р¶РѕРє
                 if (Base.showPayed || !bill.Payed)
                     items.Add(new BillListViewItem(bill, i));
             }
 
-            // За один раз добавляем все счёт-фактуры
+            // Р—Р° РѕРґРёРЅ СЂР°Р· РґРѕР±Р°РІР»СЏРµРј РІСЃРµ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹
             listView.Items.AddRange(items.ToArray());
 
             listViewSelectionChanged(null, null);
@@ -103,7 +103,7 @@ namespace Invoice
 
         //================================================================================
         // createNewBill
-        //    Создание новой счёт-фактуры
+        //    РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹
         //================================================================================
         private void createNewBill(object sender, EventArgs e)
         {
@@ -112,7 +112,7 @@ namespace Invoice
 
             if (editBillForm.EditBill(Base.billList.Count - 1, false))
             {
-                // Добавляем в список и выделяем
+                // Р”РѕР±Р°РІР»СЏРµРј РІ СЃРїРёСЃРѕРє Рё РІС‹РґРµР»СЏРµРј
                 listView.Items.Add(new BillListViewItem(Base.billList[Base.billList.Count - 1], Base.billList.Count - 1));
                 listView.SelectedIndex = listView.Items.Count - 1;
             }
@@ -124,11 +124,11 @@ namespace Invoice
 
         //================================================================================
         // listView_DoubleClick
-        //    Даблтык на элемент списка
+        //    Р”Р°Р±Р»С‚С‹Рє РЅР° СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
         //================================================================================
         private void listView_DoubleClick(object sender, EventArgs e)
         {
-            // Если какая-то счёт-фактура выделена - редактируем её
+            // Р•СЃР»Рё РєР°РєР°СЏ-С‚Рѕ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂР° РІС‹РґРµР»РµРЅР° - СЂРµРґР°РєС‚РёСЂСѓРµРј РµС‘
             int index = listView.TranslatedSelectedIndex;
             if (index != -1)
             {
@@ -136,7 +136,7 @@ namespace Invoice
                 {
                     int selectedIndex = listView.SelectedIndex;
 
-                    // Апдейтим один айтем листа, а не целый лист
+                    // РђРїРґРµР№С‚РёРј РѕРґРёРЅ Р°Р№С‚РµРј Р»РёСЃС‚Р°, Р° РЅРµ С†РµР»С‹Р№ Р»РёСЃС‚
                     listView.Items[listView.SelectedIndex] = new BillListViewItem(Base.billList[index], index);
 
                     listView.SelectedIndex = selectedIndex;
@@ -146,7 +146,7 @@ namespace Invoice
 
         //================================================================================
         // listView_ColumnWidthChanged
-        //    Апдейтим минимальные размеры формы при изменении размеров колонок listView
+        //    РђРїРґРµР№С‚РёРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ С„РѕСЂРјС‹ РїСЂРё РёР·РјРµРЅРµРЅРёРё СЂР°Р·РјРµСЂРѕРІ РєРѕР»РѕРЅРѕРє listView
         //================================================================================
         private void listView_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
@@ -160,14 +160,14 @@ namespace Invoice
 
         //================================================================================
         // DeleteInvoices
-        //    Удаление счёт-фактур
+        //    РЈРґР°Р»РµРЅРёРµ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂ
         //================================================================================
         delegate bool FilterFunction<T>(T item);
 
         private void DeleteInvoices(string confirmText, FilterFunction<BillListViewItem> filterFunction)
         {
             if (!Base.confirmDelete ||
-                MessageBox.Show(confirmText, "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                MessageBox.Show(confirmText, "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 List<int> indicesToDelete = new List<int>();
 
@@ -201,7 +201,7 @@ namespace Invoice
 
         //================================================================================
         // listViewSelectionChanged
-        //    Чтоб дизэйблить кнопки в тулбаре, когда ничего не выделено.
+        //    Р§С‚РѕР± РґРёР·СЌР№Р±Р»РёС‚СЊ РєРЅРѕРїРєРё РІ С‚СѓР»Р±Р°СЂРµ, РєРѕРіРґР° РЅРёС‡РµРіРѕ РЅРµ РІС‹РґРµР»РµРЅРѕ.
         //================================================================================
         private void listViewSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
@@ -210,19 +210,19 @@ namespace Invoice
 
         //================================================================================
         // listView_ColumnClick
-        //    Клик по колонке listView. Сортировка списка.
+        //    РљР»РёРє РїРѕ РєРѕР»РѕРЅРєРµ listView. РЎРѕСЂС‚РёСЂРѕРІРєР° СЃРїРёСЃРєР°.
         //================================================================================
         private void listView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == columnSorter.SortColumn)
             {
-                // Если список уже отсортирован по этой колонке, то меняем порядок сортировке
+                // Р•СЃР»Рё СЃРїРёСЃРѕРє СѓР¶Рµ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅ РїРѕ СЌС‚РѕР№ РєРѕР»РѕРЅРєРµ, С‚Рѕ РјРµРЅСЏРµРј РїРѕСЂСЏРґРѕРє СЃРѕСЂС‚РёСЂРѕРІРєРµ
                 columnSorter.Order = columnSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {
-                // Если выбрали другую колонку, то сортируем по возрастанию
-                columnSorter.SortColumn = e.Column; // Передаём сортеру номер колонки
+                // Р•СЃР»Рё РІС‹Р±СЂР°Р»Рё РґСЂСѓРіСѓСЋ РєРѕР»РѕРЅРєСѓ, С‚Рѕ СЃРѕСЂС‚РёСЂСѓРµРј РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
+                columnSorter.SortColumn = e.Column; // РџРµСЂРµРґР°С‘Рј СЃРѕСЂС‚РµСЂСѓ РЅРѕРјРµСЂ РєРѕР»РѕРЅРєРё
                 columnSorter.Order = SortOrder.Ascending;
             }
 
@@ -231,14 +231,14 @@ namespace Invoice
 
         //================================================================================
         // listView_ItemCheck
-        //    Клик на чекбокс айтема в listView
+        //    РљР»РёРє РЅР° С‡РµРєР±РѕРєСЃ Р°Р№С‚РµРјР° РІ listView
         //================================================================================
         private void listView_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            // Если пытаемся снять галочку и в настройках выставлена проверка, то лишний
-            // раз переспрашиваем
+            // Р•СЃР»Рё РїС‹С‚Р°РµРјСЃСЏ СЃРЅСЏС‚СЊ РіР°Р»РѕС‡РєСѓ Рё РІ РЅР°СЃС‚СЂРѕР№РєР°С… РІС‹СЃС‚Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР°, С‚Рѕ Р»РёС€РЅРёР№
+            // СЂР°Р· РїРµСЂРµСЃРїСЂР°С€РёРІР°РµРј
             if (e.CurrentValue == CheckState.Checked)
-                if (Base.confirmUnpay && MessageBox.Show("Эта счёт-фактура точно не оплачена?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                if (Base.confirmUnpay && MessageBox.Show("Р­С‚Р° СЃС‡С‘С‚-С„Р°РєС‚СѓСЂР° С‚РѕС‡РЅРѕ РЅРµ РѕРїР»Р°С‡РµРЅР°?", "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     e.NewValue = CheckState.Checked;
 
             Base.billList[listView.Translate(e.Index)].Payed = e.NewValue == CheckState.Checked;
@@ -246,14 +246,14 @@ namespace Invoice
 
         //================================================================================
         // wordToolButton_Click
-        //    Открыть doc-файл для выбранной счёт-фактуры в Microsoft Word
+        //    РћС‚РєСЂС‹С‚СЊ doc-С„Р°Р№Р» РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕР№ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹ РІ Microsoft Word
         //================================================================================
         private void wordToolButton_Click(object sender, EventArgs e)
         {
-            // Создаём doc-файл
+            // РЎРѕР·РґР°С‘Рј doc-С„Р°Р№Р»
             string filename = CreateWordDocument(Base.billList[listView.TranslatedSelectedIndex]);
 
-            // И если всё прошло успешно, то открываем его
+            // Р РµСЃР»Рё РІСЃС‘ РїСЂРѕС€Р»Рѕ СѓСЃРїРµС€РЅРѕ, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј РµРіРѕ
             if (filename != null)
             {
                 System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(filename);
@@ -265,14 +265,14 @@ namespace Invoice
 
         //================================================================================
         // printToolButton_Click
-        //    Печать doc-файла для выбранной счёт-факутуры
+        //    РџРµС‡Р°С‚СЊ doc-С„Р°Р№Р»Р° РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕР№ СЃС‡С‘С‚-С„Р°РєСѓС‚СѓСЂС‹
         //================================================================================
         private void printToolButton_Click(object sender, EventArgs e)
         {
-            // Создаём doc-файл
+            // РЎРѕР·РґР°С‘Рј doc-С„Р°Р№Р»
             string filename = CreateWordDocument(Base.billList[listView.TranslatedSelectedIndex]);
 
-            // И если всё прошло успешно, то печатаем его
+            // Р РµСЃР»Рё РІСЃС‘ РїСЂРѕС€Р»Рѕ СѓСЃРїРµС€РЅРѕ, С‚Рѕ РїРµС‡Р°С‚Р°РµРј РµРіРѕ
             if (filename != null)
             {
                 Word.OpenDocument(filename, true);
@@ -283,11 +283,11 @@ namespace Invoice
 
         //================================================================================
         // deleteToolButton_Click
-        //    Удаляет выделенные счёт-фактуры
+        //    РЈРґР°Р»СЏРµС‚ РІС‹РґРµР»РµРЅРЅС‹Рµ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹
         //================================================================================
         private void deleteToolButton_Click(object sender, EventArgs e)
         {
-            string confirmText = listView.SelectedItems.Count == 1 ? "Удалить эту счёт-фактуру?" : "Удалить эти счёт-фактуры?";
+            string confirmText = listView.SelectedItems.Count == 1 ? "РЈРґР°Р»РёС‚СЊ СЌС‚Сѓ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂСѓ?" : "РЈРґР°Р»РёС‚СЊ СЌС‚Рё СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹?";
 
             DeleteInvoices(confirmText, delegate(BillListViewItem item)
             {
@@ -302,14 +302,14 @@ namespace Invoice
         {
             Base.showPayed = toggleToolButton.Checked;
 
-            // Запоминаем выделенный элемент
+            // Р—Р°РїРѕРјРёРЅР°РµРј РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
             int index = listView.TranslatedSelectedIndex;
 
-            // и полностью перестраиваем список
+            // Рё РїРѕР»РЅРѕСЃС‚СЊСЋ РїРµСЂРµСЃС‚СЂР°РёРІР°РµРј СЃРїРёСЃРѕРє
             buildBillList();
 
-            // Пытаемся восстановить выделение, но это не всегда возможно т.к. данная счёт-фактура
-            // могла быть оплачена, а мы как раз спрятали все оплаченные счёт-фактуры
+            // РџС‹С‚Р°РµРјСЃСЏ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РІС‹РґРµР»РµРЅРёРµ, РЅРѕ СЌС‚Рѕ РЅРµ РІСЃРµРіРґР° РІРѕР·РјРѕР¶РЅРѕ С‚.Рє. РґР°РЅРЅР°СЏ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂР°
+            // РјРѕРіР»Р° Р±С‹С‚СЊ РѕРїР»Р°С‡РµРЅР°, Р° РјС‹ РєР°Рє СЂР°Р· СЃРїСЂСЏС‚Р°Р»Рё РІСЃРµ РѕРїР»Р°С‡РµРЅРЅС‹Рµ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹
             if (index != -1)
             {
                 listView.TranslatedSelectedIndex = index;
@@ -320,7 +320,7 @@ namespace Invoice
 
         //================================================================================
         // deletePayedToolButton_Click
-        //    Массовое удаление оплаченных счёт-фактур
+        //    РњР°СЃСЃРѕРІРѕРµ СѓРґР°Р»РµРЅРёРµ РѕРїР»Р°С‡РµРЅРЅС‹С… СЃС‡С‘С‚-С„Р°РєС‚СѓСЂ
         //================================================================================
         private void deletePayedToolButton_Click(object sender, EventArgs e)
         {
@@ -346,7 +346,7 @@ namespace Invoice
 
         //================================================================================
         // settingsToolButton_Click
-        //    Показывает диалог настроек
+        //    РџРѕРєР°Р·С‹РІР°РµС‚ РґРёР°Р»РѕРі РЅР°СЃС‚СЂРѕРµРє
         //================================================================================
         private void settingsToolButton_Click(object sender, EventArgs e)
         {
@@ -355,14 +355,14 @@ namespace Invoice
 
         //================================================================================
         // CreateWordDocument
-        //    Создаёт doc-файл для данной счёт-фактуры
+        //    РЎРѕР·РґР°С‘С‚ doc-С„Р°Р№Р» РґР»СЏ РґР°РЅРЅРѕР№ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹
         //================================================================================
         private string CreateWordDocument(Bill bill)
         {
-            // Проверяем задан ли файл-шаблон
+            // РџСЂРѕРІРµСЂСЏРµРј Р·Р°РґР°РЅ Р»Рё С„Р°Р№Р»-С€Р°Р±Р»РѕРЅ
             if (!File.Exists(Base.templateDoc))
             {
-                MessageBox.Show("Файл шаблон не обнаружен.\n\rЗадайте к нему путь в настройках программы.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Р¤Р°Р№Р» С€Р°Р±Р»РѕРЅ РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅ.\n\rР—Р°РґР°Р№С‚Рµ Рє РЅРµРјСѓ РїСѓС‚СЊ РІ РЅР°СЃС‚СЂРѕР№РєР°С… РїСЂРѕРіСЂР°РјРјС‹.", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return null;
             }
 
@@ -373,16 +373,16 @@ namespace Invoice
             {
                 string workingDirectory = Base.workingDirectory[year - SettingsForm.beginYear];
 
-                // Проверяем задана ли папка в которую нужно сохранять счёт-фактуры этого года
+                // РџСЂРѕРІРµСЂСЏРµРј Р·Р°РґР°РЅР° Р»Рё РїР°РїРєР° РІ РєРѕС‚РѕСЂСѓСЋ РЅСѓР¶РЅРѕ СЃРѕС…СЂР°РЅСЏС‚СЊ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹ СЌС‚РѕРіРѕ РіРѕРґР°
                 if (!Directory.Exists(workingDirectory))
                     throw new Exception();
 
-                // Полный путь к создаваемому doc-файлу
-                filename = Path.Combine(workingDirectory, "сч-ф" + bill.Company.ShortName + bill.Number.ToString() + '-' + bill.Date.Month.ToString("00") + ".doc");
+                // РџРѕР»РЅС‹Р№ РїСѓС‚СЊ Рє СЃРѕР·РґР°РІР°РµРјРѕРјСѓ doc-С„Р°Р№Р»Сѓ
+                filename = Path.Combine(workingDirectory, "СЃС‡-С„" + bill.Company.ShortName + bill.Number.ToString() + '-' + bill.Date.Month.ToString("00") + ".doc");
             }
             catch
             {
-                MessageBox.Show("Не задана папка для счёт-фактур " + year.ToString() + " года.\n\rВыберите папку в настройках программы.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("РќРµ Р·Р°РґР°РЅР° РїР°РїРєР° РґР»СЏ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂ " + year.ToString() + " РіРѕРґР°.\n\rР’С‹Р±РµСЂРёС‚Рµ РїР°РїРєСѓ РІ РЅР°СЃС‚СЂРѕР№РєР°С… РїСЂРѕРіСЂР°РјРјС‹.", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return null;
             }
 
@@ -402,35 +402,35 @@ namespace Invoice
             int n = 0; string s = "";
 
             if ((bill.WorkDone & 1) == 1)
-                s += (++n).ToString() + ".Акт осмотра.\r";
+                s += (++n).ToString() + ".РђРєС‚ РѕСЃРјРѕС‚СЂР°.\r";
 
             if ((bill.WorkDone & 2) == 2)
             {
-                s += (++n).ToString() + ".Заключение о размере вреда.\r";
-                s += (++n).ToString() + ".Калькуляция ремонтно-восстановительных работ.\r";
+                s += (++n).ToString() + ".Р—Р°РєР»СЋС‡РµРЅРёРµ Рѕ СЂР°Р·РјРµСЂРµ РІСЂРµРґР°.\r";
+                s += (++n).ToString() + ".РљР°Р»СЊРєСѓР»СЏС†РёСЏ СЂРµРјРѕРЅС‚РЅРѕ-РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚РµР»СЊРЅС‹С… СЂР°Р±РѕС‚.\r";
             }
 
             if ((bill.WorkDone & 4) == 4)
-                s += (++n).ToString() + ".Выезд по месту осмотра.\r";
+                s += (++n).ToString() + ".Р’С‹РµР·Рґ РїРѕ РјРµСЃС‚Сѓ РѕСЃРјРѕС‚СЂР°.\r";
 
             if ((bill.WorkDone & 8) == 8)
-                s += (++n).ToString() + ".Расчёт вреда в случае гибели ТС.\r";
+                s += (++n).ToString() + ".Р Р°СЃС‡С‘С‚ РІСЂРµРґР° РІ СЃР»СѓС‡Р°Рµ РіРёР±РµР»Рё РўРЎ.\r";
 
             if ((bill.WorkDone & 16) == 16)
-                s += (++n).ToString() + ".Расчёт деф. эксплуатации ТС.\r";
+                s += (++n).ToString() + ".Р Р°СЃС‡С‘С‚ РґРµС„. СЌРєСЃРїР»СѓР°С‚Р°С†РёРё РўРЎ.\r";
 
             if ((bill.WorkDone & 32) == 32)
-                s += (++n).ToString() + ".Расчёт стоимости ТС.\r";
+                s += (++n).ToString() + ".Р Р°СЃС‡С‘С‚ СЃС‚РѕРёРјРѕСЃС‚Рё РўРЎ.\r";
 
             Word.Replace("%workDone%", s);
 
             s = "";
 
             if ((bill.WorkDone & 1) == 1)
-                s += "проведение осмотра, составление акта осмотра, ";
+                s += "РїСЂРѕРІРµРґРµРЅРёРµ РѕСЃРјРѕС‚СЂР°, СЃРѕСЃС‚Р°РІР»РµРЅРёРµ Р°РєС‚Р° РѕСЃРјРѕС‚СЂР°, ";
 
             if ((bill.WorkDone & 2) == 2)
-                s += "cocтавление заключения о размере вреда, ";
+                s += "cocС‚Р°РІР»РµРЅРёРµ Р·Р°РєР»СЋС‡РµРЅРёСЏ Рѕ СЂР°Р·РјРµСЂРµ РІСЂРµРґР°, ";
 
             if (s.Length > 0)
                 s = Utils.Capitalize(s).Substring(0, s.Length - 2);

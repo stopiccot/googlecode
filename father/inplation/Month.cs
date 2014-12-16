@@ -13,7 +13,7 @@ namespace Inplation
         public static Month LastMonth()
         {
             Month month = new Month();
-            month.Name = "Последний месяц";
+            month.Name = "РџРѕСЃР»РµРґРЅРёР№ РјРµСЃСЏС†";
             month.FirstDay = DateTime.Now.AddDays(-29.0);
             month.Days = 30;
             return month;

@@ -67,7 +67,7 @@ namespace Invoice
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Дата";
+            this.label1.Text = "Р”Р°С‚Р°";
             // 
             // label2
             // 
@@ -76,7 +76,7 @@ namespace Invoice
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Компания";
+            this.label2.Text = "РљРѕРјРїР°РЅРёСЏ";
             // 
             // billCompany
             // 
@@ -99,7 +99,7 @@ namespace Invoice
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Сумма:";
+            this.label3.Text = "РЎСѓРјРјР°:";
             // 
             // applyButton
             // 
@@ -108,7 +108,7 @@ namespace Invoice
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(100, 23);
             this.applyButton.TabIndex = 6;
-            this.applyButton.Text = "Создать";
+            this.applyButton.Text = "РЎРѕР·РґР°С‚СЊ";
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.applyButton_Click);
             // 
@@ -118,7 +118,7 @@ namespace Invoice
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(100, 23);
             this.cancelButton.TabIndex = 7;
-            this.cancelButton.Text = "Отмена";
+            this.cancelButton.Text = "РћС‚РјРµРЅР°";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
@@ -152,7 +152,7 @@ namespace Invoice
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 13);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Номер";
+            this.label4.Text = "РќРѕРјРµСЂ";
             // 
             // checkBox1
             // 
@@ -163,7 +163,7 @@ namespace Invoice
             this.checkBox1.Size = new System.Drawing.Size(63, 17);
             this.checkBox1.TabIndex = 11;
             this.checkBox1.Tag = "1";
-            this.checkBox1.Text = "Осмотр";
+            this.checkBox1.Text = "РћСЃРјРѕС‚СЂ";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
@@ -176,7 +176,7 @@ namespace Invoice
             this.checkBox2.Size = new System.Drawing.Size(89, 17);
             this.checkBox2.TabIndex = 12;
             this.checkBox2.Tag = "2";
-            this.checkBox2.Text = "Заключение";
+            this.checkBox2.Text = "Р—Р°РєР»СЋС‡РµРЅРёРµ";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
@@ -189,7 +189,7 @@ namespace Invoice
             this.checkBox3.Size = new System.Drawing.Size(149, 17);
             this.checkBox3.TabIndex = 13;
             this.checkBox3.Tag = "4";
-            this.checkBox3.Text = "Выезд по месту осмотра";
+            this.checkBox3.Text = "Р’С‹РµР·Рґ РїРѕ РјРµСЃС‚Сѓ РѕСЃРјРѕС‚СЂР°";
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
@@ -202,7 +202,7 @@ namespace Invoice
             this.checkBox4.Size = new System.Drawing.Size(196, 17);
             this.checkBox4.TabIndex = 14;
             this.checkBox4.Tag = "8";
-            this.checkBox4.Text = "Расчёт вреда в случае гибели ТС";
+            this.checkBox4.Text = "Р Р°СЃС‡С‘С‚ РІСЂРµРґР° РІ СЃР»СѓС‡Р°Рµ РіРёР±РµР»Рё РўРЎ";
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
@@ -222,7 +222,7 @@ namespace Invoice
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(123, 13);
             this.label9.TabIndex = 27;
-            this.label9.Text = "Траспортное средство";
+            this.label9.Text = "РўСЂР°СЃРїРѕСЂС‚РЅРѕРµ СЃСЂРµРґСЃС‚РІРѕ";
             // 
             // priceComboBox
             // 
@@ -245,7 +245,7 @@ namespace Invoice
             this.checkBox5.Size = new System.Drawing.Size(172, 17);
             this.checkBox5.TabIndex = 28;
             this.checkBox5.Tag = "8";
-            this.checkBox5.Text = "Расчёт деф. эксплуатции ТС";
+            this.checkBox5.Text = "Р Р°СЃС‡С‘С‚ РґРµС„. СЌРєСЃРїР»СѓР°С‚С†РёРё РўРЎ";
             this.checkBox5.UseVisualStyleBackColor = true;
             this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
@@ -258,7 +258,7 @@ namespace Invoice
             this.checkBox6.Size = new System.Drawing.Size(135, 17);
             this.checkBox6.TabIndex = 29;
             this.checkBox6.Tag = "8";
-            this.checkBox6.Text = "Расчёт стоимости ТС ";
+            this.checkBox6.Text = "Р Р°СЃС‡С‘С‚ СЃС‚РѕРёРјРѕСЃС‚Рё РўРЎ ";
             this.checkBox6.UseVisualStyleBackColor = true;
             this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
@@ -292,7 +292,7 @@ namespace Invoice
             this.Name = "EditBillForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Редактирование счёт-фактуры";
+            this.Text = "Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹";
             this.Shown += new System.EventHandler(this.EditBillForm_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditBillForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).EndInit();

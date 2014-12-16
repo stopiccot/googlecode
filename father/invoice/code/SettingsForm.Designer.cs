@@ -54,7 +54,7 @@ namespace Invoice
             this.editCompaniesButton.Name = "editCompaniesButton";
             this.editCompaniesButton.Size = new System.Drawing.Size(283, 23);
             this.editCompaniesButton.TabIndex = 0;
-            this.editCompaniesButton.Text = "Редактировать список компаний";
+            this.editCompaniesButton.Text = "Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СЃРїРёСЃРѕРє РєРѕРјРїР°РЅРёР№";
             this.editCompaniesButton.UseVisualStyleBackColor = true;
             this.editCompaniesButton.Click += new System.EventHandler(this.editCompaniesButton_Click);
             // 
@@ -72,7 +72,7 @@ namespace Invoice
             this.changeTemplate.Name = "changeTemplate";
             this.changeTemplate.Size = new System.Drawing.Size(68, 23);
             this.changeTemplate.TabIndex = 2;
-            this.changeTemplate.Text = "Изменить";
+            this.changeTemplate.Text = "РР·РјРµРЅРёС‚СЊ";
             this.changeTemplate.UseVisualStyleBackColor = true;
             this.changeTemplate.Click += new System.EventHandler(this.changeTemplate_Click);
             // 
@@ -83,7 +83,7 @@ namespace Invoice
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Шаблон";
+            this.label1.Text = "РЁР°Р±Р»РѕРЅ";
             // 
             // deleteCheckBox
             // 
@@ -92,7 +92,7 @@ namespace Invoice
             this.deleteCheckBox.Name = "deleteCheckBox";
             this.deleteCheckBox.Size = new System.Drawing.Size(157, 17);
             this.deleteCheckBox.TabIndex = 5;
-            this.deleteCheckBox.Text = "Подтверждение удаления";
+            this.deleteCheckBox.Text = "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ СѓРґР°Р»РµРЅРёСЏ";
             this.deleteCheckBox.UseVisualStyleBackColor = true;
             // 
             // unpayCheckBox
@@ -102,7 +102,7 @@ namespace Invoice
             this.unpayCheckBox.Name = "unpayCheckBox";
             this.unpayCheckBox.Size = new System.Drawing.Size(159, 17);
             this.unpayCheckBox.TabIndex = 6;
-            this.unpayCheckBox.Text = "Подтверждение неоплаты";
+            this.unpayCheckBox.Text = "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РЅРµРѕРїР»Р°С‚С‹";
             this.unpayCheckBox.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -112,7 +112,7 @@ namespace Invoice
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Цены";
+            this.label3.Text = "Р¦РµРЅС‹";
             // 
             // openFileDialog
             // 
@@ -124,7 +124,7 @@ namespace Invoice
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 9;
-            this.cancelButton.Text = "Отмена";
+            this.cancelButton.Text = "РћС‚РјРµРЅР°";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButtonClick);
             // 
@@ -134,7 +134,7 @@ namespace Invoice
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 10;
-            this.applyButton.Text = "Применить";
+            this.applyButton.Text = "РџСЂРёРјРµРЅРёС‚СЊ";
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.applyButtonClick);
             // 
@@ -152,7 +152,7 @@ namespace Invoice
             this.changePrevYearDir.Name = "changePrevYearDir";
             this.changePrevYearDir.Size = new System.Drawing.Size(68, 23);
             this.changePrevYearDir.TabIndex = 12;
-            this.changePrevYearDir.Text = "Изменить";
+            this.changePrevYearDir.Text = "РР·РјРµРЅРёС‚СЊ";
             this.changePrevYearDir.UseVisualStyleBackColor = true;
             this.changePrevYearDir.Click += new System.EventHandler(this.changePrevYearDir_Click);
             // 
@@ -180,7 +180,7 @@ namespace Invoice
             this.changeCurrYearDir.Name = "changeCurrYearDir";
             this.changeCurrYearDir.Size = new System.Drawing.Size(68, 23);
             this.changeCurrYearDir.TabIndex = 15;
-            this.changeCurrYearDir.Text = "Изменить";
+            this.changeCurrYearDir.Text = "РР·РјРµРЅРёС‚СЊ";
             this.changeCurrYearDir.UseVisualStyleBackColor = true;
             this.changeCurrYearDir.Click += new System.EventHandler(this.changeCurrYearDir_Click);
             // 
@@ -228,7 +228,7 @@ namespace Invoice
             this.Name = "SettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Настройки";
+            this.Text = "РќР°СЃС‚СЂРѕР№РєРё";
             this.Shown += new System.EventHandler(this.SettingsForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();

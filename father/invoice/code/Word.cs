@@ -98,7 +98,7 @@ namespace Invoice
                     // File is already opened by some application so
                     // we can't save it. Send notification to user.
                     {
-                        //System.Windows.Forms.MessageBox.Show("Нель");
+                        //System.Windows.Forms.MessageBox.Show("РќРµР»СЊ");
                         break;
                     }
                 }

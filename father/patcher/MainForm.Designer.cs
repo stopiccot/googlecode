@@ -42,7 +42,7 @@ namespace patcher
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(198, 48);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Установка обновления";
+            this.label1.Text = "РЈСЃС‚Р°РЅРѕРІРєР° РѕР±РЅРѕРІР»РµРЅРёСЏ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // okButton
@@ -53,7 +53,7 @@ namespace patcher
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 3;
-            this.okButton.Text = "ОК";
+            this.okButton.Text = "РћРљ";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -80,7 +80,7 @@ namespace patcher
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Обновление 1.02";
+            this.Text = "РћР±РЅРѕРІР»РµРЅРёРµ 1.02";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

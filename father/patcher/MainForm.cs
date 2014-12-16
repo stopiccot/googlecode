@@ -39,11 +39,11 @@ namespace patcher
 
             if (installUpdate())
             {
-                label1.Text = "Обновление до версии 1.02\nуспешно установлено";
+                label1.Text = "РћР±РЅРѕРІР»РµРЅРёРµ РґРѕ РІРµСЂСЃРёРё 1.02\nСѓСЃРїРµС€РЅРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ";
                 okButton.Enabled = true;
             }
             else
-                label1.Text = "Не удалось установить обновление";
+                label1.Text = "РќРµ СѓРґР°Р»РѕСЃСЊ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ";
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -51,7 +51,7 @@ namespace Inplation
             this.minimizeButton.Name = "minimizeButton";
             this.minimizeButton.Size = new System.Drawing.Size(26, 22);
             this.minimizeButton.TabIndex = 9;
-            this.toolTip.SetToolTip(this.minimizeButton, "Свернуть");
+            this.toolTip.SetToolTip(this.minimizeButton, "РЎРІРµСЂРЅСѓС‚СЊ");
             this.minimizeButton.Click += new System.EventHandler(this.minimizeButton_Click);
             // 
             // nextButton
@@ -61,7 +61,7 @@ namespace Inplation
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(26, 22);
             this.nextButton.TabIndex = 8;
-            this.toolTip.SetToolTip(this.nextButton, "Следующий месяц");
+            this.toolTip.SetToolTip(this.nextButton, "РЎР»РµРґСѓСЋС‰РёР№ РјРµСЃСЏС†");
             this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
             // closeButton
@@ -71,7 +71,7 @@ namespace Inplation
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(26, 22);
             this.closeButton.TabIndex = 7;
-            this.toolTip.SetToolTip(this.closeButton, "Закрыть программу");
+            this.toolTip.SetToolTip(this.closeButton, "Р—Р°РєСЂС‹С‚СЊ РїСЂРѕРіСЂР°РјРјСѓ");
             this.closeButton.Click += new System.EventHandler(this.appleButton1_Click);
             // 
             // prevButton
@@ -81,7 +81,7 @@ namespace Inplation
             this.prevButton.Name = "prevButton";
             this.prevButton.Size = new System.Drawing.Size(26, 22);
             this.prevButton.TabIndex = 6;
-            this.toolTip.SetToolTip(this.prevButton, "Предыдущий месяц");
+            this.toolTip.SetToolTip(this.prevButton, "РџСЂРµРґС‹РґСѓС‰РёР№ РјРµСЃСЏС†");
             this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
             // 
             // reloadButton
@@ -91,7 +91,7 @@ namespace Inplation
             this.reloadButton.Name = "reloadButton";
             this.reloadButton.Size = new System.Drawing.Size(26, 22);
             this.reloadButton.TabIndex = 0;
-            this.toolTip.SetToolTip(this.reloadButton, "Обновить курсы");
+            this.toolTip.SetToolTip(this.reloadButton, "РћР±РЅРѕРІРёС‚СЊ РєСѓСЂСЃС‹");
             this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
             // 
             // MainForm
@@ -110,7 +110,7 @@ namespace Inplation
             this.Name = "MainForm";
             this.SavePositionToRegistry = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Курсы валют";
+            this.Text = "РљСѓСЂСЃС‹ РІР°Р»СЋС‚";
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDoubleClick);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);

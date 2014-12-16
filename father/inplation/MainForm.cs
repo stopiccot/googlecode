@@ -24,7 +24,7 @@ namespace Inplation
             public string EUR, USD, RUR;
             public Rate(string EUR, string USD, string RUR)
             {
-                // Автоверт понимает только запятую
+                // РђРІС‚РѕРІРµСЂС‚ РїРѕРЅРёРјР°РµС‚ С‚РѕР»СЊРєРѕ Р·Р°РїСЏС‚СѓСЋ
                 this.EUR = EUR.Replace('.', ',');
                 this.USD = USD.Replace('.', ',');
                 this.RUR = RUR.Replace('.', ',');
@@ -85,10 +85,10 @@ namespace Inplation
             }
             catch
             {
-                MessageBox.Show("Произошла ошибка при загрузке базы.\nДанные о курсах утеряны, но их можно скачать заново.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ Р±Р°Р·С‹.\nР”Р°РЅРЅС‹Рµ Рѕ РєСѓСЂСЃР°С… СѓС‚РµСЂСЏРЅС‹, РЅРѕ РёС… РјРѕР¶РЅРѕ СЃРєР°С‡Р°С‚СЊ Р·Р°РЅРѕРІРѕ.", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Автоверту нужна запятая
+            // РђРІС‚РѕРІРµСЂС‚Сѓ РЅСѓР¶РЅР° Р·Р°РїСЏС‚Р°СЏ
             foreach (KeyValuePair<string, Rate> rate in Rates)
             {
                 rate.Value.EUR = rate.Value.EUR.Replace('.', ',');
@@ -109,14 +109,14 @@ namespace Inplation
                     }
                     catch
                     {
-                        MessageBox.Show("Не удалось получить xml-данные в процессе обновления. Надо срочно позвонить Лёше.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ xml-РґР°РЅРЅС‹Рµ РІ РїСЂРѕС†РµСЃСЃРµ РѕР±РЅРѕРІР»РµРЅРёСЏ. РќР°РґРѕ СЃСЂРѕС‡РЅРѕ РїРѕР·РІРѕРЅРёС‚СЊ Р›С‘С€Рµ.", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         q.Clear();
                         return;
                     }
 
                     try
                     {
-                        string EUR = "Ошибка", USD = "Ошибика", RUR = "Ошибка";
+                        string EUR = "РћС€РёР±РєР°", USD = "РћС€РёР±РёРєР°", RUR = "РћС€РёР±РєР°";
 
                         foreach (Currency currency in dailyExRates.Currency)
                         {
@@ -125,19 +125,19 @@ namespace Inplation
                             if (currency.CharCode == "RUB") RUR = currency.Rate;
                         }
 
-                        // Проверям, что это были на самом деле числа. 
-                        // CultureInfo.InvariantCulture.NumberFormat - чтоб игнорировать точка или 
-                        // запятая используется в качестве разделителя
+                        // РџСЂРѕРІРµСЂСЏРј, С‡С‚Рѕ СЌС‚Рѕ Р±С‹Р»Рё РЅР° СЃР°РјРѕРј РґРµР»Рµ С‡РёСЃР»Р°. 
+                        // CultureInfo.InvariantCulture.NumberFormat - С‡С‚РѕР± РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ С‚РѕС‡РєР° РёР»Рё 
+                        // Р·Р°РїСЏС‚Р°СЏ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РєР°С‡РµСЃС‚РІРµ СЂР°Р·РґРµР»РёС‚РµР»СЏ
                         double d = Convert.ToDouble(EUR, CultureInfo.InvariantCulture.NumberFormat)
                                  + Convert.ToDouble(USD, CultureInfo.InvariantCulture.NumberFormat)
                                  + Convert.ToDouble(RUR, CultureInfo.InvariantCulture.NumberFormat);
 
-                        // Добавляем в список
+                        // Р”РѕР±Р°РІР»СЏРµРј РІ СЃРїРёСЃРѕРє
                         Rates.Add(ReqDateString, new Rate(EUR, USD, RUR));
                     }
                     catch
                     {
-                        MessageBox.Show("Не удалось прочитать xml-данные в процессе обновления. Надо срочно позвонить Лёше.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("РќРµ СѓРґР°Р»РѕСЃСЊ РїСЂРѕС‡РёС‚Р°С‚СЊ xml-РґР°РЅРЅС‹Рµ РІ РїСЂРѕС†РµСЃСЃРµ РѕР±РЅРѕРІР»РµРЅРёСЏ. РќР°РґРѕ СЃСЂРѕС‡РЅРѕ РїРѕР·РІРѕРЅРёС‚СЊ Р›С‘С€Рµ.", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         q.Clear();
                         return;
                     }

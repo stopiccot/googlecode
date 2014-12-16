@@ -63,7 +63,7 @@ namespace Invoice
             _base.bills = (Bill[])Base.billList.ToArray();
             _base.companies = (Company[])Base.companyList.ToArray();
 
-            // Добавлено в 1.0.7
+            // Р”РѕР±Р°РІР»РµРЅРѕ РІ 1.0.7
             _base.workingDirectory = Base.workingDirectory;
             
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -99,7 +99,7 @@ namespace Invoice
             {
                 if (!File.Exists(baseFile))
                 {
-                    MessageBox.Show("База не обнаружена!");
+                    MessageBox.Show("Р‘Р°Р·Р° РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅР°!");
                     throw new Exception();
                 }
 
@@ -118,7 +118,7 @@ namespace Invoice
                 Base.billList.AddRange(_base.bills);
                 Base.companyList.AddRange(_base.companies);
 
-                // Добавлено в 1.0.7 поэтому в старых базах может отсутствовать
+                // Р”РѕР±Р°РІР»РµРЅРѕ РІ 1.0.7 РїРѕСЌС‚РѕРјСѓ РІ СЃС‚Р°СЂС‹С… Р±Р°Р·Р°С… РјРѕР¶РµС‚ РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°С‚СЊ
                 Base.workingDirectory = _base.workingDirectory;
             }
             catch
@@ -126,7 +126,7 @@ namespace Invoice
                 //...
             }
 
-            // Добавлено в 1.0.7 поэтому в старых базах может отсутствовать
+            // Р”РѕР±Р°РІР»РµРЅРѕ РІ 1.0.7 РїРѕСЌС‚РѕРјСѓ РІ СЃС‚Р°СЂС‹С… Р±Р°Р·Р°С… РјРѕР¶РµС‚ РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°С‚СЊ
             if (Base.workingDirectory == null)
             {
                 Base.workingDirectory = new string[20];

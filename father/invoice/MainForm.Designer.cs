@@ -76,7 +76,7 @@ namespace Invoice
             this.newToolButton.Name = "newToolButton";
             this.newToolButton.Size = new System.Drawing.Size(23, 22);
             this.newToolButton.Text = "toolStripButton1";
-            this.newToolButton.ToolTipText = "Новая счёт-фактура";
+            this.newToolButton.ToolTipText = "РќРѕРІР°СЏ СЃС‡С‘С‚-С„Р°РєС‚СѓСЂР°";
             this.newToolButton.Click += new System.EventHandler(this.createNewBill);
             // 
             // toolStripSeparator1
@@ -93,7 +93,7 @@ namespace Invoice
             this.wordToolButton.Name = "wordToolButton";
             this.wordToolButton.Size = new System.Drawing.Size(23, 22);
             this.wordToolButton.Text = "toolStripButton2";
-            this.wordToolButton.ToolTipText = "Открыть документ Word";
+            this.wordToolButton.ToolTipText = "РћС‚РєСЂС‹С‚СЊ РґРѕРєСѓРјРµРЅС‚ Word";
             this.wordToolButton.Click += new System.EventHandler(this.wordToolButton_Click);
             // 
             // printToolButton
@@ -105,7 +105,7 @@ namespace Invoice
             this.printToolButton.Name = "printToolButton";
             this.printToolButton.Size = new System.Drawing.Size(23, 22);
             this.printToolButton.Text = "toolStripButton3";
-            this.printToolButton.ToolTipText = "Распечатать";
+            this.printToolButton.ToolTipText = "Р Р°СЃРїРµС‡Р°С‚Р°С‚СЊ";
             this.printToolButton.Click += new System.EventHandler(this.printToolButton_Click);
             // 
             // deleteToolButton
@@ -117,7 +117,7 @@ namespace Invoice
             this.deleteToolButton.Name = "deleteToolButton";
             this.deleteToolButton.Size = new System.Drawing.Size(23, 22);
             this.deleteToolButton.Text = "toolStripButton4";
-            this.deleteToolButton.ToolTipText = "Удалить";
+            this.deleteToolButton.ToolTipText = "РЈРґР°Р»РёС‚СЊ";
             this.deleteToolButton.Click += new System.EventHandler(this.deleteToolButton_Click);
             // 
             // toolStripSeparator2
@@ -136,7 +136,7 @@ namespace Invoice
             this.toggleToolButton.Name = "toggleToolButton";
             this.toggleToolButton.Size = new System.Drawing.Size(23, 22);
             this.toggleToolButton.Text = "toolStripButton5";
-            this.toggleToolButton.ToolTipText = "Показывать оплаченные";
+            this.toggleToolButton.ToolTipText = "РџРѕРєР°Р·С‹РІР°С‚СЊ РѕРїР»Р°С‡РµРЅРЅС‹Рµ";
             this.toggleToolButton.Click += new System.EventHandler(this.toggleToolButton_Click);
             // 
             // deletePayedToolButton
@@ -147,7 +147,7 @@ namespace Invoice
             this.deletePayedToolButton.Name = "deletePayedToolButton";
             this.deletePayedToolButton.Size = new System.Drawing.Size(23, 22);
             this.deletePayedToolButton.Text = "toolStripButton6";
-            this.deletePayedToolButton.ToolTipText = "Удалить оплаченные";
+            this.deletePayedToolButton.ToolTipText = "РЈРґР°Р»РёС‚СЊ РѕРїР»Р°С‡РµРЅРЅС‹Рµ";
             this.deletePayedToolButton.Click += new System.EventHandler(this.deletePayedToolButton_Click);
             // 
             // toolStripSeparator3
@@ -162,7 +162,7 @@ namespace Invoice
             this.settingsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.settingsToolButton.Name = "settingsToolButton";
             this.settingsToolButton.Size = new System.Drawing.Size(23, 22);
-            this.settingsToolButton.Text = "Настройки";
+            this.settingsToolButton.Text = "РќР°СЃС‚СЂРѕР№РєРё";
             this.settingsToolButton.Click += new System.EventHandler(this.settingsToolButton_Click);
             // 
             // listView
@@ -194,19 +194,19 @@ namespace Invoice
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Счёт-фактура";
+            this.columnHeader1.Text = "РЎС‡С‘С‚-С„Р°РєС‚СѓСЂР°";
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Дата";
+            this.columnHeader2.Text = "Р”Р°С‚Р°";
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Компания";
+            this.columnHeader3.Text = "РљРѕРјРїР°РЅРёСЏ";
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Сумма";
+            this.columnHeader4.Text = "РЎСѓРјРјР°";
             // 
             // backgroundWorker
             // 
@@ -220,7 +220,7 @@ namespace Invoice
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Cчёт-фактуры 1.0.5";
+            this.Text = "CС‡С‘С‚-С„Р°РєС‚СѓСЂС‹ 1.0.5";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

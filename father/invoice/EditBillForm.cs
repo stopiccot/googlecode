@@ -95,10 +95,10 @@ namespace Invoice
 
             selectedBill.WorkDone = workDone;
 
-            applyButton.Text = edit ? "Применить" : "Создать";
+            applyButton.Text = edit ? "РџСЂРёРјРµРЅРёС‚СЊ" : "РЎРѕР·РґР°С‚СЊ";
             applyButton.Enabled = edit;
 
-            this.Text = (edit ? "Редактирование" : "Создание") + " счёт-фактуры";
+            this.Text = (edit ? "Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ" : "РЎРѕР·РґР°РЅРёРµ") + " СЃС‡С‘С‚-С„Р°РєС‚СѓСЂС‹";
 
             ShowDialog();
 
@@ -107,7 +107,7 @@ namespace Invoice
 
         private void EditBillForm_Shown(object sender, EventArgs e)
         {
-            // Не знаю почему, но в методе EditBill эта строчка не всегда работает
+            // РќРµ Р·РЅР°СЋ РїРѕС‡РµРјСѓ, РЅРѕ РІ РјРµС‚РѕРґРµ EditBill СЌС‚Р° СЃС‚СЂРѕС‡РєР° РЅРµ РІСЃРµРіРґР° СЂР°Р±РѕС‚Р°РµС‚
             priceComboBox.Value = selectedBill.Price;
         }
 
