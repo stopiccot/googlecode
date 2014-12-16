@@ -47,6 +47,7 @@ namespace Invoice
             this.priceComboBox = new Stopiccot.VisualComponents.NumberComboBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,7 +96,7 @@ namespace Invoice
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(9, 288);
+            this.label3.Location = new System.Drawing.Point(9, 324);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 4;
@@ -104,7 +105,7 @@ namespace Invoice
             // applyButton
             // 
             this.applyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.applyButton.Location = new System.Drawing.Point(181, 331);
+            this.applyButton.Location = new System.Drawing.Point(181, 367);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(100, 23);
             this.applyButton.TabIndex = 6;
@@ -114,7 +115,7 @@ namespace Invoice
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(12, 331);
+            this.cancelButton.Location = new System.Drawing.Point(12, 367);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(100, 23);
             this.cancelButton.TabIndex = 7;
@@ -227,7 +228,7 @@ namespace Invoice
             // priceComboBox
             // 
             this.priceComboBox.FormatString = "N0";
-            this.priceComboBox.Location = new System.Drawing.Point(12, 304);
+            this.priceComboBox.Location = new System.Drawing.Point(12, 340);
             this.priceComboBox.MaxDropDownItems = 20;
             this.priceComboBox.Name = "priceComboBox";
             this.priceComboBox.Size = new System.Drawing.Size(269, 21);
@@ -262,11 +263,23 @@ namespace Invoice
             this.checkBox6.UseVisualStyleBackColor = true;
             this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(12, 287);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(86, 17);
+            this.checkBox7.TabIndex = 30;
+            this.checkBox7.Text = "Перерасчет";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
             // EditBillForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 365);
+            this.ClientSize = new System.Drawing.Size(290, 402);
+            this.Controls.Add(this.checkBox7);
             this.Controls.Add(this.checkBox6);
             this.Controls.Add(this.checkBox5);
             this.Controls.Add(this.label9);
@@ -293,8 +306,8 @@ namespace Invoice
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Редактирование счёт-фактуры";
-            this.Shown += new System.EventHandler(this.EditBillForm_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditBillForm_FormClosing);
+            this.Shown += new System.EventHandler(this.EditBillForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -323,5 +336,6 @@ namespace Invoice
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox checkBox7;
     }
 }

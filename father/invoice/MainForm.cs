@@ -58,7 +58,7 @@ namespace Invoice
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             // Проверяем обновление
-            Update.Updater updater = new Update.Updater("https://raw.githubusercontent.com/stopiccot/googlecode/master/father/invoice/invoice-version.xml");
+            Update.Updater updater = new Update.Updater("https://raw.githubusercontent.com/stopiccot/googlecode/master/father/releases/invoice/invoice-version.xml");
             updater.checkForUpdates();
         }
 
@@ -421,6 +421,9 @@ namespace Invoice
 
             if ((bill.WorkDone & 32) == 32)
                 s += (++n).ToString() + ".Расчёт стоимости ТС.\r";
+
+            if ((bill.WorkDone & 64) == 64)
+                s += (++n).ToString() + ".Перерасчет цен запасных частей согласно данных сервера нац. цен ( БАЭС ).\r";
 
             Word.Replace("%workDone%", s);
 
