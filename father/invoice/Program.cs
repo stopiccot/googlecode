@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 1.1.6 - 16.12.2014
+// [*] Bugfix
+//
 // 1.1.5 - 16.12.2014
 // [+] New highres icon
 // [+] New Bill.workDone option

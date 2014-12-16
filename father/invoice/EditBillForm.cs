@@ -92,7 +92,7 @@ namespace Invoice
             checkBox4.Checked = (selectedBill.WorkDone &  8) ==  8; checkBox4.Tag = "8";
             checkBox5.Checked = (selectedBill.WorkDone & 16) == 16; checkBox5.Tag = "16";
             checkBox6.Checked = (selectedBill.WorkDone & 32) == 32; checkBox6.Tag = "32";
-            checkBox7.Checked = (selectedBill.WorkDone & 64) == 64; checkBox6.Tag = "64";
+            checkBox7.Checked = (selectedBill.WorkDone & 64) == 64; checkBox7.Tag = "64";
 
             selectedBill.WorkDone = workDone;
 
