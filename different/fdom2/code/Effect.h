@@ -5,8 +5,6 @@
 	#include "Direct3D10.h"
 	#include "Texture.h"
 	#include "ShaderVariable.h"
-	#include <map>
-	using namespace std;
 
 	struct Technique
 	{
@@ -19,8 +17,8 @@
 		protected:
 			Effect();
 
-			map<const char *, ShaderVariable*> variables;
-			mutable map<const char *, Technique> techniques;
+			std::map<const char *, ShaderVariable*> variables;
+			mutable std::map<const char *, Technique> techniques;
 
 			virtual D3D10_INPUT_ELEMENT_DESC* getLayout(int &n) = 0;
 			virtual void init(LPCWSTR name);
@@ -39,7 +37,6 @@
 			void setTexture(const Texture &texture);
 			void setTextures(const Texture &texture1, const Texture &texture2);
 
-			Effect(LPCWSTR fileName);
 			virtual ~Effect();
 
 			ShaderVector3 getVector3(const char *name);
@@ -68,9 +65,9 @@
 			ID3D10EffectVectorVariable* cameraPos;
 
 			// Methods
-			void setViewProjection(const D3DXMATRIX &viewMatrix, const D3DXMATRIX &projectionMatrix);
+			void setViewProjection(const DirectX::XMMATRIX &viewMatrix, const DirectX::XMMATRIX &projectionMatrix);
 			void setCameraPos(float x, float y, float z);
-			void setCameraPos(D3DXVECTOR3& camPos);
+			void setCameraPos(DirectX::XMVECTORF32& camPos);
 			
 			virtual ~Effect3D();
 	};

@@ -1,5 +1,6 @@
 #include "Texture.h"
 #include "log.h"
+#include <wincodec.h>
 
 const Texture Texture::null;
 
@@ -39,38 +40,45 @@ void Texture::copyReferences(ID3D10Texture2D *texture, ID3D10ShaderResourceView*
 		resourceView->AddRef();
 }
 
+IWICImagingFactory2* wicFactory = NULL;
+
 //==========================================================================
 // LoadFromFile - selfdescribing
 //==========================================================================
-Texture Texture::LoadFromFile(LPCTSTR fileName)
+Texture Texture::LoadFromFile(LPCWSTR fileName)
 {
-	Texture result;
-
-	HRESULT hr = D3DX10CreateShaderResourceViewFromFile( D3D10.getDevice(), fileName, NULL, NULL, &(result.resourceView), NULL);
-
-	if (FAILED(hr)) 
+	if (wicFactory == NULL)
 	{
-		switch(hr)
-		{
-			case D3D10_ERROR_FILE_NOT_FOUND:
-			{
-				MessageBox(D3D10.getHWND(), fileName, L"Texture::LoadFromFile - D3D10_ERROR_FILE_NOT_FOUND", MB_ICONERROR | MB_OK);
-				break;
-			}
-			default:
-			{
-				MessageBox(D3D10.getHWND(), fileName, L"Texture::LoadFromFile - FAILED", MB_ICONERROR | MB_OK);
-				break;
-			}
-		}
-		return Texture::null;
+		CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&wicFactory));
 	}
 
-	ID3D10Resource *resource = NULL;
+	IWICStream* stream = NULL;
+	HRESULT hr = wicFactory->CreateStream(&stream);
+	hr = stream->InitializeFromFilename(fileName, GENERIC_READ);
 
-	result.resourceView->GetResource( &resource );
-	resource->QueryInterface(__uuidof(ID3D10Texture2D), (void**)&(result.texture));
-	resource->Release();
+	IWICBitmapDecoder* bitmapDecoder = NULL;
+	hr = wicFactory->CreateDecoderFromStream(stream, NULL, WICDecodeMetadataCacheOnDemand, &bitmapDecoder);
+
+	IWICBitmapFrameDecode* bitmapFrame = NULL;
+	hr = bitmapDecoder->GetFrame(0, &bitmapFrame);
+
+	IWICFormatConverter* formatConverter = NULL;
+	hr = wicFactory->CreateFormatConverter(&formatConverter);
+
+	hr = formatConverter->Initialize(bitmapFrame, GUID_WICPixelFormat32bppPRGBA, WICBitmapDitherTypeNone, NULL, 0.0, WICBitmapPaletteTypeCustom);
+
+	uint32_t width, height;
+	hr = bitmapFrame->GetSize(&width, &height);
+
+	std::vector<uint8_t> bitmapPixels(4 * width * height);
+	formatConverter->CopyPixels(NULL, width * 4, width * height * 4, &bitmapPixels[0]);
+
+	// Lol, Microsoft: D3D11_RESOURCE_MISC_GENERATE_MIPS requires that the D3D11_BIND_RENDER_TARGET & D3D11_BIND_SHADER_RESOURCE flag be set.
+	Texture result = Texture::Create(width, height, 0, 1, true, false, false, D3D10.getSampleDesc());
+
+	D3D10.getDevice()->UpdateSubresource(result.getTexture(), 0, NULL, &bitmapPixels[0], 4 * width, 0);
+
+	result.generateMips();
 
 	return result;
 }
@@ -112,8 +120,8 @@ Texture Texture::Create(int width, int height, int mipLevels, int count, bool re
 						 | (stencilBuffer ? D3D10_BIND_DEPTH_STENCIL : 0);
 
 	desc.MiscFlags       = 0
-	                     | (mipLevels > 1 ? D3D10_RESOURCE_MISC_GENERATE_MIPS : 0)
-		                 | (cubeMap       ? D3D10_RESOURCE_MISC_TEXTURECUBE   : 0);
+	                     | (mipLevels != 1 ? D3D10_RESOURCE_MISC_GENERATE_MIPS : 0)
+		                 | (cubeMap        ? D3D10_RESOURCE_MISC_TEXTURECUBE   : 0);
 	desc.CPUAccessFlags  = 0;
 	desc.SampleDesc      = sampleDesc;
 
@@ -168,7 +176,7 @@ Texture Texture::Create(int width, int height, int mipLevels, int count, bool re
 			}
 	}
 
-	hr = D3D10.getDevice()->CreateShaderResourceView(result.texture, &srvDesc, &(result.resourceView));
+	hr = D3D10.getDevice()->CreateShaderResourceView(result.texture, mipLevels == 0 ? NULL : &srvDesc, &(result.resourceView));
 	if (FAILED(hr)) return Texture::null;
 
 	return result;

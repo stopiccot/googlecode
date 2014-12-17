@@ -119,31 +119,31 @@ void initLevel()
 				{
 					for (int m = 0; m < 4; m++)
 					{
-						vData[v + m].Pos.y  = -5.0;
-						vData[v + m].Norm.x =  0.0;
-						vData[v + m].Norm.y =  1.0;
-						vData[v + m].Norm.z =  0.0;
+						vData[v + m].Pos.y  = -5.0f;
+						vData[v + m].Norm.x =  0.0f;
+						vData[v + m].Norm.y =  1.0f;
+						vData[v + m].Norm.z =  0.0f;
 					}
 
-					vData[ v ].Pos.x = 10.0 * i - 5.0; 
-					vData[ v ].Pos.z = 10.0 * j - 5.0;
-					vData[ v ].Tex.x = 1.0;
-					vData[ v ].Tex.y = 0.0;
+					vData[ v ].Pos.x = 10.0f * i - 5.0f; 
+					vData[ v ].Pos.z = 10.0f * j - 5.0f;
+					vData[ v ].Tex.x = 1.0f;
+					vData[ v ].Tex.y = 0.0f;
 
-					vData[v+1].Pos.x = 10.0 * i - 5.0;
-					vData[v+1].Pos.z = 10.0 * j + 5.0;
-					vData[v+1].Tex.x = 1.0;
-					vData[v+1].Tex.y = 1.0;
+					vData[v+1].Pos.x = 10.0f * i - 5.0f;
+					vData[v+1].Pos.z = 10.0f * j + 5.0f;
+					vData[v+1].Tex.x = 1.0f;
+					vData[v+1].Tex.y = 1.0f;
 
-					vData[v+2].Pos.x = 10.0 * i + 5.0;
-					vData[v+2].Pos.z = 10.0 * j - 5.0;
-					vData[v+2].Tex.x = 0.0;
-					vData[v+2].Tex.y = 0.0;
+					vData[v+2].Pos.x = 10.0f * i + 5.0f;
+					vData[v+2].Pos.z = 10.0f * j - 5.0f;
+					vData[v+2].Tex.x = 0.0f;
+					vData[v+2].Tex.y = 0.0f;
 
-					vData[v+3].Pos.x = 10.0 * i + 5.0;
-					vData[v+3].Pos.z = 10.0 * j + 5.0;
-					vData[v+3].Tex.x = 0.0;
-					vData[v+3].Tex.y = 1.0;
+					vData[v+3].Pos.x = 10.0f * i + 5.0f;
+					vData[v+3].Pos.z = 10.0f * j + 5.0f;
+					vData[v+3].Tex.x = 0.0f;
+					vData[v+3].Tex.y = 1.0f;
 
 					iData[k + 0] = v; 
 					iData[k + 1] = v + 1;
@@ -200,31 +200,31 @@ void initLevel()
 					{
 						for (int m = 0; m < 4; m++)
 						{
-							vData[v + m].Pos.x  = 10.0 * i - 5.0;
-							vData[v + m].Norm.x = 1.0;
-							vData[v + m].Norm.y = 0.0;
-							vData[v + m].Norm.z = 0.0;
+							vData[v + m].Pos.x  = 10.0f * i - 5.0f;
+							vData[v + m].Norm.x = 1.0f;
+							vData[v + m].Norm.y = 0.0f;
+							vData[v + m].Norm.z = 0.0f;
 						}
 
-						vData[ v ].Pos.y = 5.0; 
-						vData[ v ].Pos.z = 10.0 * j - 5.0;
-						vData[ v ].Tex.x = 0.0;
-						vData[ v ].Tex.y = 0.0;
+						vData[ v ].Pos.y = 5.0f; 
+						vData[ v ].Pos.z = 10.0f * j - 5.0f;
+						vData[ v ].Tex.x = 0.0f;
+						vData[ v ].Tex.y = 0.0f;
 
-						vData[v+1].Pos.y = 5.0;
-						vData[v+1].Pos.z = 10.0 * j + 5.0;
-						vData[v+1].Tex.x = 1.0;
-						vData[v+1].Tex.y = 0.0;
+						vData[v+1].Pos.y = 5.0f;
+						vData[v+1].Pos.z = 10.0f * j + 5.0f;
+						vData[v+1].Tex.x = 1.0f;
+						vData[v+1].Tex.y = 0.0f;
 
-						vData[v+2].Pos.y = -5.0;
-						vData[v+2].Pos.z = 10.0 * j - 5.0;
-						vData[v+2].Tex.x = 0.0;
-						vData[v+2].Tex.y = 1.0;
+						vData[v+2].Pos.y = -5.0f;
+						vData[v+2].Pos.z = 10.0f * j - 5.0f;
+						vData[v+2].Tex.x = 0.0f;
+						vData[v+2].Tex.y = 1.0f;
 
-						vData[v+3].Pos.y = -5.0;
-						vData[v+3].Pos.z = 10.0 * j + 5.0;
-						vData[v+3].Tex.x = 1.0;
-						vData[v+3].Tex.y = 1.0;
+						vData[v+3].Pos.y = -5.0f;
+						vData[v+3].Pos.z = 10.0f * j + 5.0f;
+						vData[v+3].Tex.x = 1.0f;
+						vData[v+3].Tex.y = 1.0f;
 
 						iData[k + 0] = v;
 						iData[k + 1] = v + 1;
@@ -240,31 +240,31 @@ void initLevel()
 					{
 						for (int m = 0; m < 4; m++)
 						{
-							vData[v + m].Pos.x  = 10.0 * i + 5.0;
-							vData[v + m].Norm.x = 1.0;
-							vData[v + m].Norm.y = 0.0;
-							vData[v + m].Norm.z = 0.0;
+							vData[v + m].Pos.x  = 10.0f * i + 5.0f;
+							vData[v + m].Norm.x = 1.0f;
+							vData[v + m].Norm.y = 0.0f;
+							vData[v + m].Norm.z = 0.0f;
 						}
 
-						vData[ v ].Pos.y = 5.0; 
-						vData[ v ].Pos.z = 10.0 * j + 5.0;
-						vData[ v ].Tex.x = 0.0;
-						vData[ v ].Tex.y = 0.0;
+						vData[ v ].Pos.y = 5.0f; 
+						vData[ v ].Pos.z = 10.0f * j + 5.0f;
+						vData[ v ].Tex.x = 0.0f;
+						vData[ v ].Tex.y = 0.0f;
 
-						vData[v+1].Pos.y = 5.0;
-						vData[v+1].Pos.z = 10.0 * j - 5.0;
-						vData[v+1].Tex.x = 1.0;
-						vData[v+1].Tex.y = 0.0;
+						vData[v+1].Pos.y = 5.0f;
+						vData[v+1].Pos.z = 10.0f * j - 5.0f;
+						vData[v+1].Tex.x = 1.0f;
+						vData[v+1].Tex.y = 0.0f;
 
-						vData[v+2].Pos.y = -5.0;
-						vData[v+2].Pos.z = 10.0 * j + 5.0;
-						vData[v+2].Tex.x = 0.0;
-						vData[v+2].Tex.y = 1.0;
+						vData[v+2].Pos.y = -5.0f;
+						vData[v+2].Pos.z = 10.0f * j + 5.0f;
+						vData[v+2].Tex.x = 0.0f;
+						vData[v+2].Tex.y = 1.0f;
 
-						vData[v+3].Pos.y = -5.0;
-						vData[v+3].Pos.z = 10.0 * j - 5.0;
-						vData[v+3].Tex.x = 1.0;
-						vData[v+3].Tex.y = 1.0;
+						vData[v+3].Pos.y = -5.0f;
+						vData[v+3].Pos.z = 10.0f * j - 5.0f;
+						vData[v+3].Tex.x = 1.0f;
+						vData[v+3].Tex.y = 1.0f;
 
 						iData[k + 0] = v;
 						iData[k + 1] = v + 1;
@@ -280,31 +280,31 @@ void initLevel()
 					{
 						for (int m = 0; m < 4; m++)
 						{
-							vData[v + m].Pos.z  = 10.0 * j - 5.0;
-							vData[v + m].Norm.x = 0.0;
-							vData[v + m].Norm.y = 0.0;
-							vData[v + m].Norm.z = 1.0;
+							vData[v + m].Pos.z  = 10.0f * j - 5.0f;
+							vData[v + m].Norm.x = 0.0f;
+							vData[v + m].Norm.y = 0.0f;
+							vData[v + m].Norm.z = 1.0f;
 						}
 
-						vData[ v ].Pos.y = 5.0; 
-						vData[ v ].Pos.x = 10.0 * i + 5.0;
-						vData[ v ].Tex.x = 0.0;
-						vData[ v ].Tex.y = 0.0;
+						vData[ v ].Pos.y = 5.0f; 
+						vData[ v ].Pos.x = 10.0f * i + 5.0f;
+						vData[ v ].Tex.x = 0.0f;
+						vData[ v ].Tex.y = 0.0f;
 
-						vData[v+1].Pos.y = 5.0;
-						vData[v+1].Pos.x = 10.0 * i - 5.0;
-						vData[v+1].Tex.x = 1.0;
-						vData[v+1].Tex.y = 0.0;
+						vData[v+1].Pos.y = 5.0f;
+						vData[v+1].Pos.x = 10.0f * i - 5.0f;
+						vData[v+1].Tex.x = 1.0f;
+						vData[v+1].Tex.y = 0.0f;
 
-						vData[v+2].Pos.y = -5.0;
-						vData[v+2].Pos.x = 10.0 * i + 5.0;
-						vData[v+2].Tex.x = 0.0;
-						vData[v+2].Tex.y = 1.0;
+						vData[v+2].Pos.y = -5.0f;
+						vData[v+2].Pos.x = 10.0f * i + 5.0f;
+						vData[v+2].Tex.x = 0.0f;
+						vData[v+2].Tex.y = 1.0f;
 
-						vData[v+3].Pos.y = -5.0;
-						vData[v+3].Pos.x = 10.0 * i - 5.0;
-						vData[v+3].Tex.x = 1.0;
-						vData[v+3].Tex.y = 1.0;
+						vData[v+3].Pos.y = -5.0f;
+						vData[v+3].Pos.x = 10.0f * i - 5.0f;
+						vData[v+3].Tex.x = 1.0f;
+						vData[v+3].Tex.y = 1.0f;
 
 						iData[k + 0] = v;
 						iData[k + 1] = v + 1;
@@ -320,31 +320,31 @@ void initLevel()
 					{
 						for (int m = 0; m < 4; m++)
 						{
-							vData[v + m].Pos.z  = 10.0 * j + 5.0;
-							vData[v + m].Norm.x = 0.0;
-							vData[v + m].Norm.y = 0.0;
-							vData[v + m].Norm.z = 1.0;
+							vData[v + m].Pos.z  = 10.0f * j + 5.0f;
+							vData[v + m].Norm.x = 0.0f;
+							vData[v + m].Norm.y = 0.0f;
+							vData[v + m].Norm.z = 1.0f;
 						}
 
-						vData[ v ].Pos.y = 5.0; 
-						vData[ v ].Pos.x = 10.0 * i - 5.0;
-						vData[ v ].Tex.x = 0.0;
-						vData[ v ].Tex.y = 0.0;
+						vData[ v ].Pos.y = 5.0f; 
+						vData[ v ].Pos.x = 10.0f * i - 5.0f;
+						vData[ v ].Tex.x = 0.0f;
+						vData[ v ].Tex.y = 0.0f;
 
-						vData[v+1].Pos.y = 5.0;
-						vData[v+1].Pos.x = 10.0 * i + 5.0;
-						vData[v+1].Tex.x = 1.0;
-						vData[v+1].Tex.y = 0.0;
+						vData[v+1].Pos.y = 5.0f;
+						vData[v+1].Pos.x = 10.0f * i + 5.0f;
+						vData[v+1].Tex.x = 1.0f;
+						vData[v+1].Tex.y = 0.0f;
 
-						vData[v+2].Pos.y = -5.0;
-						vData[v+2].Pos.x = 10.0 * i - 5.0;
-						vData[v+2].Tex.x = 0.0;
-						vData[v+2].Tex.y = 1.0;
+						vData[v+2].Pos.y = -5.0f;
+						vData[v+2].Pos.x = 10.0f * i - 5.0f;
+						vData[v+2].Tex.x = 0.0f;
+						vData[v+2].Tex.y = 1.0f;
 
-						vData[v+3].Pos.y = -5.0;
-						vData[v+3].Pos.x = 10.0 * i + 5.0;
-						vData[v+3].Tex.x = 1.0;
-						vData[v+3].Tex.y = 1.0;
+						vData[v+3].Pos.y = -5.0f;
+						vData[v+3].Pos.x = 10.0f * i + 5.0f;
+						vData[v+3].Tex.x = 1.0f;
+						vData[v+3].Tex.y = 1.0f;
 
 						iData[k + 0] = v;
 						iData[k + 1] = v + 1;
@@ -374,7 +374,7 @@ void initLevel()
 	}
 }
 
-void renderLevelCubeMap(D3DXMATRIX *view, D3DXMATRIX *projection)
+void renderLevelCubeMap(DirectX::XMMATRIX *view, DirectX::XMMATRIX *projection)
 {
 	D3D10_VIEWPORT OldVP;
     UINT cRT = 1;
@@ -400,8 +400,8 @@ void renderLevelCubeMap(D3DXMATRIX *view, D3DXMATRIX *projection)
 
 	parallax.setViewProjection(view[0], *projection);
 
-	D3DXMATRIX E;
-	D3DXMatrixIdentity(&E);
+	DirectX::XMMATRIX E;
+	E = DirectX::XMMatrixIdentity();
 	parallax.worldMatrix->SetMatrix((float*)&E);
 
 	parallax.flushShaderVariables();
@@ -436,7 +436,7 @@ void renderLevelCubeMap(D3DXMATRIX *view, D3DXMATRIX *projection)
 	D3D10.getDevice()->RSSetViewports( 1, &OldVP );
 }
 
-void renderLevel(const D3DXMATRIX &view, const D3DXMATRIX &projection, const D3DXVECTOR3 &eye, bool b)
+void renderLevel(const DirectX::XMMATRIX &view, const DirectX::XMMATRIX &projection, const DirectX::XMVECTORF32 &eye, bool b)
 {
 	static UINT stride = sizeof(Vertex3D);
 	static UINT offset = 0;
@@ -451,8 +451,8 @@ void renderLevel(const D3DXMATRIX &view, const D3DXMATRIX &projection, const D3D
 
 	enableMapping->SetBool(0);
 
-	D3DXMATRIX E;
-	D3DXMatrixIdentity(&E);
+	DirectX::XMMATRIX E;
+	E = DirectX::XMMatrixIdentity();
 	parallax.worldMatrix->SetMatrix((float*)&E);
 
 	parallax.flushShaderVariables();
@@ -494,12 +494,12 @@ float clamp(float a, float x, float b)
 	else return x;
 }
 
-D3DXVECTOR3 lastVec;
+DirectX::XMVECTORF32 lastVec;
 
-void boundCamera(D3DXVECTOR3& vec)
+void boundCamera(DirectX::XMVECTORF32& vec)
 {
-	int x = floor( vec.x / 10.0 + 0.5 );
-	int y = floor( vec.z / 10.0 + 0.5 );
+	int x = (int)floor( vec.f[0] / 10.0 + 0.5 );
+	int y = (int)floor( vec.f[2] / 10.0 + 0.5 );
 
 	if (level[x][y] == 0)
 	{
@@ -511,24 +511,24 @@ void boundCamera(D3DXVECTOR3& vec)
 		float c2 = 4.9f;
 
 		if (level[x-1][ y ] == 0 ||
-			level[x-1][y+1] == 0 && vec.z > 10.0 * y + c2 ||
-			level[x-1][y-1] == 0 && vec.z < 10.0 * y - c2)
-			vec.x = max(10.0 * x - c, vec.x);
+			level[x-1][y+1] == 0 && vec.f[2] > 10.0 * y + c2 ||
+			level[x-1][y-1] == 0 && vec.f[2] < 10.0 * y - c2)
+			vec.f[0] = max(10.0f * x - c, vec.f[0]);
 
 		if (level[x+1][ y ] == 0 ||
-			level[x+1][y+1] == 0 && vec.z > 10.0 * y + c2 ||
-			level[x+1][y-1] == 0 && vec.z < 10.0 * y - c2)
-			vec.x = min(10.0 * x + c, vec.x);
+			level[x+1][y+1] == 0 && vec.f[2] > 10.0 * y + c2 ||
+			level[x+1][y-1] == 0 && vec.f[2] < 10.0 * y - c2)
+			vec.f[0] = min(10.0f * x + c, vec.f[0]);
 
 		if (level[ x ][y-1] == 0 ||
-			level[x+1][y-1] == 0 && vec.x > 10.0 * x + c2 ||
-			level[x-1][y-1] == 0 && vec.x < 10.0 * x - c2)
-			vec.z = max(10.0 * y - c, vec.z);
+			level[x+1][y-1] == 0 && vec.f[0] > 10.0 * x + c2 ||
+			level[x-1][y-1] == 0 && vec.f[0] < 10.0 * x - c2)
+			vec.f[2] = max(10.0f * y - c, vec.f[2]);
 		
 		if (level[ x ][y+1] == 0 || 
-			level[x+1][y+1] == 0 && vec.x > 10.0 * x + c2 ||
-			level[x-1][y+1] == 0 && vec.x < 10.0 * x - c2)
-			vec.z = min(10.0 * y + c, vec.z);
+			level[x+1][y+1] == 0 && vec.f[0] > 10.0 * x + c2 ||
+			level[x-1][y+1] == 0 && vec.f[0] < 10.0 * x - c2)
+			vec.f[2] = min(10.0f * y + c, vec.f[2]);
 
 		lastVec = vec;
 	}

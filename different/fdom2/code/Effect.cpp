@@ -9,23 +9,40 @@ Effect::Effect() : effect(NULL), texture1(NULL), texture2(NULL)
 }
 
 //============================================================================
-// From file constructor (2delete)
+// init - same as constructor
 //============================================================================
-Effect::Effect(LPCWSTR fileName) : effect(NULL), texture1(NULL), texture2(NULL)
+void Effect::init(LPCWSTR name)
 {
+	std::vector<char> hlsl;
+
+	{
+		FILE* file = _wfopen(name, L"rb");
+
+		fseek(file, 0, SEEK_END);
+		long fileSize = ftell(file);
+		fseek(file, 0, SEEK_SET);
+
+		hlsl.resize(fileSize);
+		fread(&hlsl[0], 1, fileSize, file);
+
+		fclose(file);
+	}
+
 	DWORD dwShaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
+
 	#if defined( DEBUG ) || defined( _DEBUG )
-		dwShaderFlags |= D3D10_SHADER_DEBUG;
+		// dwShaderFlags |= D3D10_SHADER_DEBUG; // Fails with new D3DCompiler_47.dll from Windows 8.1 SDK
 	#endif
 
-	ID3D10Blob *blob = NULL;
+	ID3D10Blob *errorBlob = NULL;
+	ID3D10Blob *effectBlob = NULL;
 
-	if (FAILED(D3DX10CreateEffectFromFile(fileName, NULL, NULL, "fx_4_0", dwShaderFlags, 0,
-		D3D10.getDevice(), NULL, NULL, &effect, &blob, NULL )))
+	HRESULT hr = D3DCompile(&hlsl[0], hlsl.size(), "fx", NULL, NULL, NULL, "fx_4_0", dwShaderFlags, 0, &effectBlob, &errorBlob);
+	if (FAILED(hr))
 	{
-		if (blob)
+		if (errorBlob)
 		{
-			char* text = (char*)blob->GetBufferPointer();
+			char* text = (char*)errorBlob->GetBufferPointer();
 			MessageBoxA(NULL, text, "directx", MB_OK);
 		}
 		else
@@ -33,36 +50,11 @@ Effect::Effect(LPCWSTR fileName) : effect(NULL), texture1(NULL), texture2(NULL)
 			MessageBox(D3D10.getHWND(), L"Failed to create effect", L"FDOM", MB_OK | MB_ICONERROR);
 		}
 	}
-	
-	texture1 = effect->GetVariableByName( "Texture" )->AsShaderResource();
-	texture2 = effect->GetVariableByName( "Texture2" )->AsShaderResource();
-}
 
-//============================================================================
-// init - same as constructor
-//============================================================================
-void Effect::init(LPCWSTR name)
-{
-	DWORD dwShaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
-
-	#if defined( DEBUG ) || defined( _DEBUG )
-		dwShaderFlags |= D3D10_SHADER_DEBUG;
-	#endif
-
-	ID3D10Blob *blob = NULL;
-
-	if (FAILED(D3DX10CreateEffectFromFile(name, NULL, NULL, "fx_4_0", dwShaderFlags, 0,
-		D3D10.getDevice(), NULL, NULL, &effect, &blob, NULL)))
+	hr = D3D10CreateEffectFromMemory(effectBlob->GetBufferPointer(), effectBlob->GetBufferSize(), 0, D3D10.getDevice(), NULL, &effect);
+	if (FAILED(hr))
 	{
-		if (blob)
-		{
-			char* text = (char*)blob->GetBufferPointer();
-			MessageBoxA(NULL, text, "directx", MB_OK);
-		}
-		else
-		{
-			MessageBox(D3D10.getHWND(), L"Failed to create effect", L"FDOM", MB_OK | MB_ICONERROR);
-		}
+		MessageBox(D3D10.getHWND(), L"Failed to create effect", L"FDOM", MB_OK | MB_ICONERROR);
 	}
 
 	texture1 = effect->GetVariableByName("Texture")->AsShaderResource();
@@ -128,7 +120,7 @@ Effect::~Effect()
 {
 	effect->Release();
 
-	for(map<const char *,ShaderVariable*>::const_iterator it = variables.begin(); it != variables.end(); ++it)
+	for (std::map<const char *,ShaderVariable*>::const_iterator it = variables.begin(); it != variables.end(); ++it)
 	{
 		(*it).second->free();
 		delete (*it).second;
@@ -327,7 +319,7 @@ ShaderVector3 Effect::getVector3(const char *name)
 	}
 	else
 	{
-		ShaderVector3 *vector3 = new ShaderVector3(new D3DXVECTOR3(), this->effect->GetVariableByName(name)->AsVector());
+		ShaderVector3 *vector3 = new ShaderVector3(new DirectX::XMVECTORF32(), this->effect->GetVariableByName(name)->AsVector());
 		this->variables[name] = vector3;
 		return *vector3;
 	}
@@ -335,7 +327,7 @@ ShaderVector3 Effect::getVector3(const char *name)
 
 void Effect::flushShaderVariables() const
 {
-	for(map<const char *,ShaderVariable*>::const_iterator it = variables.begin(); it != variables.end(); ++it)
+	for (std::map<const char *,ShaderVariable*>::const_iterator it = variables.begin(); it != variables.end(); ++it)
 		(*it).second->apply();
 }
 
@@ -350,7 +342,7 @@ void Effect::setTextures(const Texture &texture1, const Texture &texture2)
 	this->texture2->SetResource( texture2.getShaderResourceView() );
 }
 
-void Effect3D::setViewProjection(const D3DXMATRIX &viewMatrix, const D3DXMATRIX &projectionMatrix)
+void Effect3D::setViewProjection(const DirectX::XMMATRIX &viewMatrix, const DirectX::XMMATRIX &projectionMatrix)
 {
 	this->viewMatrix->SetMatrix((float*)&viewMatrix);
 	this->projectionMatrix->SetMatrix((float*)&projectionMatrix);
@@ -362,7 +354,7 @@ void Effect3D::setCameraPos(float x, float y, float z)
 	this->cameraPos->SetFloatVector(data);
 }
 
-void Effect3D::setCameraPos(D3DXVECTOR3 &camPos)
+void Effect3D::setCameraPos(DirectX::XMVECTORF32 &camPos)
 {
-	setCameraPos(camPos.x, camPos.y, camPos.z);
+	setCameraPos(camPos.f[0], camPos.f[1], camPos.f[2]);
 }

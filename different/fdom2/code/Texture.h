@@ -16,7 +16,7 @@
 			Texture();
 			static Texture Create(int width, int height);
 			static Texture Create(int width, int height, int mipLevels, int count, bool renderTarget, bool stencilBuffer, bool cubeMap, DXGI_SAMPLE_DESC sampleDesc);
-			static Texture LoadFromFile(LPCTSTR fileName);
+			static Texture LoadFromFile(LPCWSTR fileName);
 
 			// Properties
 			ID3D10Texture2D* getTexture() const;

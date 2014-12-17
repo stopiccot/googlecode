@@ -12,7 +12,12 @@ father/patcher/obj
 father/tyres/bin
 father/tyres/obj
 different/fdom2/Debug
+different/fdom2/Release
+different/fdom2/x64/Debug
+different/fdom2/x64/Release
 *.suo
 *.sdf
 *.opensdf
 *.ilk
+
+different/fdom2/fdom_2.vcxproj.user

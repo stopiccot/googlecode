@@ -52,7 +52,7 @@ ShaderVector3::ShaderVector3() : ShaderVariable(), vector(NULL)
 	//...
 }
 
-ShaderVector3::ShaderVector3(D3DXVECTOR3 *pointer, ID3D10EffectVariable *var)
+ShaderVector3::ShaderVector3(DirectX::XMVECTORF32 *pointer, ID3D10EffectVariable *var)
 {
 	this->var = var;
 	this->vector = pointer;
@@ -70,13 +70,13 @@ void ShaderVector3::free()
 
 void ShaderVector3::set(float x, float y, float z)
 {
-	this->vector->x = x;
-	this->vector->y = y;
-	this->vector->z = z;
+	this->vector->f[0] = x;
+	this->vector->f[1] = y;
+	this->vector->f[2] = z;
 }
 
-const D3DXVECTOR3& ShaderVector3::operator =(const D3DXVECTOR3& vector)
+const DirectX::XMVECTORF32& ShaderVector3::operator =(const DirectX::XMVECTORF32& vector)
 {
-	this->set(vector.x, vector.y, vector.z);
+	this->set(vector.f[0], vector.f[1], vector.f[2]);
 	return vector;
 }

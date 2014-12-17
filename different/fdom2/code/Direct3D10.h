@@ -5,8 +5,12 @@
 	#define SAFE_RELEASE(X) if (X) { X->Release(); X = NULL; }
 
 	#include <windows.h>
-	#include <d3d10.h>
-	#include <d3dx10.h>
+	#include <d3d10_1.h>
+	#include <DirectXMath.h>
+	#include <d3dcompiler.h>
+
+	#include <vector>
+	#include <map>
 
 	class RenderTarget;
 	typedef void (*CALLBACKPROC)(UINT message, WPARAM wParam, LPARAM lParam);

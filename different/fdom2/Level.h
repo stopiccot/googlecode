@@ -7,7 +7,7 @@
 	#include "code\Camera.h"
 	
 	void initLevel();
-	void renderLevel(const D3DXMATRIX &view, const D3DXMATRIX &projection, const D3DXVECTOR3 &eye, bool b);
-	void renderLevelCubeMap(D3DXMATRIX *view, D3DXMATRIX *projection);
-	void boundCamera(D3DXVECTOR3& vec);
+	void renderLevel(const DirectX::XMMATRIX &view, const DirectX::XMMATRIX &projection, const DirectX::XMVECTORF32 &eye, bool b);
+	void renderLevelCubeMap(DirectX::XMMATRIX *view, DirectX::XMMATRIX *projection);
+	void boundCamera(DirectX::XMVECTORF32& vec);
 #endif

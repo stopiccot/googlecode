@@ -190,6 +190,8 @@ HRESULT Direct3D10::init(int width, int height, bool fullscreen, bool antialias)
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	device->RSSetViewports( 1, &vp );
+
+	return S_OK;
 }
 
 void Direct3D10::setRenderTarget(const RenderTarget& target)

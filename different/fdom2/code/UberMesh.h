@@ -6,16 +6,16 @@
 
 	struct UberVertex
 	{
-		D3DXVECTOR3 Pos;
-		D3DXVECTOR3 Norm;
-		D3DXVECTOR2 Tex;
+		DirectX::XMFLOAT3 Pos;
+		DirectX::XMFLOAT3 Norm;
+		DirectX::XMFLOAT2 Tex;
 	};
 
 	struct Vertex3D
 	{
-		D3DXVECTOR3 Pos;
-		D3DXVECTOR3 Norm;
-		D3DXVECTOR2 Tex;
+		DirectX::XMFLOAT3 Pos;
+		DirectX::XMFLOAT3 Norm;
+		DirectX::XMFLOAT2 Tex;
 	};
 
 	class UberMesh
@@ -23,7 +23,7 @@
 		public:
 			
 			void setPosition(float x, float y, float z);
-			void setPosition(const D3DXVECTOR3& pos);
+			void setPosition(const DirectX::XMVECTORF32& pos);
 			void setScale(float x, float y, float z);
 			void setRotate(float x, float y, float z);
 
@@ -39,7 +39,7 @@
 			void Random();
 
 		private:
-			D3DXMATRIX translationMatrix, scaleMatrix, rotateMatrix, worldMatrix;
+			DirectX::XMMATRIX translationMatrix, scaleMatrix, rotateMatrix, worldMatrix;
 
 			ID3D10Buffer* vertexBuffer;
 			UberMesh();

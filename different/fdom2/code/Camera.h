@@ -6,8 +6,8 @@
 
 	class Camera
 	{
-			D3DXMATRIX matrix;
-			D3DXVECTOR3 eye, at, up;
+			DirectX::XMMATRIX matrix;
+			DirectX::XMVECTORF32 eye, at, up;
 			float fi, ksi;
 			bool fly;
 
@@ -15,10 +15,10 @@
 			Camera();
 			Camera(float x, float y, float z);
 			
-			D3DXVECTOR3 getPos();
-			void setPos(const D3DXVECTOR3& pos);
+			DirectX::XMVECTORF32 getPos();
+			void setPos(const DirectX::XMVECTORF32& pos);
 			void setPos(float x, float y, float z);
-			D3DXMATRIX getViewMatrix();			
+			DirectX::XMMATRIX getViewMatrix();
 
 			void update(bool keys[4]);
 			void reset();

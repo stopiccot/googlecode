@@ -31,17 +31,17 @@
 
 	class ShaderVector3 : public ShaderVariable
 	{
-			D3DXVECTOR3 *vector;
+			DirectX::XMVECTORF32 *vector;
 
 			friend class Effect;
 
 		public:
 			// Constructors
 			ShaderVector3();
-			ShaderVector3(D3DXVECTOR3 *pointer, ID3D10EffectVariable *var);
+			ShaderVector3(DirectX::XMVECTORF32 *pointer, ID3D10EffectVariable *var);
 
 			// methods to set value
-			const D3DXVECTOR3& operator = (const D3DXVECTOR3& vector);
+			const DirectX::XMVECTORF32& operator = (const DirectX::XMVECTORF32& vector);
 			void set(float x, float y, float z);
 
 			void apply();

@@ -81,28 +81,28 @@ void UberMesh::Render(Effect3D& effect, const char *technique)
 
 void UberMesh::setPosition(float x, float y, float z)
 {
-	D3DXMatrixTranslation(&translationMatrix, x, y, z);
+	translationMatrix = DirectX::XMMatrixTranslation(x, y, z);
 	worldMatrix = scaleMatrix * rotateMatrix * translationMatrix;
 }
 
-void UberMesh::setPosition(const D3DXVECTOR3& pos)
+void UberMesh::setPosition(const DirectX::XMVECTORF32& pos)
 {
-	setPosition(pos.x, pos.y, pos.z);
+	setPosition(pos.f[0], pos.f[1], pos.f[2]);
 }
 
 void UberMesh::setScale(float x, float y, float z)
 {
-	D3DXMatrixScaling(&scaleMatrix, x, y, z);
+	scaleMatrix = DirectX::XMMatrixScaling(x, y, z);
 	worldMatrix = scaleMatrix * rotateMatrix * translationMatrix;
 }
 
 void UberMesh::setRotate(float x, float y, float z)
 {
-	D3DXMATRIX X, Y, Z;
+	DirectX::XMMATRIX X, Y, Z;
 
-	D3DXMatrixRotationX(&X, x);
-	D3DXMatrixRotationY(&Y, y);
-	D3DXMatrixRotationZ(&Z, z);
+	X = DirectX::XMMatrixRotationX(x);
+	Y = DirectX::XMMatrixRotationY(y);
+	Z = DirectX::XMMatrixRotationZ(z);
 	rotateMatrix = X * Y * Z;
 
 	worldMatrix = scaleMatrix * rotateMatrix * translationMatrix;
