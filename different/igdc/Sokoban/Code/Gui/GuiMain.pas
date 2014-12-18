@@ -1,9 +1,14 @@
 unit GuiMain;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: GuiMain.pas
-// Desc: Ãëàâíûé GUI(Graphical User Interface) ìîäóëü.
-//       Êàê ìíå ïîêàçàëîñü êîä â èòîãå ïîëó÷èëñÿ íåêðàñèâûì. Èçâèíÿéòå... ïðîñòî
-//       âðåìåíè áûëî ìàëîâàòî. Õîòü êàê åñòü. :)
+// Desc: Ð“Ð»Ð°Ð²Ð½Ñ‹Ð¹ GUI(Graphical User Interface) Ð¼Ð¾Ð´ÑƒÐ»ÑŒ.
+//       ÐšÐ°Ðº Ð¼Ð½Ðµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ð»Ð¾ÑÑŒ ÐºÐ¾Ð´ Ð² Ð¸Ñ‚Ð¾Ð³Ðµ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»ÑÑ Ð½ÐµÐºÑ€Ð°ÑÐ¸Ð²Ñ‹Ð¼. Ð˜Ð·Ð²Ð¸Ð½ÑÐ¹Ñ‚Ðµ... Ð¿Ñ€Ð¾ÑÑ‚Ð¾
+//       Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð±Ñ‹Ð»Ð¾ Ð¼Ð°Ð»Ð¾Ð²Ð°Ñ‚Ð¾. Ð¥Ð¾Ñ‚ÑŒ ÐºÐ°Ðº ÐµÑÑ‚ÑŒ. :)
 //==============================================================================
 interface
 uses
@@ -45,9 +50,9 @@ var
 implementation
 //==============================================================================
 // Name: ShellExecute & Hyperlink
-// Desc: Ôóíöèÿ íåîáõëäòìàÿ äëÿ òîãî, ÷òîáû ðàáîòàëà ãèïåðññûëêà â About îêíå.
-//       ×òîá íå þçàòü öåëûé ìîäóëü ShellAPI, îáúÿâèë å¸ çäåñü. À Hyperlink
-//       ïðîñòî âñïîìîãàòåëüíàÿ ôóíêöèÿ äëÿ óäîáñòâà.
+// Desc: Ð¤ÑƒÐ½Ñ†Ð¸Ñ Ð½ÐµÐ¾Ð±Ñ…Ð»Ð´Ñ‚Ð¼Ð°Ñ Ð´Ð»Ñ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð»Ð° Ð³Ð¸Ð¿ÐµÑ€ÑÑÑ‹Ð»ÐºÐ° Ð² About Ð¾ÐºÐ½Ðµ.
+//       Ð§Ñ‚Ð¾Ð± Ð½Ðµ ÑŽÐ·Ð°Ñ‚ÑŒ Ñ†ÐµÐ»Ñ‹Ð¹ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ ShellAPI, Ð¾Ð±ÑŠÑÐ²Ð¸Ð» ÐµÑ‘ Ð·Ð´ÐµÑÑŒ. Ð Hyperlink
+//       Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð²ÑÐ¿Ð¾Ð¼Ð¾Ð³Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð°.
 //==============================================================================
   function ShellExecute(hWnd: HWND; Operation, FileName, Parameters,
        Directory: PChar; ShowCmd: Integer): HINST; stdcall; external 'shell32.dll' name 'ShellExecuteA';
@@ -59,7 +64,7 @@ implementation
   end;
 //==============================================================================
 // Name: _Inc & _Dec
-// Desc: "Óëó÷øåííûå" âàðèàíòû ïðîöåäóð Inc è Dec."Óëó÷øåíèå" äîâîëüíî ïðîñòîå:)
+// Desc: "Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð½Ñ‹Ðµ" Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ñ‹ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€ Inc Ð¸ Dec."Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ" Ð´Ð¾Ð²Ð¾Ð»ÑŒÐ½Ð¾ Ð¿Ñ€Ð¾ÑÑ‚Ð¾Ðµ:)
 //==============================================================================
   {$REGION ' ... '}
   procedure _Inc(var S: Single; Step, Max: Single); overload;
@@ -89,7 +94,7 @@ implementation
 
 //==============================================================================
 // Name: DrawWindow
-// Desc: Ðèñóåò ñåðûé ïîëóïðîçðà÷íûé ïðÿìîóãîëüíèê ñ çàêðóãë¸ííûìè êðàÿìè 
+// Desc: Ð Ð¸ÑÑƒÐµÑ‚ ÑÐµÑ€Ñ‹Ð¹ Ð¿Ð¾Ð»ÑƒÐ¿Ñ€Ð¾Ð·Ñ€Ð°Ñ‡Ð½Ñ‹Ð¹ Ð¿Ñ€ÑÐ¼Ð¾ÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸Ðº Ñ Ð·Ð°ÐºÑ€ÑƒÐ³Ð»Ñ‘Ð½Ð½Ñ‹Ð¼Ð¸ ÐºÑ€Ð°ÑÐ¼Ð¸ 
 //==============================================================================
   function DrawWindow(X,Y,Width,Heigth: Integer; Color: DWORD = $301e1f19): HRESULT;
   const N = 'Shadow';
@@ -108,7 +113,7 @@ implementation
 
 //==============================================================================
 // Name: Initialize
-// Desc: Íå ïîâåðèòå! Èíèöèàëèçàöèÿ :)
+// Desc: ÐÐµ Ð¿Ð¾Ð²ÐµÑ€Ð¸Ñ‚Ðµ! Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ :)
 //==============================================================================
   procedure Initialize;
   begin
@@ -128,7 +133,7 @@ implementation
 
 //==============================================================================
 // Name: RenderMainMenuButtons
-// Desc: Ðèñóåò êíîïêè ãëàâíîãî ìåíþ
+// Desc: Ð Ð¸ÑÑƒÐµÑ‚ ÐºÐ½Ð¾Ð¿ÐºÐ¸ Ð³Ð»Ð°Ð²Ð½Ð¾Ð³Ð¾ Ð¼ÐµÐ½ÑŽ
 //==============================================================================
   procedure RenderMainMenuButtons;
   var Color,y: DWORD; i: Integer;
@@ -148,7 +153,7 @@ implementation
        DrawSprite('About',        728, 577, 128, 32, Color);
        DrawSprite('Quit',         728, 603,  64, 32, Color);
 
-       // Òî÷êà ïðè íàâåäåíèè íà êíîïêó
+       // Ð¢Ð¾Ñ‡ÐºÐ° Ð¿Ñ€Ð¸ Ð½Ð°Ð²ÐµÐ´ÐµÐ½Ð¸Ð¸ Ð½Ð° ÐºÐ½Ð¾Ð¿ÐºÑƒ
        y := 0;
        if (Cursor.X>=730)and(Cursor.X<=791)and(Cursor.Y>=525)and(Cursor.Y<=541)
        and((MenuPos=mpAbout)or(MenuPos=mpSelectLevel))then y := 537;
@@ -162,7 +167,7 @@ implementation
 
 //==============================================================================
 // Name: RenderAboutScreen
-// Desc: Ðåíäåð About ìåíþ
+// Desc: Ð ÐµÐ½Ð´ÐµÑ€ About Ð¼ÐµÐ½ÑŽ
 //==============================================================================
   procedure RenderAboutScreen;
   var
@@ -170,7 +175,7 @@ implementation
     TextColor: DWORD;
     HyperColor: DWORD;
   begin
-       // Âîäà
+       // Ð’Ð¾Ð´Ð°
        if PS20Avalible then
        begin
             SetRenderTexture('AboutRT');
@@ -178,16 +183,16 @@ implementation
             SetRenderTexture('RenderTexture');
             DrawSpriteEx('AboutRT',177,177,500,400,0,0,500/512,400/512,(Round(255*maAbout*maAbout*maAbout) shl 24) or $00FFFFFF,'Normal');
        end;
-       // Îêîøêî
+       // ÐžÐºÐ¾ÑˆÐºÐ¾
        DrawWindow(177, 177, 500, 400, (Round(48*maAbout) shl 24) or $001e1f19);
-       // Íàäïèñü sokoban
+       // ÐÐ°Ð´Ð¿Ð¸ÑÑŒ sokoban
        DrawSprite('Sokoban', 309, 177, 256, 64, (Round(255*maAbout) shl 24) or $00FFFFFF);
 
        TextColor := (Round(255*maAbout) shl 24) or $EFEFEF;
        HyperColor := (Round(maAbout*216) shl 24) or $4651B0;
-       // Âåðñèÿ
+       // Ð’ÐµÑ€ÑÐ¸Ñ
        OutTextEx(672, 561, -1, -1, 'build '+GameVersion, 'Tahoma', 15, True, False, TextColor, 2);
-       // Òåêñò
+       // Ð¢ÐµÐºÑÑ‚
        OutTextEx(250, 250, -1, -1, 'Orbital Technology 2.0 Powered', 'Tahoma', 15, True, False, TextColor);
        DrawSpriteEx('Box',248,300,425,1,0,0,1/32,1/32, TextColor, $EFEFEF, TextColor, $EFEFEF);
        OutTextEx(250, 301, -1, -1, 'Game was made by gear. Because I have neither ICQ', 'Tahoma', 15, True, False, TextColor);
@@ -210,10 +215,10 @@ implementation
        OutTextEx(250, 470, -1, -1, 'Adobe', 'Tahoma', 15, True, False, HyperColor);
        OutTextEx(294, 470, -1, -1, 'for their programs.', 'Tahoma', 15, True, False, TextColor);
        DrawSpriteEx('Box',248,507,425,1,0,0,1/32,1/32, TextColor, $EFEFEF, TextColor, $EFEFEF);
-       OutTextEx(250, 509, -1, -1, '©', 'Tahoma', 16, True, False, TextColor);
+       OutTextEx(250, 509, -1, -1, 'Â©', 'Tahoma', 16, True, False, TextColor);
        OutTextEx(264, 510, -1, -1, '2006 Gear Games', 'Tahoma', 15, True, False, TextColor);
        OutTextEx(250, 525, -1, -1, 'All rights reserved', 'Tahoma', 15, True, False, TextColor);
-       // Ëîãîòèï
+       // Ð›Ð¾Ð³Ð¾Ñ‚Ð¸Ð¿
        if maAbout = 1 then
        begin
             DrawSprite('OrbitalLogo',168,168,64,64,$FFFFFFFF);
@@ -226,7 +231,7 @@ implementation
             end else
                  DrawSprite('OrbitalLogo',168,168,64,64,(Round(255*maAbout) shl 24) or $00FFFFFF);
        end;
-       // Êóðñîð íà ãèïåðññûëêàõ
+       // ÐšÑƒÑ€ÑÐ¾Ñ€ Ð½Ð° Ð³Ð¸Ð¿ÐµÑ€ÑÑÑ‹Ð»ÐºÐ°Ñ…
        CursorType := crArrow;
        if(Cursor.X>=392)and(Cursor.X<=528)and(Cursor.Y>=333)and(Cursor.Y<=343)then CursorType := crHand else
        if(Cursor.X>=316)and(Cursor.X<=437)and(Cursor.Y>=407)and(Cursor.Y<=417)then CursorType := crHand else
@@ -239,7 +244,7 @@ implementation
 
 //==============================================================================
 // Name: RenderSelectMenu
-// Desc: Ðåíäåð Select ìåíþ
+// Desc: Ð ÐµÐ½Ð´ÐµÑ€ Select Ð¼ÐµÐ½ÑŽ
 //==============================================================================
   procedure RenderSelectMenu;
   var i,x: integer; Color: DWORD;
@@ -250,14 +255,14 @@ implementation
             if (x<90)or(x>635) then Continue;
             if (Cursor.X>=300)and(Cursor.X<=700)and(Cursor.Y>=x)and(Cursor.Y<=x+25)then
             _Inc(Levels[i].Glow,20,100) else _Dec(Levels[i].Glow,3,0);
-            // Âû÷èñëÿåì öâåò
+            // Ð’Ñ‹Ñ‡Ð¸ÑÐ»ÑÐµÐ¼ Ñ†Ð²ÐµÑ‚
             Color :=  ($19 + Round(Levels[i].Glow/4));
             Color := (($1F + Round(Levels[i].Glow/4)) shl 8) or Color;
             Color := (($1E + Round(Levels[i].Glow/4)) shl 16) or Color;
             Color := ((Round(maSelectLevel*(12 + 0.3*Levels[i].Glow))) shl 24) or Color;
-            // Ôîí
+            // Ð¤Ð¾Ð½
             DrawSpriteEx('MenuItem',300,x,400,35,0,0,1,1,Color,'Angle');
-            // Òåêñò
+            // Ð¢ÐµÐºÑÑ‚
             OutTextEx(303, x+1, -1, -1, Levels[i].Name, 'Luicida Console', 23, True, False, $FFFFFFFF);
             OutTextEx(305, x+20, -1, -1, Levels[i].FileName, 'Tahoma', 13, False, False, $FF555555);
             //
@@ -291,27 +296,27 @@ implementation
 
 //==============================================================================
 // Name: Render
-// Desc: Òîæå íå ïîâåðèòå! Ðåíäåð
+// Desc: Ð¢Ð¾Ð¶Ðµ Ð½Ðµ Ð¿Ð¾Ð²ÐµÑ€Ð¸Ñ‚Ðµ! Ð ÐµÐ½Ð´ÐµÑ€
 //==============================================================================
   procedure Render;
   var Color: DWORD; Technique: String;
   begin
-       // Ðèñóåì ñåòî÷êó
+       // Ð Ð¸ÑÑƒÐµÐ¼ ÑÐµÑ‚Ð¾Ñ‡ÐºÑƒ
        DrawSpriteEx('Grid', 0, 0, 1024, 768, 0, 0, 1024/8, 768/8, $FFFFFFFF, 'Grid');
 
-       // Ðèñóåì ôîíîâûé ðèñóíîê, è åñëè àïïàðàòóðà ïîçâîëÿåò, òî ðèñóåì ñ øåéäåðàìè
+       // Ð Ð¸ÑÑƒÐµÐ¼ Ñ„Ð¾Ð½Ð¾Ð²Ñ‹Ð¹ Ñ€Ð¸ÑÑƒÐ½Ð¾Ðº, Ð¸ ÐµÑÐ»Ð¸ Ð°Ð¿Ð¿Ð°Ñ€Ð°Ñ‚ÑƒÑ€Ð° Ð¿Ð¾Ð·Ð²Ð¾Ð»ÑÐµÑ‚, Ñ‚Ð¾ Ñ€Ð¸ÑÑƒÐµÐ¼ Ñ ÑˆÐµÐ¹Ð´ÐµÑ€Ð°Ð¼Ð¸
        if PS14Avalible then Technique := 'Test' else Technique := 'Normal';
        Color := (Round(Alpha*2.55) shl 24) or $00FFFFFF;
        DrawSpriteEx('orbital_1', 768, 0, 256, 256, 0, 0, 1, 1, Color, Technique);
        DrawSpriteEx('orbital_2', 0,   0, 256, 128, 0, 0, 1, 1, Color, Technique);
        DrawSpriteEx('orbital_3', 0, 128, 512, 512, 0, 0, 1, 1, Color, Technique);
 
-       // Êíîïêè ìåíþ
+       // ÐšÐ½Ð¾Ð¿ÐºÐ¸ Ð¼ÐµÐ½ÑŽ
        RenderMainMenuButtons;
 
-       // Åñëè âèäåîêàðòî÷êà ñòàðîâàòà, òî âûâîäèì ïðåäóïðåæäåíèÿ, ÷òî ìîë òàê è
-       // òàê òàêèå-òî øåéäåðû íå ïîääåðæèâàþòñÿ è íåêîòîðûå ãðàôè÷åñêèå íàâîðîòû
-       // îòêëþ÷åíû
+       // Ð•ÑÐ»Ð¸ Ð²Ð¸Ð´ÐµÐ¾ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ° ÑÑ‚Ð°Ñ€Ð¾Ð²Ð°Ñ‚Ð°, Ñ‚Ð¾ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ Ð¿Ñ€ÐµÐ´ÑƒÐ¿Ñ€ÐµÐ¶Ð´ÐµÐ½Ð¸Ñ, Ñ‡Ñ‚Ð¾ Ð¼Ð¾Ð» Ñ‚Ð°Ðº Ð¸
+       // Ñ‚Ð°Ðº Ñ‚Ð°ÐºÐ¸Ðµ-Ñ‚Ð¾ ÑˆÐµÐ¹Ð´ÐµÑ€Ñ‹ Ð½Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÑŽÑ‚ÑÑ Ð¸ Ð½ÐµÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð³Ñ€Ð°Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð½Ð°Ð²Ð¾Ñ€Ð¾Ñ‚Ñ‹
+       // Ð¾Ñ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ñ‹
        if not PS14Avalible then
        begin
             DrawSprite('Warning',754,748,32,32,$FFFFFFFF);
@@ -336,7 +341,7 @@ implementation
 
 //==============================================================================
 // Name: Timer
-// Desc: Âûçûâàåòñÿ ñêîëüêî-òî òàì ðàç â ñåêóíäó
+// Desc: Ð’Ñ‹Ð·Ñ‹Ð²Ð°ÐµÑ‚ÑÑ ÑÐºÐ¾Ð»ÑŒÐºÐ¾-Ñ‚Ð¾ Ñ‚Ð°Ð¼ Ñ€Ð°Ð· Ð² ÑÐµÐºÑƒÐ½Ð´Ñƒ
 //==============================================================================
   procedure Timer;     
   begin
@@ -365,7 +370,7 @@ implementation
               _Dec(maGame, 0.075, 0);
               if maAbout<0.1 then _Inc(maSelectLevel, 0.05, 1);
               
-              // Ñêðîëëèíã
+              // Ð¡ÐºÑ€Ð¾Ð»Ð»Ð¸Ð½Ð³
               if j <> _j then
               if j < _j then Inc(j,Trunc((_j-j)/7+0.5)) else Dec(j,Trunc((j-_j)/7+0.5));
          end;
@@ -397,14 +402,14 @@ implementation
 
 //==============================================================================
 // Name: WMMouseDown
-// Desc: Êëèê ìûøêè
+// Desc: ÐšÐ»Ð¸Ðº Ð¼Ñ‹ÑˆÐºÐ¸
 //==============================================================================
   procedure WMMouseDown;
   var i,x: integer;
   begin
        GuiSplash.WMClick;
        GuiComments.WMMouseDown;
-       // Âûáèðàåì óðîâåíü
+       // Ð’Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ
        case MenuPos of
          mpAbout:
          begin
@@ -481,7 +486,7 @@ implementation
 
 //==============================================================================
 // Name: ScrollUp
-// Desc: Ñêðîëë ââåðõ
+// Desc: Ð¡ÐºÑ€Ð¾Ð»Ð» Ð²Ð²ÐµÑ€Ñ…
 //==============================================================================
   procedure ScrollUp;
   begin
@@ -490,7 +495,7 @@ implementation
 
 //==============================================================================
 // Name: ScrollDown
-// Desc: Ñêðîëë âíèç
+// Desc: Ð¡ÐºÑ€Ð¾Ð»Ð» Ð²Ð½Ð¸Ð·
 //==============================================================================
   procedure ScrollDown;
   begin

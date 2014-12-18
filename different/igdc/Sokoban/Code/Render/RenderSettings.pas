@@ -1,12 +1,17 @@
 unit RenderSettings;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 var
-  Resolution : Integer = 1; // Не менять!
+  Resolution : Integer = 1; // РќРµ РјРµРЅСЏС‚СЊ!
   // 0 - 800x600
   // 1 - 1024x768
   VSync      : Boolean = False;
-  Fullscreen : Boolean = True;
+  Fullscreen : Boolean = not True;
   
 implementation
 end.

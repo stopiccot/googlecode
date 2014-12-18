@@ -1,9 +1,14 @@
 // PART OF ORBITAL ENGINE 2.0 SOURCE CODE
 unit RenderMain;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: RenderMain.pas
-// Desc: Главный модуль рендера, самые фундаментальные функции
-//       ©2006 .gear
+// Desc: Р“Р»Р°РІРЅС‹Р№ РјРѕРґСѓР»СЊ СЂРµРЅРґРµСЂР°, СЃР°РјС‹Рµ С„СѓРЅРґР°РјРµРЅС‚Р°Р»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
+//       В©2006 .gear
 //==============================================================================
 interface
 uses
@@ -39,7 +44,7 @@ var
 
 //==============================================================================
 // Name: _Present
-// Desc: "Нормальный" вариант функции Present
+// Desc: "РќРѕСЂРјР°Р»СЊРЅС‹Р№" РІР°СЂРёР°РЅС‚ С„СѓРЅРєС†РёРё Present
 //==============================================================================
   function _Present: HRESULT;
   begin
@@ -53,11 +58,11 @@ var
   end;
 //==============================================================================
 // Name: Initialize
-// Desc: Инициализация
+// Desc: РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
 //==============================================================================
   function Initialize: HRESULT;
   begin
-       // Создаём интерфейс IDirect3D9
+       // РЎРѕР·РґР°С‘Рј РёРЅС‚РµСЂС„РµР№СЃ IDirect3D9
        D3D := Direct3DCreate9(D3D_SDK_VERSION);
        if (D3D = nil) then
        begin
@@ -74,7 +79,7 @@ var
             Exit;
        end;
 
-       // Создаём интерфейс видеокарты
+       // РЎРѕР·РґР°С‘Рј РёРЅС‚РµСЂС„РµР№СЃ РІРёРґРµРѕРєР°СЂС‚С‹
        hr := CreateDevice;
        if FAILED(hr) then
        begin
@@ -89,25 +94,25 @@ var
 
 //==============================================================================
 // Name: CreateDevice
-// Desc: Создаёт интерфейс видеокарты
+// Desc: РЎРѕР·РґР°С‘С‚ РёРЅС‚РµСЂС„РµР№СЃ РІРёРґРµРѕРєР°СЂС‚С‹
 //==============================================================================
   function CreateDevice: HRESULT;
   begin
-       // Удаляем старый интерфейс
+       // РЈРґР°Р»СЏРµРј СЃС‚Р°СЂС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ
        Device := nil;
        
-       // Задаём параметры создания интерфейса видеокарты
+       // Р—Р°РґР°С‘Рј РїР°СЂР°РјРµС‚СЂС‹ СЃРѕР·РґР°РЅРёСЏ РёРЅС‚РµСЂС„РµР№СЃР° РІРёРґРµРѕРєР°СЂС‚С‹
        ZeroMemory(@D3DPP,SizeOf(D3DPP));
        D3DPP.Windowed := not RenderSettings.Fullscreen;
        if RenderSettings.Fullscreen then
        begin
-            // Полноэкранный режим
+            // РџРѕР»РЅРѕСЌРєСЂР°РЅРЅС‹Р№ СЂРµР¶РёРј
             D3DPP.BackBufferCount  := 1;
             D3DPP.FullScreen_RefreshRateInHz := D3DDM.RefreshRate;
        end;
        D3DPP.EnableAutoDepthStencil := True;
        D3DPP.AutoDepthStencilFormat := D3DFMT_D16;
-       // Разрешение
+       // Р Р°Р·СЂРµС€РµРЅРёРµ
        case RenderSettings.Resolution of
        0: begin
                D3DPP.BackBufferWidth := 800;
@@ -125,11 +130,11 @@ var
 
        D3DPP.SwapEffect := D3DSWAPEFFECT_DISCARD; //D3DSWAPEFFECT_COPY
        D3DPP.BackBufferFormat := D3DDM.Format;
-       // D3DPRESENT_INTERVAL_ONE даёт vsync лучшего качества.
+       // D3DPRESENT_INTERVAL_ONE РґР°С‘С‚ vsync Р»СѓС‡С€РµРіРѕ РєР°С‡РµСЃС‚РІР°.
        D3DPP.PresentationInterval := D3DPRESENT_INTERVAL_ONE;
                                     //D3DPRESENT_INTERVAL_DEFAULT;
                                    
-       // Создаём интерфейс
+       // РЎРѕР·РґР°С‘Рј РёРЅС‚РµСЂС„РµР№СЃ
        hr := D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, WinWindow.MainWindow,
                   D3DCREATE_HARDWARE_VERTEXPROCESSING, @D3DPP, Device);
        if hr<>D3D_OK then
@@ -137,14 +142,14 @@ var
             Result := hr;
             Exit;
        end;
-       // Включаем Alpha-канал
+       // Р’РєР»СЋС‡Р°РµРј Alpha-РєР°РЅР°Р»
        Device.SetRenderState(D3DRS_ALPHABLENDENABLE, 1 );
        Device.SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, 1 );
        Device.SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
        Device.SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
        Device.SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
-       // Детектируем версию пиксельных шейдеров
+       // Р”РµС‚РµРєС‚РёСЂСѓРµРј РІРµСЂСЃРёСЋ РїРёРєСЃРµР»СЊРЅС‹С… С€РµР№РґРµСЂРѕРІ
 
        Device.GetDeviceCaps(Caps);
        PS14Avalible := (((Caps.PixelShaderVersion shl 16) shr 24) = 1) and
@@ -152,7 +157,7 @@ var
        PS20Avalible := ((Caps.PixelShaderVersion shl 16) shr 24) > 1;
        if PS20Avalible then PS14Avalible := True;
 
-       // Очищаем экран
+       // РћС‡РёС‰Р°РµРј СЌРєСЂР°РЅ
        Device.Clear(0, nil, D3DCLEAR_TARGET, $FFE6E7E1, 1, 0);
        Device.Present(nil, nil, 0, nil);
        
@@ -161,37 +166,37 @@ var
 
 //==============================================================================
 // Name: Render
-// Desc: Начало отрисовки нового кадра
+// Desc: РќР°С‡Р°Р»Рѕ РѕС‚СЂРёСЃРѕРІРєРё РЅРѕРІРѕРіРѕ РєР°РґСЂР°
 //==============================================================================
   function Render: HRESULT;
   begin
-       // Считаем FPS(Frames Per Second)
+       // РЎС‡РёС‚Р°РµРј FPS(Frames Per Second)
        NewTick := GetTickCount;
-       FrameTime := NewTick - OldTick;
+       FrameTime := Max(NewTick - OldTick, 1);
        FPS := Trunc(1000/FrameTime+0.5);
        OldTick := NewTick;
-       // Состояние приложения
+       // РЎРѕСЃС‚РѕСЏРЅРёРµ РїСЂРёР»РѕР¶РµРЅРёСЏ
        case Device.TestCooperativeLevel of
          D3DERR_DEVICELOST:
          begin
-              // Приложение "свёрнуто" и проводить рендер не имеет смысла
+              // РџСЂРёР»РѕР¶РµРЅРёРµ "СЃРІС‘СЂРЅСѓС‚Рѕ" Рё РїСЂРѕРІРѕРґРёС‚СЊ СЂРµРЅРґРµСЂ РЅРµ РёРјРµРµС‚ СЃРјС‹СЃР»Р°
               Result := E_FAIL;
               Exit;
          end;
          D3DERR_DEVICENOTRESET:
          begin
-              // Приложение "развернули" и надо восстановить ресурсы и
-              // некоторые настройки
-              // Восстанавливаем шрифты и эффекты
+              // РџСЂРёР»РѕР¶РµРЅРёРµ "СЂР°Р·РІРµСЂРЅСѓР»Рё" Рё РЅР°РґРѕ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ СЂРµСЃСѓСЂСЃС‹ Рё
+              // РЅРµРєРѕС‚РѕСЂС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё
+              // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј С€СЂРёС„С‚С‹ Рё СЌС„С„РµРєС‚С‹
               RenderFont.OnResetDevice;
               RenderEffects.OnResetDevice;
               RenderPostProcess.Release;
               RenderTextures.ReleaseRenderTargetTextures;
-              // Восстанавливаем видеокарту
+              // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РІРёРґРµРѕРєР°СЂС‚Сѓ
               hr := Device.Reset(D3DPP);
               RenderPostProcess.Reset;
               RenderTextures.RecreateRenderTargetTextures;
-              // Заново включаем Alpha-канал
+              // Р—Р°РЅРѕРІРѕ РІРєР»СЋС‡Р°РµРј Alpha-РєР°РЅР°Р»
               Device.SetRenderState(D3DRS_ALPHABLENDENABLE, 1 );
               Device.SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, 1 );
               Device.SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
@@ -207,11 +212,11 @@ var
 
 //==============================================================================
 // Name: Release
-// Desc: Освобождение памяти
+// Desc: РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё
 //==============================================================================
   procedure Release;
   begin
-       // Освобождаем память, занятую шрифтами
+       // РћСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ, Р·Р°РЅСЏС‚СѓСЋ С€СЂРёС„С‚Р°РјРё
        RenderFont.Release;
        Device := nil;
        D3D := nil;

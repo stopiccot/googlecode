@@ -1,8 +1,13 @@
 unit WinMain;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: WinMain.pas
-// Desc: Главный юнит, сообственно сама программа
-//       ©2006 .gear
+// Desc: Р“Р»Р°РІРЅС‹Р№ СЋРЅРёС‚, СЃРѕРѕР±СЃС‚РІРµРЅРЅРѕ СЃР°РјР° РїСЂРѕРіСЂР°РјРјР°
+//       В©2006 .gear
 //==============================================================================
 interface
 uses
@@ -38,10 +43,10 @@ implementation
 
        GameMain.Initialize;
        
-       // Создаём окно
+       // РЎРѕР·РґР°С‘Рј РѕРєРЅРѕ
        if FAILED(WinWindow.CreateWindow) then Exit;
 
-       // Инициализируем рендер
+       // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂРµРЅРґРµСЂ
        if FAILED(RenderMain.Initialize) then Exit;
        if FAILED(RenderDeclarations.Initialize) then Exit;
        if FAILED(RenderPostProcess.Initialize) then Exit;

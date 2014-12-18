@@ -19,5 +19,14 @@ different/fdom2/x64/Release
 *.sdf
 *.opensdf
 *.ilk
+*.user
 
-different/fdom2/fdom_2.vcxproj.user
+# Lazarus
+*.o
+*.or
+*.ppu
+*.bak
+*.compiled
+*.a
+*.lps
+different/igdc/Sokoban/sokoban.exe

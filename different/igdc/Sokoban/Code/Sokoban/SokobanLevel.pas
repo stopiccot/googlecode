@@ -1,7 +1,12 @@
 unit SokobanLevel;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 uses
-  Windows, SysUtils, GameMain,
+  Windows, SysUtils, FileUtil, GameMain,
   RenderTextures, Render2D;
 
   procedure Initialize;
@@ -61,7 +66,7 @@ var
   
 //==============================================================================
 // Name: FindAvalibleLevels
-// Desc: Находит все lvl-файлы в папке Data\levels\
+// Desc: РќР°С…РѕРґРёС‚ РІСЃРµ lvl-С„Р°Р№Р»С‹ РІ РїР°РїРєРµ Data\levels\
 //==============================================================================
   procedure FindAvalibleLevels;
 
@@ -84,17 +89,17 @@ var
        nLevels := 0;
        SetLength(Levels, nLevels);
        ChDir(GameWorkDir+'Data\levels\');
-       if FindFirst('*.lvl', 0, SearchRec)=0 then
+       if FindFirstUTF8('*.lvl',0,SearchRec) { *Converted from FindFirst* }=0 then
        begin
             AddLevel(SearchRec.Name);
-            while FindNext(SearchRec)=0 do AddLevel(SearchRec.Name);
+            while FindNextUTF8(SearchRec) { *Converted from FindNext* }=0 do AddLevel(SearchRec.Name);
        end;
-       FindClose(SearchRec);
+       FindCloseUTF8(SearchRec); { *Converted from FindClose* }
   end;
 
 //==============================================================================
 // Name: LoadLevel
-// Desc: Загружаем, выбранный игроком, уровень.
+// Desc: Р—Р°РіСЂСѓР¶Р°РµРј, РІС‹Р±СЂР°РЅРЅС‹Р№ РёРіСЂРѕРєРѕРј, СѓСЂРѕРІРµРЅСЊ.
 //==============================================================================
   procedure LoadLevel(n: integer);
   var s: String; i,j: Integer;
@@ -110,8 +115,15 @@ var
        _Height := Round((760-(LevelHeight*23+1))/2);
        C := 1;
 
-       FillChar(Ground, SizeOf(Ground), -1);
-       FillChar(GroundBox, SizeOf(GroundBox), -1);
+       for i := 0 to 31 do
+       begin
+            for j := 0 to 27 do
+            begin
+                 Ground[i, j] := -1;
+                 GroundBox[i, j] := -1;
+            end;
+       end;
+
        nMoves := 0;
        SetLength(Moves,0);
        nBoxes := 0;
@@ -175,7 +187,7 @@ var
 
 //==============================================================================
 // Name: RenderLevel
-// Desc: Рендер...
+// Desc: Р РµРЅРґРµСЂ...
 //==============================================================================
   procedure RenderLevel(Alpha: Single);
   var i,j: integer; Color: DWORD; DarkColor: DWORD;
@@ -183,7 +195,7 @@ var
        Color := (Round(255*Alpha) shl 24) or $FFFFFF;
        DarkColor := (Round(255*Alpha) shl 24) or $777777;
        GreenColor := (Round(255*Alpha) shl 24) or GreenColor;
-       // Рисуем землю
+       // Р РёСЃСѓРµРј Р·РµРјР»СЋ
        for i := 1 to LevelHeight do
        begin
             for j := 1 to LevelWidth do
@@ -202,7 +214,7 @@ var
                       DrawSpriteEx('White',_Width+23*j,_Height+23*(i+1),24,1,0,0,1,1,DarkColor);
             end;
        end;
-       // Рисуем ящики
+       // Р РёСЃСѓРµРј СЏС‰РёРєРё
        for i := 1 to nBoxes do
             DrawSprite('Box',_Width+Boxes[i].Pos.X+2,_Height+Boxes[i].Pos.Y+2,32,32,(Round(255*Alpha) shl 24) or $555454);
        DrawSprite('Hero',
@@ -241,7 +253,7 @@ var
 
 //==============================================================================
 // Name: KeyDown
-// Desc: Процедура обработки нажатий клавиш
+// Desc: РџСЂРѕС†РµРґСѓСЂР° РѕР±СЂР°Р±РѕС‚РєРё РЅР°Р¶Р°С‚РёР№ РєР»Р°РІРёС€
 //==============================================================================
   procedure KeyDown(Key: Integer);
   var Box: integer;
@@ -287,7 +299,7 @@ var
          end;
          CloseFile(LevelFile);
          CloseFile(NewLevelFile);
-         DeleteFile(LevelFileName);
+         DeleteFileUTF8(LevelFileName); { *Converted from DeleteFile* }
          AssignFile(NewLevelFile, '~'+LevelFileName);
          Rename(NewLevelFile, LevelFileName);
          FindAvalibleLevels;
@@ -388,7 +400,7 @@ var
 
 //==============================================================================
 // Name: Undo
-// Desc: Отмена одно хода
+// Desc: РћС‚РјРµРЅР° РѕРґРЅРѕ С…РѕРґР°
 //==============================================================================
   procedure Undo;
   begin

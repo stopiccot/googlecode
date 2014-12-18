@@ -1,9 +1,14 @@
 // PART OF ORBITAL ENGINE 2.0 SOURCE CODE
 unit RenderDeclarations;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: RenderDeclarations.pas
-// Desc: Хранение форматов вершин
-//       ©2006 .gear
+// Desc: РҐСЂР°РЅРµРЅРёРµ С„РѕСЂРјР°С‚РѕРІ РІРµСЂС€РёРЅ
+//       В©2006 .gear
 //==============================================================================
 interface
 uses
@@ -20,7 +25,7 @@ uses
   RenderMain;
 //==============================================================================
 // Name: Initialize
-// Desc: Инициализация
+// Desc: РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
 //==============================================================================
   function Initialize: HRESULT;
   var Decl: array[0..5] of TD3DVertexElement9; hr: HRESULT;

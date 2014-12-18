@@ -4,6 +4,10 @@
 
 unit DXTypes;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 (*$HPPEMIT '#include "dxsdkver.h"' *)

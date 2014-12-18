@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasUsesSectionForAllUnits Value="False"/>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="sokoban"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+      <Icon Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <BuildNr Value="233"/>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPackages>
+    <Units Count="23">
+      <Unit0>
+        <Filename Value="sokoban.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="Code\Direct3D\DXTypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DXTypes"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="Code\Render\RenderMain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderMain"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Code\Win\WinMain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="WinMain"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Code\Win\WinWindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="WinWindow"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Code\Render\RenderSettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderSettings"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="Code\Game\GameMain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GameMain"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="Code\Render\RenderTextures.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderTextures"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="Code\Render\RenderEffects.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderEffects"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="Code\Render\Render2D.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Render2D"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="Code\Gui\GuiMain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GuiMain"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="Code\Render\RenderFont.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderFont"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="Code\Direct3D\D3DX9Def.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="D3DX9Def"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="Code\Direct3D\D3DX9Link.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="D3DX9Link"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="Code\Render\RenderPostProcess.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderPostProcess"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="Code\Gui\GuiCursor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GuiCursor"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="Code\Render\RenderDeclarations.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RenderDeclarations"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="Code\Gui\GuiSplash.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GuiSplash"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="Code\DevelopingDiary.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DevelopingDiary"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="Code\Gui\GuiComments.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GuiComments"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="Code\Sokoban\SokobanLevel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SokobanLevel"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="Code\Lzma.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Lzma"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="Code\Direct3D\D3D9.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="D3D9"/>
+      </Unit22>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <IncludeFiles Value="Code\Direct3D;Code\Render;Code\Win;Code\Game;Code\Gui;Code;Code\Sokoban;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="Code\Direct3D;Code\Render;Code\Win;Code\Game;Code\Gui;Code;Code\Sokoban"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <MsgFileName Value=""/>
+      </CompilerMessages>
+      <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

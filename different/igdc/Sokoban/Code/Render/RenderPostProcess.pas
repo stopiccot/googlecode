@@ -1,9 +1,14 @@
 // PART OF ORBITAL ENGINE 2.0 SOURCE CODE
 unit RenderPostProcess;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: Render2D.pas
-// Desc: Пострендер эффекты
-//       ©2006 .gear
+// Desc: РџРѕСЃС‚СЂРµРЅРґРµСЂ СЌС„С„РµРєС‚С‹
+//       В©2006 .gear
 //==============================================================================
 interface
 uses
@@ -34,14 +39,13 @@ var
   
 //==============================================================================
 // Name: _Present
-// Desc: PostProcess процедура вывода изображения на экран
+// Desc: PostProcess РїСЂРѕС†РµРґСѓСЂР° РІС‹РІРѕРґР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° СЌРєСЂР°РЅ
 //==============================================================================
   function _Present: HRESULT;
   begin
        Device.SetRenderTarget(0, DisplaySurface);
-       Device.BeginScene;
-       DrawSpriteEx('RenderTexture', 0, 0, 1024, 768, 0, 0, 1, 1, $FFFFFFFF, 'Normal');
-       Device.EndScene;
+       Device.Clear(0, nil, D3DCLEAR_TARGET, $FFFF0000, 1, 0);
+       DrawSpriteEx('RenderTexture', 0, 0, 1025, 769, 0, 0, 1, 1, $FFFFFFFF, 'Normal');
        Device.Present(nil, nil, 0, nil);
        SetRenderTexture('RenderTexture');
        Device.Clear(0, nil, D3DCLEAR_TARGET, $FF0000FF, 1, 0);
@@ -67,20 +71,20 @@ var
 
 //==============================================================================
 // Name: Initialize
-// Desc: Включает пострендер обработку
+// Desc: Р’РєР»СЋС‡Р°РµС‚ РїРѕСЃС‚СЂРµРЅРґРµСЂ РѕР±СЂР°Р±РѕС‚РєСѓ
 //==============================================================================
   function Initialize: HRESULT;
   begin
        hr := Device.GetRenderTarget(0, DisplaySurface);
        if FAILED(hr)then begin Result := hr; Exit; end;
 
-       hr := CreateRenderTargetTexture('RenderTexture',1025,769);
+       hr := CreateRenderTargetTexture('RenderTexture',1024,768);
        if FAILED(hr)then begin Result := hr; Exit; end;
 
        SetRenderTexture('RenderTexture');
        if FAILED(hr)then begin Result := hr; Exit; end;
 
-       // Заменяем процедуру вывода
+       // Р—Р°РјРµРЅСЏРµРј РїСЂРѕС†РµРґСѓСЂСѓ РІС‹РІРѕРґР°
        RenderMain.Present := _Present;
 
        Result := D3D_OK;
@@ -88,7 +92,7 @@ var
 
 //==============================================================================
 // Name: Release
-// Desc: Удаление интерфейсов
+// Desc: РЈРґР°Р»РµРЅРёРµ РёРЅС‚РµСЂС„РµР№СЃРѕРІ
 //==============================================================================
   procedure Release;
   begin

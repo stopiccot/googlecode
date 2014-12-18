@@ -1,15 +1,20 @@
 // PART OF ORBITAL ENGINE 2.0 SOURCE CODE
 unit WinWindow;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: WinWindow.pas
-// Desc: Окно на WinAPI
-//       ©2006 .gear 
+// Desc: РћРєРЅРѕ РЅР° WinAPI
+//       В©2006 .gear 
 //==============================================================================
 interface
 uses
   Windows, Messages;
 
-  {$DEFINE ONE_COPY_ONLY} // Запрещает запускать более одной копии программы
+  {$DEFINE ONE_COPY_ONLY} // Р—Р°РїСЂРµС‰Р°РµС‚ Р·Р°РїСѓСЃРєР°С‚СЊ Р±РѕР»РµРµ РѕРґРЅРѕР№ РєРѕРїРёРё РїСЂРѕРіСЂР°РјРјС‹
 
 const
   ApplicationName    = '.sokoban';
@@ -28,14 +33,14 @@ var
 implementation
 uses
   SokobanLevel,
-  GameMain, GuiMain,
+  GameMain, GuiMain, GuiCursor,
   RenderMain, RenderSettings;
   
 var
   Ctrl: Boolean;
 //==============================================================================
 // Name: WindowProc
-// Desc: Процедура обработки сообщений, посланных окну
+// Desc: РџСЂРѕС†РµРґСѓСЂР° РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№, РїРѕСЃР»Р°РЅРЅС‹С… РѕРєРЅСѓ
 //==============================================================================
   function WindowProc(Window: HWND; Message: LongWord; wParam: LongInt; lParam: LongInt): LongInt; stdcall;
   begin
@@ -70,6 +75,11 @@ var
          begin
               if wParam=17 then Ctrl := False;
          end;
+         WM_MOUSEMOVE:
+         begin
+              Cursor.X := LOWORD(lParam);
+              Cursor.Y := HIWORD(lParam);
+         end
        else
        begin
             Result := DefWindowProc(Window, Message, wParam, lParam);
@@ -79,7 +89,7 @@ var
 
 //==============================================================================
 // Name: ShowWindow
-// Desc: Делает окно видимым
+// Desc: Р”РµР»Р°РµС‚ РѕРєРЅРѕ РІРёРґРёРјС‹Рј
 //==============================================================================
   procedure ShowWindow();
   begin
@@ -89,22 +99,22 @@ var
 
 //==============================================================================
 // Name: CreateWindow
-// Desc: Создаёт окно
+// Desc: РЎРѕР·РґР°С‘С‚ РѕРєРЅРѕ
 //==============================================================================
   function CreateWindow(): HRESULT;
-  var WC: TWndClass;
+  var WC: TWndClass; WindowStyle: DWORD; WindowRect: TRect;
   begin
        {$IFDEF ONE_COPY_ONLY}
-       // Может игра уже запущена?
+       // РњРѕР¶РµС‚ РёРіСЂР° СѓР¶Рµ Р·Р°РїСѓС‰РµРЅР°?
        if (FindWindow(nil, WindowName)<>0)then
        begin
-            // Если уже запущена, то выводим MessageBox
+            // Р•СЃР»Рё СѓР¶Рµ Р·Р°РїСѓС‰РµРЅР°, С‚Рѕ РІС‹РІРѕРґРёРј MessageBox
             MessageBox(HWND(nil), AlreadyRunningText, ApplicationName, MB_OK);
             Result := E_FAIL;
             Exit;
        end;
        {$ENDIF}
-       // Регистрируем класс
+       // Р РµРіРёСЃС‚СЂРёСЂСѓРµРј РєР»Р°СЃСЃ
        WC.hInstance     := hInstance;
        WC.lpszClassName := WindowName;
        WC.lpfnWndProc   := @WindowProc;
@@ -120,21 +130,36 @@ var
             Result := E_FAIL;
             Exit;
        end;
-       // Создаём окно
+
+       if RenderSettings.Fullscreen then
+       begin
+            WindowStyle := WS_POPUP;
+       end else
+       begin
+            WindowStyle := WS_CAPTION or WS_SYSMENU or WS_MINIMIZEBOX;
+       end;
+
+       WindowRect.Left:= 0;
+       WindowRect.Top := 0;
+       WindowRect.Right := 1024;
+       WindowRect.Bottom := 768;
+
+       AdjustWindowRect(@WindowRect, WindowStyle, False);
+
+       // РЎРѕР·РґР°С‘Рј РѕРєРЅРѕ
        MainWindow := CreateWindowEx(WS_EX_APPWINDOW,
-                          WindowName,
-                          ApplicationName,
-                          WS_POPUP,
-                          0, 0, 1024, 768,
+                          WindowName, ApplicationName, WindowStyle,
+                          CW_USEDEFAULT, CW_USEDEFAULT,
+                          WindowRect.Right - WindowRect.Left, WindowRect.Bottom - WindowRect.Top,
                           0, 0, hInstance, nil);
        if MainWindow=0 then
        begin
-            // Не удалось создать окно
+            // РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ РѕРєРЅРѕ
             UnregisterClass(WindowName, hInstance);
             Result := E_FAIL;
             Exit;
        end;
-       // Устанавливаем таймер
+       // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚Р°Р№РјРµСЂ
        SetTimer(MainWindow, 0, Round(13), nil);
 
        Result := S_OK;

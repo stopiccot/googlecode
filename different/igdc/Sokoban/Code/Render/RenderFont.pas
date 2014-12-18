@@ -1,16 +1,21 @@
 // PART OF ORBITAL ENGINE 2.0 SOURCE CODE
 unit RenderFont;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: RenderFont.pas
-// Desc: Вектореые шрифты
-//       ©2006 .gear
+// Desc: Р’РµРєС‚РѕСЂРµС‹Рµ С€СЂРёС„С‚С‹
+//       В©2006 .gear
 //==============================================================================
 interface
 uses
-  Windows, D3D9, D3DX9Def, D3DX9Link;
+  Windows, D3D9, D3DX9Def, D3DX9Link, LConvEncoding;
   
   function OutTextEx(X,Y,W,H: Single; Text: String; FontName: String; Size: Byte; Bold: Boolean; Italic: Boolean; Color: DWORD; Align: Byte = 0): HRESULT;
-  function OutTextJustify(X,Y,W,H: Single; Text: PChar; FontName: String; Size: Byte; Bold: Boolean; Italic: Boolean; Color: DWORD): HRESULT;
+  function OutTextJustify(X,Y,W,H: Single; Text: String; FontName: String; Size: Byte; Bold: Boolean; Italic: Boolean; Color: DWORD): HRESULT;
   procedure OnResetDevice;
   procedure Release;
 
@@ -34,7 +39,7 @@ var
 
 //==============================================================================
 // Name: CreateFont
-// Desc: Создаёт шрифт с заданными параметрами
+// Desc: РЎРѕР·РґР°С‘С‚ С€СЂРёС„С‚ СЃ Р·Р°РґР°РЅРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
 //==============================================================================
   function CreateFont(Font: String; Bold: Boolean; Italic: Boolean; Size: Byte): HRESULT;
   var B: Integer;
@@ -48,7 +53,7 @@ var
        Fonts[nFonts-1].Size := Size;
        if Bold then B := 1000 else B := 0;
 
-       // Создаём шрифт
+       // РЎРѕР·РґР°С‘Рј С€СЂРёС„С‚
        hr := D3DXCreateFont(Device, Size, 0, B, 100, Italic,
                   DEFAULT_CHARSET, OUT_DEVICE_PRECIS,
                   DEFAULT_QUALITY, DEFAULT_PITCH or FF_DONTCARE,
@@ -64,7 +69,7 @@ var
 
 //==============================================================================
 // Name: FindFont
-// Desc: Ищет шрифт среди созданных, по имени
+// Desc: РС‰РµС‚ С€СЂРёС„С‚ СЃСЂРµРґРё СЃРѕР·РґР°РЅРЅС‹С…, РїРѕ РёРјРµРЅРё
 //==============================================================================
   function FindFont(Font: String; Bold: Boolean; Italic: Boolean; Size: Byte): ID3DXFont;
   var i: integer;
@@ -85,7 +90,7 @@ var
 
 //==============================================================================
 // Name: OutTextEx
-// Desc: Вывод текста
+// Desc: Р’С‹РІРѕРґ С‚РµРєСЃС‚Р°
 //==============================================================================
   function OutTextEx(X,Y,W,H: Single; Text: String; FontName: String; Size: Byte; Bold: Boolean; Italic: Boolean; Color: DWORD; Align: Byte = 0): HRESULT;
   var
@@ -107,7 +112,7 @@ var
        end;
 
        Flags := 0;
-       
+
        case Align of
        0: begin
                Rect.Left := Round(X);
@@ -116,22 +121,22 @@ var
                begin
                     Rect.Right  := Rect.Left+Round(W);
                     if H>=0 then Rect.Bottom := Rect.Top+Round(H) else Rect.Bottom := 10000;
-                    hr := Font.DrawTextA(nil, PChar(Text), -1, @Rect, Flags, Color);
+                    hr := Font.DrawTextW(nil, PWideChar(UTF8ToUCS2LE(Text + #0)), -1, @Rect, Flags, Color);
                end else
                begin
-                    hr := Font.DrawTextA(nil, PChar(Text), -1, @Rect, DT_NOCLIP, Color);
+                    hr := Font.DrawTextW(nil, PWideChar(UTF8ToUCS2LE(Text + #0)), -1, @Rect, DT_NOCLIP, Color);
                end;
           end;
        1: begin
                Rect.Top   := Round(Y);
                Rect.Left  := Round(X);
                Rect.Right := Round(X+W);
-               hr := Font.DrawTextA(nil, PChar(Text), -1, @Rect, DT_NOCLIP or DT_CENTER, Color);
+               hr := Font.DrawTextW(nil, PWideChar(UTF8ToUCS2LE(Text + #0)), -1, @Rect, DT_NOCLIP or DT_CENTER, Color);
           end;
        2: begin
                Rect.Top    := Round(Y);
                Rect.Right  := Round(X);
-               hr := Font.DrawTextA(nil, PChar(Text), -1, @Rect, DT_NOCLIP or DT_RIGHT, Color);
+               hr := Font.DrawTextW(nil, PWideChar(UTF8ToUCS2LE(Text + #0)), -1, @Rect, DT_NOCLIP or DT_RIGHT, Color);
           end;
        end;
        if FAILED(hr) then
@@ -144,9 +149,9 @@ var
 
 //==============================================================================
 // Name: OutTextJustify
-// Desc: Вывод текста
+// Desc: Р’С‹РІРѕРґ С‚РµРєСЃС‚Р°
 //==============================================================================
-  function OutTextJustify(X,Y,W,H: Single; Text: PChar; FontName: String; Size: Byte; Bold: Boolean; Italic: Boolean; Color: DWORD): HRESULT;
+  function OutTextJustify(X,Y,W,H: Single; Text: String; FontName: String; Size: Byte; Bold: Boolean; Italic: Boolean; Color: DWORD): HRESULT;
   var
     Font: ID3DXFont;
     Rect: TRect;
@@ -169,7 +174,7 @@ var
        Rect.Right  := Rect.Left+Round(W);
        Rect.Bottom := Rect.Top+Round(H);
 
-       hr := Font.DrawTextA(nil, Text, -1, @Rect, DT_WORDBREAK, Color);
+       hr := Font.DrawTextW(nil, PWideChar(UTF8ToUCS2LE(Text + #0)), -1, @Rect, DT_WORDBREAK, Color);
        if FAILED(hr) then
        begin
             Result := hr;
@@ -179,7 +184,7 @@ var
   end;
 //==============================================================================
 // Name: OnResetDevice
-// Desc: Восстанавливает шрифты после сворачивания приложения
+// Desc: Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С€СЂРёС„С‚С‹ РїРѕСЃР»Рµ СЃРІРѕСЂР°С‡РёРІР°РЅРёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ
 //==============================================================================
   procedure OnResetDevice;
   var i: integer;
@@ -193,7 +198,7 @@ var
 
 //==============================================================================
 // Name: Relase
-// Desc: Высвобождает память, занятую шрифтами
+// Desc: Р’С‹СЃРІРѕР±РѕР¶РґР°РµС‚ РїР°РјСЏС‚СЊ, Р·Р°РЅСЏС‚СѓСЋ С€СЂРёС„С‚Р°РјРё
 //==============================================================================
   procedure Release;
   var i: integer;

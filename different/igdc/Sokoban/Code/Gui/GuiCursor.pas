@@ -1,7 +1,12 @@
 unit GuiCursor;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 //==============================================================================
 // Unit: GuiCursor.pas
-// Desc: Полупрозрачные курсорчики
+// Desc: РџРѕР»СѓРїСЂРѕР·СЂР°С‡РЅС‹Рµ РєСѓСЂСЃРѕСЂС‡РёРєРё
 //==============================================================================
 interface
 uses
@@ -16,17 +21,17 @@ const
   crHand    = 1;
 
 var
-  Cursor: TPoint;               // Положение курсора
-  CursorType: Byte = crArrow;   // Тип курсора
+  Cursor: TPoint;               // РџРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР°
+  CursorType: Byte = crArrow;   // РўРёРї РєСѓСЂСЃРѕСЂР°
 
 implementation
 //==============================================================================
 // Name: Initialize
-// Desc: Инициализация, загрузка текстур и эффектов
+// Desc: РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ, Р·Р°РіСЂСѓР·РєР° С‚РµРєСЃС‚СѓСЂ Рё СЌС„С„РµРєС‚РѕРІ
 //==============================================================================
   function Initialize: HRESULT;
   begin
-       // Прячем обычный курсор
+       // РџСЂСЏС‡РµРј РѕР±С‹С‡РЅС‹Р№ РєСѓСЂСЃРѕСЂ
        repeat until ShowCursor(False)< 0;
        LoadTextureFromFile('Arrow',    'textures\Arrow.tga');
        LoadTextureFromFile('Hand',     'textures\Hand.tga');
@@ -35,11 +40,10 @@ implementation
   
 //==============================================================================
 // Name: OnRender
-// Desc: Рендер курсора
+// Desc: Р РµРЅРґРµСЂ РєСѓСЂСЃРѕСЂР°
 //==============================================================================
   function OnRender: HRESULT;
   begin
-       GetCursorPos(Cursor);
        case CursorType of
        crArrow: DrawSprite('Arrow', Cursor.X,   Cursor.Y, 32, 32, $FFFFFFFF);
        crHand : DrawSprite('Hand',  Cursor.X-5, Cursor.Y, 32, 32, $FFFFFFFF);

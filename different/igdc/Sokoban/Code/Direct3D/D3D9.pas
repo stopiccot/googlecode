@@ -3,6 +3,10 @@
 
 unit D3D9;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 // Global level dynamic loading support

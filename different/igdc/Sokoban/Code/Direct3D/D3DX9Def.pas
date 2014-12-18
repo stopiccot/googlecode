@@ -51,6 +51,10 @@
 
 unit D3DX9Def;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 // Remove "dot" below to link with debug version of D3DX9
