@@ -62,7 +62,7 @@ namespace Invoice
         private void changeTemplate_Click(object sender, EventArgs e)
         {
             openFileDialog.FileName = "";
-            openFileDialog.Filter = "Документ Word|*.doc";
+            openFileDialog.Filter = "Документ Word|*.doc;*.docx";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
                 templatePath.Text = openFileDialog.FileName;

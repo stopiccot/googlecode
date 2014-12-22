@@ -256,10 +256,22 @@ namespace Invoice
             // И если всё прошло успешно, то открываем его
             if (filename != null)
             {
-                System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(filename);
-                info.UseShellExecute = true;
-                info.Verb = "open";
-                System.Diagnostics.Process.Start(info);
+                try
+                {
+                    System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(filename);
+                    info.UseShellExecute = true;
+                    info.Verb = "open";
+                    System.Diagnostics.Process.Start(info);
+                }
+                catch
+                {
+                    // По неведомым причинам на некоторых компах нормальный способ не работает
+                    // пробуем открывать принудительно вордом
+                    System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
+                    info.FileName = "WINWORD.EXE";
+                    info.Arguments = filename;
+                    System.Diagnostics.Process.Start(info);
+                }
             }
         }
 
