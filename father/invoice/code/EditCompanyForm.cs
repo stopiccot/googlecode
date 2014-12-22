@@ -26,7 +26,7 @@ namespace Invoice
             this.Top = y;
 
             delButton.Visible = addButton.Visible = listBox.Visible = false;
-            this.Width = 272 + (panel.Left = 9);
+            this.Width = 283 + (panel.Left = 9);
                         
             ShowDialog();
 
@@ -39,6 +39,7 @@ namespace Invoice
             this.Top = y;
 
             delButton.Visible = addButton.Visible = listBox.Visible = true;
+            this.Width = 283 + (panel.Left = 133);
 
             if (Base.companyList.Count > 0)
             {
