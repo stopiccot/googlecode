@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUpdateInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UpdateInfo>
+    <version>2.0.0.0</version>
+    <uri>https://github.com/stopiccot/googlecode/raw/master/father/releases/invoice/invoice-2.0.0.exe</uri>
+    <description>Версия 2.0.0</description>
+  </UpdateInfo>
+</ArrayOfUpdateInfo>

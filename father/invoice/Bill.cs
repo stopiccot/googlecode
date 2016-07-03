@@ -27,7 +27,7 @@ namespace Invoice
 
         public int Number;
         public int WorkDone;
-        public int Price;
+        public decimal Price;
         public bool Payed;        
         public string Car;
         public Company Company;

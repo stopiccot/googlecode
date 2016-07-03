@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using Invoice;
 
 namespace Stopiccot.VisualComponents
 {
@@ -18,17 +19,19 @@ namespace Stopiccot.VisualComponents
             this.Value = 0;
         }
 
-        public int Value
+        public const string AllowedChars = "0123456789.,";
+
+        public decimal Value
         {
-            get { return Convert.ToInt32(Text); }
-            set { Text = value.ToString(); }
+            get { return Utils.ConvertToDecimal(Text); }
+            set { Text = value.ToString();  }
         }
 
         protected override void OnTextChanged(EventArgs e)
         {
             try
             {
-                int i = Convert.ToInt32(Text);
+                decimal i = Utils.ConvertToDecimal(Text);
             }
             catch //( Exception ex )
             {
@@ -45,7 +48,7 @@ namespace Stopiccot.VisualComponents
         {
             if (Text == "0") Text = "";
 
-            if ( ( Text.Length < 9 && ("0123456789".IndexOf(e.KeyChar) != -1 ) || e.KeyChar == (char)8))
+            if ( ( Text.Length < 9 && (AllowedChars.IndexOf(e.KeyChar) != -1 ) || e.KeyChar == (char)8))
                 base.OnKeyPress(e);
             else e.KeyChar = (char)0;
         }

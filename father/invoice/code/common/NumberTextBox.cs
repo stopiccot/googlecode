@@ -11,6 +11,8 @@ namespace Stopiccot.VisualComponents
     //================================================================================
     class NumberTextBox : TextBox
     {
+        public const string AllowedChars = "0123456789.,";
+
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             if (this.Multiline)
@@ -24,7 +26,7 @@ namespace Stopiccot.VisualComponents
             } else
                 if (Text == "0") Text = "";
 
-            if ("0123456789".IndexOf(e.KeyChar) == -1 && e.KeyChar != (char)8 && e.KeyChar != (char)13)
+            if (AllowedChars.IndexOf(e.KeyChar) == -1 && e.KeyChar != (char)8 && e.KeyChar != (char)13)
                 e.KeyChar = (char)0;
 
             base.OnKeyPress(e);

@@ -44,7 +44,8 @@ namespace Invoice
             return c == Char.ToUpper(c);
         }
 
-        private static string[] rub = { "рублей", "рубль", "рубля", "рублей" };
+        private static string[] coins = { "", "копейка", "копейки", "копеек" };
+        private static string[] rub = { "рублей ", "рубль ", "рубля ", "рублей " };
         private static string[] thousand = { "", "тысяча ", "тысячи ", "тысяч " };
         private static string[] million = { "", "миллион ", "миллиона ", "миллионов " };
         private static string[] _100 = { "", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот " };
@@ -57,18 +58,27 @@ namespace Invoice
         {
             string result = "";
 
-            if (number == 0) return suffix[0];
+            if (number == 0)
+                return suffix[0];
 
-            if (number > 99) result += _100[ number / 100 ];
+            if (number > 99)
+                result += _100[ number / 100 ];
 
-            if ((number = number % 100) > 19)
+            number = number % 100;
+            if (number > 19)
             {
                 result += _10[number / 10];
                 number %= 10;
             }
 
-            if (number > 2) result += _1[number - 3];
-            else result += __1[sex ? number : number + 3];            
+            if (number > 2)
+            {
+                result += _1[number - 3];
+            }
+            else
+            {
+                result += __1[sex ? number : number + 3];
+            }       
             
             return result + suffix[_suffix[number]];
         }
@@ -81,15 +91,54 @@ namespace Invoice
                     convert(number % 1000, rub, true));
         }
 
+        public static string ConvertToString(decimal number)
+        {
+            return Capitalize(
+                    convert((long)(number / 1000000), million, true) +
+                    convert((long)((number / 1000) % 1000), thousand, false) +
+                    convert((long)(number % 1000), rub, true) + 
+                    convert((long)(number * 100) % 100, coins, true)
+            );
+        }
+
         public static string ExtractDirectorName(string s)
         {
+
             for (int i = 0, prevSpace = 0; i < s.Length - 4; ++i)
+            {
                 if (s[i] == ' ')
-                    if (IsUpper(s[i + 1]) && s[i + 2] == '.' && IsUpper(s[i + 3]) && s[i + 4] == '.' )
+                {
+                    if (IsUpper(s[i + 1]) && s[i + 2] == '.' && IsUpper(s[i + 3]) && s[i + 4] == '.')
                         return s.Substring(prevSpace + 1, i - prevSpace + 4);
                     else
                         prevSpace = i;
+                }
+            }
+
             return "";
+        }
+
+        public static decimal ConvertToDecimal(string s)
+        {
+            try
+            {
+                return Convert.ToDecimal(s);
+            }
+            catch { }
+            
+            try
+            {
+                return Convert.ToDecimal(s.Replace(".", ","));
+            }
+            catch { }
+
+            try
+            {
+                return Convert.ToDecimal(s.Replace(",", "."));
+            }
+            catch { }
+            
+            throw new Exception();
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 2.0.0 - 02.07.2016
+// [+] BYN currency support
+//
 // 1.1.8 - 23.03.2015
 // [*] Upgrading to .NET Framework 3.5
 // [*] Minor text fixes
