@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
+using System.Reflection;
 using System.Windows.Forms;
 using System.IO;
 
@@ -58,7 +56,7 @@ namespace Invoice
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             // Проверяем обновление
-            Update.Updater updater = new Update.Updater("https://raw.githubusercontent.com/stopiccot/googlecode/master/father/releases/invoice/invoice2-version.xml");
+            var updater = new Update.Updater("https://raw.githubusercontent.com/stopiccot/googlecode/master/father/releases/invoice/invoice2-version.xml");
             updater.checkForUpdates();
         }
 
@@ -84,7 +82,7 @@ namespace Invoice
             // Добавляем элементы сначала во временный список, т.к. если напрямую
             // добавлять каждый элемент по-отдельности используя listView.Items.Add
             // будет неимоверно пиделить т.к. оно перерисовывает каждый раз после добавления
-            List<BillListViewItem> items = new List<BillListViewItem>();
+            var items = new List<BillListViewItem>();
 
             for (int i = 0; i < Base.billList.Count; i++)
             {
@@ -107,7 +105,7 @@ namespace Invoice
         //================================================================================
         private void createNewBill(object sender, EventArgs e)
         {
-            Bill newBill = new Bill();
+            var newBill = new Bill();
             newBill.Add();
 
             if (editBillForm.EditBill(Base.billList.Count - 1, false))
@@ -366,18 +364,144 @@ namespace Invoice
         }
 
         //================================================================================
+        // MaterializeTemplateDocument
+        //    Если необходимо сохраняем из ресурсов на диск файл-шаблон
+        //================================================================================
+        private void MaterializeTemplateDocument()
+        {
+            Base.templateDoc = Path.Combine(Directory.GetCurrentDirectory(), "template-" + Utils.ToStringWithoutZeroes(new Version(Application.ProductVersion)) + ".doc");
+
+            if (!File.Exists(Base.templateDoc))
+            {
+                using (Stream output = File.Create(Base.templateDoc))
+                {
+                    using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream("Invoice.template.doc"))
+                    {
+                        byte[] buffer = new byte[10240];
+                        int bytesRead = 0;
+                        while ((bytesRead = input.Read(buffer, 0, 10240)) > 0)
+                        {
+                            output.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+            }
+        }
+
+        //================================================================================
+        // FillWorkDone
+        //================================================================================
+        private void FillWorkDone(Bill bill)
+        {
+            int n = 0; string s = "";
+
+            if ((bill.WorkDone & 1) == 1)
+                s += (++n).ToString() + ".Акт осмотра.\r";
+
+            if ((bill.WorkDone & 2) == 2)
+            {
+                s += (++n).ToString() + ".Заключение о размере вреда.\r";
+                s += (++n).ToString() + ".Калькуляция ремонтно-восстановительных работ.\r";
+            }
+
+            if ((bill.WorkDone & 4) == 4)
+                s += (++n).ToString() + ".Выезд по месту осмотра.\r";
+
+            if ((bill.WorkDone & 8) == 8)
+                s += (++n).ToString() + ".Расчёт вреда в случае гибели ТС.\r";
+
+            if ((bill.WorkDone & 16) == 16)
+                s += (++n).ToString() + ".Расчёт деф. эксплуатации ТС.\r";
+
+            if ((bill.WorkDone & 32) == 32)
+                s += (++n).ToString() + ".Расчёт стоимости ТС.\r";
+
+            if ((bill.WorkDone & 64) == 64)
+                s += (++n).ToString() + ".Перерасчет цен согласно данных сервера нац. цен ( БАЭС ).\r";
+
+            Word.Replace("%workDone%", s);
+        }
+
+        //================================================================================
+        // FillWorkDoneString
+        //================================================================================
+        private void FillWorkDoneString(Bill bill)
+        {
+            string s = "";
+
+            if ((bill.WorkDone & 1) == 1)
+                s += "проведение осмотра, составление акта осмотра, ";
+
+            if ((bill.WorkDone & 2) == 2)
+                s += "cocтавление заключения о размере вреда, ";
+
+            if (s.Length > 0)
+                s = Utils.Capitalize(s).Substring(0, s.Length - 2);
+
+            Word.Replace("%workDoneString%", s);
+        }
+
+        //================================================================================
+        // FillSubprices
+        //================================================================================
+        private void FillSubprices(Bill bill)
+        {
+            string s = "";
+
+            if (((bill.WorkDone & 1) == 1) || ((bill.WorkDone & 2) == 2))
+                s += bill.Price2.ToString() + "\v";
+
+            if ((bill.WorkDone & 4) == 4)
+                s += bill.Price3.ToString() + "\v";
+
+            if ((bill.WorkDone & 8) == 8)
+                s += bill.Price4.ToString() + "\v";
+
+            if ((bill.WorkDone & 16) == 16)
+                s += bill.Price5.ToString() + "\v";
+
+            if ((bill.WorkDone & 32) == 32)
+                s += bill.Price6.ToString() + "\v";
+
+            if ((bill.WorkDone & 64) == 64)
+                s += bill.Price7.ToString() + "\v";
+
+            Word.Replace("%subprices%", s);
+        }
+
+        //================================================================================
+        // FillSubworkString
+        //================================================================================
+        private void FillSubworkString(Bill bill)
+        {
+            string s = "";
+
+            if ((bill.WorkDone & 4) == 4)
+                s += "- Выезд по месту осмотра.\v";
+
+            if ((bill.WorkDone & 8) == 8)
+                s += "- Расчёт вреда в случае гибели ТС.\v";
+
+            if ((bill.WorkDone & 16) == 16)
+                s += "- Расчёт деф. эксплуатации ТС.\v";
+
+            if ((bill.WorkDone & 32) == 32)
+                s += "- Расчёт стоимости ТС.\v";
+
+            if ((bill.WorkDone & 64) == 64)
+                s += "- Перерасчет цен согласно данных сервера нац. цен ( БАЭС ).\v";
+
+            Word.Replace("%subworkString%", s);
+        }
+
+        //================================================================================
         // CreateWordDocument
         //    Создаёт doc-файл для данной счёт-фактуры
         //================================================================================
         private string CreateWordDocument(Bill bill)
         {
-            // Проверяем задан ли файл-шаблон
-            if (!File.Exists(Base.templateDoc))
-            {
-                MessageBox.Show("Файл шаблон не обнаружен.\n\rЗадайте к нему путь в настройках программы.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return null;
-            }
-
+            MaterializeTemplateDocument();
+            
             int year = bill.Date.Year;
             string filename = null;
 
@@ -411,49 +535,12 @@ namespace Invoice
             Word.Replace("%director%", bill.Company.Director);
             Word.Replace("%directorName%", Utils.ExtractDirectorName(bill.Company.Director));
 
-            int n = 0; string s = "";
-
-            if ((bill.WorkDone & 1) == 1)
-                s += (++n).ToString() + ".Акт осмотра.\r";
-
-            if ((bill.WorkDone & 2) == 2)
-            {
-                s += (++n).ToString() + ".Заключение о размере вреда.\r";
-                s += (++n).ToString() + ".Калькуляция ремонтно-восстановительных работ.\r";
-            }
-
-            if ((bill.WorkDone & 4) == 4)
-                s += (++n).ToString() + ".Выезд по месту осмотра.\r";
-
-            if ((bill.WorkDone & 8) == 8)
-                s += (++n).ToString() + ".Расчёт вреда в случае гибели ТС.\r";
-
-            if ((bill.WorkDone & 16) == 16)
-                s += (++n).ToString() + ".Расчёт деф. эксплуатации ТС.\r";
-
-            if ((bill.WorkDone & 32) == 32)
-                s += (++n).ToString() + ".Расчёт стоимости ТС.\r";
-
-            if ((bill.WorkDone & 64) == 64)
-                s += (++n).ToString() + ".Перерасчет цен согласно данных сервера нац. цен ( БАЭС ).\r";
-
-            Word.Replace("%workDone%", s);
-
-            s = "";
-
-            if ((bill.WorkDone & 1) == 1)
-                s += "проведение осмотра, составление акта осмотра, ";
-
-            if ((bill.WorkDone & 2) == 2)
-                s += "cocтавление заключения о размере вреда, ";
-
-            if (s.Length > 0)
-                s = Utils.Capitalize(s).Substring(0, s.Length - 2);
-
-            Word.Replace("%workDoneString%", s);
+            FillWorkDone(bill);
+            FillWorkDoneString(bill);
+            FillSubprices(bill);
+            FillSubworkString(bill);
 
             Word.SaveAs(filename);
-
             Word.CloseDocument();
 
             return filename;
@@ -462,8 +549,6 @@ namespace Invoice
         private void listView_KeyDown(object sender, KeyEventArgs e)
         {
             //...
-        }
-
-        
+        }        
     }
 }

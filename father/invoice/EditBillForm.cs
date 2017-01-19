@@ -15,11 +15,6 @@ namespace Invoice
         public EditBillForm()
         {
             InitializeComponent();
-
-            if (Base.prices != null)
-            {
-                priceComboBox.Items.AddRange(Base.prices);
-            }
         }
 
         private void UpdateCompanies()
@@ -32,7 +27,7 @@ namespace Invoice
 
         private void validate()
         {
-            applyButton.Enabled = !selectedBill.Company.Equals(Company.nullCompany) && priceComboBox.Text != "";
+            applyButton.Enabled = !selectedBill.Company.Equals(Company.nullCompany);
         }
 
         private Bill selectedBill, applyBill;
@@ -81,7 +76,6 @@ namespace Invoice
 
             SetCompany(selectedBill.Company);
 
-            priceComboBox.Value = selectedBill.Price;
             car.Text = selectedBill.Car;
 
             int workDone = selectedBill.WorkDone;
@@ -94,6 +88,14 @@ namespace Invoice
             checkBox6.Checked = (selectedBill.WorkDone & 32) == 32; checkBox6.Tag = "32";
             checkBox7.Checked = (selectedBill.WorkDone & 64) == 64; checkBox7.Tag = "64";
 
+            // textBox1.Text = selectedBill.Price1.ToString();
+            textBox2.Value = selectedBill.Price2;
+            textBox3.Value = selectedBill.Price3;
+            textBox4.Value = selectedBill.Price4;
+            textBox5.Value = selectedBill.Price5;
+            textBox6.Value = selectedBill.Price6;
+            textBox7.Value = selectedBill.Price7;
+
             selectedBill.WorkDone = workDone;
 
             applyButton.Text = edit ? "Применить" : "Создать";
@@ -101,15 +103,10 @@ namespace Invoice
 
             this.Text = (edit ? "Редактирование" : "Создание") + " счёт-фактуры";
 
+            CalculateTotalPrice();
             ShowDialog();
 
             return apply;
-        }
-
-        private void EditBillForm_Shown(object sender, EventArgs e)
-        {
-            // Не знаю почему, но в методе EditBill эта строчка не всегда работает
-            priceComboBox.Value = selectedBill.Price;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -121,6 +118,13 @@ namespace Invoice
 
         private void applyButton_Click(object sender, EventArgs e)
         {
+            selectedBill.Price2 = textBox2.Value;
+            selectedBill.Price3 = textBox3.Value;
+            selectedBill.Price4 = textBox4.Value;
+            selectedBill.Price5 = textBox5.Value;
+            selectedBill.Price6 = textBox6.Value;
+            selectedBill.Price7 = textBox7.Value;
+            
             applyBill = selectedBill;
             apply = true;
 
@@ -160,16 +164,53 @@ namespace Invoice
             selectedBill.Car = car.Text;
         }
 
+        private void subpriceTextBox_TextChanged(object sender, EventArgs e)
+        {
+            CalculateTotalPrice();
+        }
+
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             selectedBill.WorkDone ^= Convert.ToInt32((string)((CheckBox)sender).Tag);
+            CalculateTotalPrice();
         }
 
-        private void priceComboBox_TextChanged(object sender, EventArgs e)
+        private void CalculateTotalPrice()
         {
-            if (priceComboBox.Text != "")
-                selectedBill.Price = priceComboBox.Value;
-            validate();
+            decimal totalPrice = 0;
+
+            if (checkBox1.Checked || checkBox2.Checked)
+            {
+                totalPrice += textBox2.Value;
+            }
+
+            if (checkBox3.Checked)
+            {
+                totalPrice += textBox3.Value;
+            }
+
+            if (checkBox4.Checked)
+            {
+                totalPrice += textBox4.Value;
+            }
+
+            if (checkBox5.Checked)
+            {
+                totalPrice += textBox5.Value;
+            }
+
+            if (checkBox6.Checked)
+            {
+                totalPrice += textBox6.Value;
+            }
+
+            if (checkBox7.Checked)
+            {
+                totalPrice += textBox7.Value;
+            }
+
+            selectedBill.Price = totalPrice;
+            totalPriceLabel.Text = totalPrice.ToString();
         }
      }
 }

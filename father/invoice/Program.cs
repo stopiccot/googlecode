@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 2.1.0 - 29.01.2017
+// [+] Template from resources
+// [+] Subprices
+//
 // 2.0.0 - 02.07.2016
 // [+] BYN currency support
 //

@@ -137,8 +137,8 @@ namespace Invoice
                 return Convert.ToDecimal(s.Replace(",", "."));
             }
             catch { }
-            
-            throw new Exception();
+
+            return 0;
         }
     }
 }

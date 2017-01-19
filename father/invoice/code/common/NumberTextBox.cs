@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using Invoice;
 
 namespace Stopiccot.VisualComponents
 {
@@ -12,6 +13,17 @@ namespace Stopiccot.VisualComponents
     class NumberTextBox : TextBox
     {
         public const string AllowedChars = "0123456789.,";
+
+        public NumberTextBox() : base()
+        {
+            this.Value = 0;
+        }
+
+        public decimal Value
+        {
+            get { return Utils.ConvertToDecimal(Text); }
+            set { Text = value.ToString(); }
+        }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {

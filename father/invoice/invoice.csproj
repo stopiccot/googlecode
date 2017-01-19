@@ -168,6 +168,7 @@
     <Compile Include="code\SelectDateForm.Designer.cs">
       <DependentUpon>SelectDateForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="template.doc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="png\new.png" />

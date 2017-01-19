@@ -38,7 +38,6 @@ namespace Invoice
             currYearDirLabel.Text = "Папка для счёт-фактур " + currYear.ToString() + " года";
 
             // Загрузка данных из базы
-            templatePath.Text      = Base.templateDoc;
             prices.Lines           = Base.prices;
             deleteCheckBox.Checked = Base.confirmDelete;
             unpayCheckBox.Checked  = Base.confirmUnpay;
@@ -61,11 +60,7 @@ namespace Invoice
         //================================================================================
         private void changeTemplate_Click(object sender, EventArgs e)
         {
-            openFileDialog.FileName = "";
-            openFileDialog.Filter = "Документ Word|*.doc;*.docx";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-                templatePath.Text = openFileDialog.FileName;
+            //...
         }
 
         //================================================================================
@@ -96,7 +91,6 @@ namespace Invoice
         {
             // Сохраняем в базу всё, что наменяли
             Base.prices        = prices.Lines;
-            Base.templateDoc   = templatePath.Text;
             Base.confirmDelete = deleteCheckBox.Checked;
             Base.confirmUnpay  = unpayCheckBox.Checked;
 

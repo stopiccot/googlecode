@@ -31,6 +31,14 @@ namespace Invoice
         public bool Payed;        
         public string Car;
         public Company Company;
-        public DateTime Date;        
+        public DateTime Date;
+
+        public decimal Price1; 
+        public decimal Price2;
+        public decimal Price3;
+        public decimal Price4;
+        public decimal Price5;
+        public decimal Price6;
+        public decimal Price7;
     }
 }
