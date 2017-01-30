@@ -210,7 +210,7 @@ namespace Invoice
             }
 
             selectedBill.Price = totalPrice;
-            totalPriceLabel.Text = totalPrice.ToString();
+            totalPriceLabel.Text = totalPrice.ToString("0.00");
         }
      }
 }

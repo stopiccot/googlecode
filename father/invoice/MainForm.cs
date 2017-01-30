@@ -449,22 +449,22 @@ namespace Invoice
             string s = "";
 
             if (((bill.WorkDone & 1) == 1) || ((bill.WorkDone & 2) == 2))
-                s += bill.Price2.ToString() + "\v";
+                s += bill.Price2.ToString("0.00") + "\v";
 
             if ((bill.WorkDone & 4) == 4)
-                s += bill.Price3.ToString() + "\v";
+                s += bill.Price3.ToString("0.00") + "\v";
 
             if ((bill.WorkDone & 8) == 8)
-                s += bill.Price4.ToString() + "\v";
+                s += bill.Price4.ToString("0.00") + "\v";
 
             if ((bill.WorkDone & 16) == 16)
-                s += bill.Price5.ToString() + "\v";
+                s += bill.Price5.ToString("0.00") + "\v";
 
             if ((bill.WorkDone & 32) == 32)
-                s += bill.Price6.ToString() + "\v";
+                s += bill.Price6.ToString("0.00") + "\v";
 
             if ((bill.WorkDone & 64) == 64)
-                s += bill.Price7.ToString() + "\v";
+                s += bill.Price7.ToString("0.00") + "\v";
 
             Word.Replace("%subprices%", s);
         }
@@ -530,7 +530,7 @@ namespace Invoice
             Word.Replace("%contractNumber%", bill.Company.ContractNumber);
             Word.Replace("%contractDate%", bill.Company.ContractDate.ToString("d.MM.yyyy"));
             Word.Replace("%car%", bill.Car);
-            Word.Replace("%price%", bill.Price.ToString());
+            Word.Replace("%price%", bill.Price.ToString("0.00"));
             Word.Replace("%priceString%", Utils.ConvertToString(bill.Price));
             Word.Replace("%director%", bill.Company.Director);
             Word.Replace("%directorName%", Utils.ExtractDirectorName(bill.Company.Director));
