@@ -122,7 +122,7 @@ namespace counter
         private double f(DateTime d1, DateTime d2)
         {
             int dd = getDays(d1) - getDays(d2);
-            double d = dd / 365.0;
+            double d = dd / 365.25;
             return (double)(d1.Year - d2.Year) + d;
         }
 

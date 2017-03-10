@@ -14,7 +14,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <PublishUrl>publish\</PublishUrl>
@@ -76,15 +76,11 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="MyPanel.cs" />
     <Compile Include="NumberTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OutputGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="OutputGrid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
