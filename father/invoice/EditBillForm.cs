@@ -88,7 +88,7 @@ namespace Invoice
             checkBox6.Checked = (selectedBill.WorkDone & 32) == 32; checkBox6.Tag = "32";
             checkBox7.Checked = (selectedBill.WorkDone & 64) == 64; checkBox7.Tag = "64";
 
-            // textBox1.Text = selectedBill.Price1.ToString();
+            textBox1.Value = selectedBill.Price1;
             textBox2.Value = selectedBill.Price2;
             textBox3.Value = selectedBill.Price3;
             textBox4.Value = selectedBill.Price4;
@@ -118,6 +118,7 @@ namespace Invoice
 
         private void applyButton_Click(object sender, EventArgs e)
         {
+            selectedBill.Price1 = textBox1.Value;
             selectedBill.Price2 = textBox2.Value;
             selectedBill.Price3 = textBox3.Value;
             selectedBill.Price4 = textBox4.Value;
@@ -179,7 +180,12 @@ namespace Invoice
         {
             decimal totalPrice = 0;
 
-            if (checkBox1.Checked || checkBox2.Checked)
+            if (checkBox1.Checked)
+            {
+                totalPrice += textBox1.Value;
+            }
+
+            if (checkBox2.Checked)
             {
                 totalPrice += textBox2.Value;
             }

@@ -448,7 +448,10 @@ namespace Invoice
         {
             string s = "";
 
-            if (((bill.WorkDone & 1) == 1) || ((bill.WorkDone & 2) == 2))
+            if ((bill.WorkDone & 1) == 1)
+                s += bill.Price1.ToString("0.00") + "\v";
+
+            if ((bill.WorkDone & 2) == 2)
                 s += bill.Price2.ToString("0.00") + "\v";
 
             if ((bill.WorkDone & 4) == 4)

@@ -47,13 +47,14 @@ namespace Invoice
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.textBox2 = new Stopiccot.VisualComponents.NumberTextBox();
-            this.textBox3 = new Stopiccot.VisualComponents.NumberTextBox();
-            this.textBox4 = new Stopiccot.VisualComponents.NumberTextBox();
-            this.textBox5 = new Stopiccot.VisualComponents.NumberTextBox();
-            this.textBox6 = new Stopiccot.VisualComponents.NumberTextBox();
-            this.textBox7 = new Stopiccot.VisualComponents.NumberTextBox();
             this.totalPriceLabel = new System.Windows.Forms.Label();
+            this.textBox1 = new Stopiccot.VisualComponents.NumberTextBox();
+            this.textBox7 = new Stopiccot.VisualComponents.NumberTextBox();
+            this.textBox6 = new Stopiccot.VisualComponents.NumberTextBox();
+            this.textBox5 = new Stopiccot.VisualComponents.NumberTextBox();
+            this.textBox4 = new Stopiccot.VisualComponents.NumberTextBox();
+            this.textBox3 = new Stopiccot.VisualComponents.NumberTextBox();
+            this.textBox2 = new Stopiccot.VisualComponents.NumberTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.billNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -268,80 +269,30 @@ namespace Invoice
             this.checkBox7.UseVisualStyleBackColor = true;
             this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
-            // textBox2
+            // totalPriceLabel
             // 
-            this.textBox2.Location = new System.Drawing.Point(220, 175);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(61, 20);
-            this.textBox2.TabIndex = 32;
-            this.textBox2.Text = "0";
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox2.Value = new decimal(new int[] {
+            this.totalPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.totalPriceLabel.Location = new System.Drawing.Point(133, 328);
+            this.totalPriceLabel.Name = "totalPriceLabel";
+            this.totalPriceLabel.Size = new System.Drawing.Size(154, 22);
+            this.totalPriceLabel.TabIndex = 38;
+            this.totalPriceLabel.Text = "0.00";
+            this.totalPriceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(220, 149);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(61, 20);
+            this.textBox1.TabIndex = 39;
+            this.textBox1.Text = "0";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.Value = new decimal(new int[] {
             0,
             0,
             0,
             0});
-            this.textBox2.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(220, 201);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(61, 20);
-            this.textBox3.TabIndex = 33;
-            this.textBox3.Text = "0";
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox3.Value = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.textBox3.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(220, 227);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(61, 20);
-            this.textBox4.TabIndex = 34;
-            this.textBox4.Text = "0";
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox4.Value = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.textBox4.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(220, 253);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(61, 20);
-            this.textBox5.TabIndex = 35;
-            this.textBox5.Text = "0";
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox5.Value = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.textBox5.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(220, 279);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(61, 20);
-            this.textBox6.TabIndex = 36;
-            this.textBox6.Text = "0";
-            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox6.Value = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.textBox6.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
             // 
             // textBox7
             // 
@@ -358,21 +309,87 @@ namespace Invoice
             0});
             this.textBox7.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
             // 
-            // totalPriceLabel
+            // textBox6
             // 
-            this.totalPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.totalPriceLabel.Location = new System.Drawing.Point(133, 328);
-            this.totalPriceLabel.Name = "totalPriceLabel";
-            this.totalPriceLabel.Size = new System.Drawing.Size(154, 22);
-            this.totalPriceLabel.TabIndex = 38;
-            this.totalPriceLabel.Text = "0.00";
-            this.totalPriceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.textBox6.Location = new System.Drawing.Point(220, 279);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(61, 20);
+            this.textBox6.TabIndex = 36;
+            this.textBox6.Text = "0";
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox6.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.textBox6.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(220, 253);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(61, 20);
+            this.textBox5.TabIndex = 35;
+            this.textBox5.Text = "0";
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox5.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.textBox5.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(220, 227);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(61, 20);
+            this.textBox4.TabIndex = 34;
+            this.textBox4.Text = "0";
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox4.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.textBox4.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(220, 201);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(61, 20);
+            this.textBox3.TabIndex = 33;
+            this.textBox3.Text = "0";
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox3.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.textBox3.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(220, 175);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(61, 20);
+            this.textBox2.TabIndex = 32;
+            this.textBox2.Text = "0";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox2.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.textBox2.TextChanged += new System.EventHandler(this.subpriceTextBox_TextChanged);
             // 
             // EditBillForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(290, 392);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.totalPriceLabel);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.textBox6);
@@ -441,5 +458,6 @@ namespace Invoice
         private Stopiccot.VisualComponents.NumberTextBox textBox6;
         private Stopiccot.VisualComponents.NumberTextBox textBox7;
         private System.Windows.Forms.Label totalPriceLabel;
+        private Stopiccot.VisualComponents.NumberTextBox textBox1;
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 //==============================================================
+// 2.2.0 - 01.04.2022
+// [+] Adding Bill.Price1
+//
 // 2.1.0 - 29.01.2017
 // [+] Template from resources
 // [+] Subprices
