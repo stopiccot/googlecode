@@ -5,6 +5,7 @@ using System.Windows.Forms;
 //==============================================================
 // 2.2.0 - 01.04.2022
 // [+] Adding Bill.Price1
+// [*] Fixed broken Updater due to outdated TLS
 //
 // 2.1.0 - 29.01.2017
 // [+] Template from resources

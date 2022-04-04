@@ -34,6 +34,11 @@ namespace Invoice.Update
             WebClient webClient = new WebClient();
             webClient.Encoding = Encoding.UTF8;
 
+            // Fix for the broken downloads due to outdated TLS.
+            // More here: https://stackoverflow.com/questions/23106611/the-underlying-connection-was-closed-webclient-error
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+
             webClient.DownloadStringCompleted +=
                 delegate(object sender, DownloadStringCompletedEventArgs e)
                 {
